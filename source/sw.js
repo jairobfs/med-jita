@@ -1,8 +1,8 @@
 /* MED JITA. Network-first assets avoid mixing a new HTML with old scripts. */
-const CACHE_NAME = 'med-jita-v50-20261023';
+const CACHE_NAME = 'med-jita-v52-portatil-20261023';
 const BASE = new URL('./', self.registration.scope);
 const OFFLINE_FILES = [
-  './', './index.html', './atelier.html', './brand-evolution.css', './jita-motion.css', './navigation-motion.css', './manifest.webmanifest', './JITA_vetorial.svg',
+  './', './index.html', './atelier.html', './brand-evolution.css', './jita-motion.css', './navigation-motion.css', './jita-curricular.css', './identidade.html', './catalog.json', './manifest.webmanifest', './JITA_vetorial.svg',
   './apple-touch-icon.png', './favicon.png',
   './icons/icon-192.png', './icons/icon-512.png',
   './assets/estigma-atlas-principal.svg', './assets/estigma-atlas-esquina.svg',
@@ -15,7 +15,7 @@ const OFFLINE_FILES = [
   './assets/icon-salvar.svg', './assets/icon-salvar-inverso.svg',
   './integrations/sync-ui.js', './integrations/editorial-live.js', './integrations/profiles-ui.js',
   './integrations/uc-engine.js', './integrations/brand-v08.js', './integrations/jita-motion.js',
-  './integrations/gateway-motion.js', './integrations/palette-orbit.js', './integrations/navigation-motion.js',
+  './integrations/gateway-motion.js', './integrations/palette-orbit.js', './integrations/navigation-motion.js', './integrations/med-brand-system.js',
   './icons/jita-corpo.svg', './icons/jita-rosto.svg', './icons/jita-rc.svg',
   './icons/jita-morfo.svg', './icons/jita-anatomia.svg',
   './icons/jita-tutoria.svg', './icons/jita-simulacoes.svg',
