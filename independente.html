@@ -63,7 +63,7 @@ dialog{background:var(--card);color:var(--ink)}
   <div id="pinFields" hidden>
    <label id="pinLabel" for="pin">PIN numérico</label>
    <input id="pin" type="password" inputmode="numeric" pattern="[0-9]{4,6}" minlength="4" maxlength="6" autocomplete="off" enterkeyhint="go" aria-describedby="pinHint" placeholder="4 a 6 números">
-   <div id="pinHint" class="notice" style="margin:6px 0 0;padding:0;border:0">Use o teclado numérico abaixo ou toque no campo para abrir o teclado do iPhone.</div>
+   <div id="pinHint" class="notice" style="margin:6px 0 0;padding:0;border:0">Use o teclado numérico abaixo ou toque no campo para abrir o teclado do iPhone. O PIN protege este aparelho; o Craft sincroniza apenas as notas e o histórico.</div>
    <div id="pinConfirmWrap" hidden><label for="pinConfirm">Confirme seu novo PIN</label><input id="pinConfirm" type="password" inputmode="numeric" pattern="[0-9]{4,6}" minlength="4" maxlength="6" autocomplete="off" enterkeyhint="done"></div>
    <div class="pin-pad" id="pinPad" aria-label="Teclado numérico"></div>
    <div class="actions"><button type="button" class="btn" id="enter">Entrar</button><button type="button" class="ghost" id="back">Voltar</button></div>
@@ -136,7 +136,7 @@ function renderProfiles(){const av=$("avatars");av.replaceChildren();for(const [
 function choose(id){
  selected=id;renderProfiles();$("pinFields").hidden=false;$("pin").value="";$("pinConfirm").value="";
  const fresh=!get(k(id,"pin"));$("pinConfirmWrap").hidden=!fresh;
- $("pinLabel").textContent=fresh?"Crie um PIN para este perfil neste aparelho":"Digite seu PIN";
+ $("pinLabel").textContent=fresh?"Crie um PIN local para este perfil neste aparelho":"Digite seu PIN local";
  $("error").textContent="";activePinField="pin";
  $("pin").getBoundingClientRect();$("pin").focus();
 }
