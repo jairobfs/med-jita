@@ -6,7 +6,7 @@ const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
 const sw = read('../source/sw.js');
 const html = read('../source/index.html');
 assert.doesNotThrow(() => new Script(sw), 'Service worker must have valid JavaScript syntax');
-assert.match(sw, /med-jita-v51-2026102307/, 'A new offline cache must replace the previous cache');
+assert.match(sw, /med-jita-v51-2026102308/, 'A new offline cache must replace the previous cache');
 
 const precached = new Set([...sw.matchAll(/'(\.\/[^']+)'/g)].map(match => match[1]));
 for (const entry of precached) {

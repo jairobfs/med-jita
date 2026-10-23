@@ -122,6 +122,9 @@
 .jita-quick-copy small {font-size:11px;color:var(--secondary,#6f7d8a);line-height:1.25}
 .jita-quick-arrow {font-size:15px;color:var(--brand,#0aa5ad)}
 .jita-quick-empty {margin:20px 12px;font-size:12px;line-height:1.6;color:var(--secondary,#6f7d8a)}
+.jita-quick-head,.jita-quick-field,.jita-quick-status,.jita-quick-foot {
+  flex-shrink:0; /* The result list, never sync text, owns the vertical scrolling. */
+}
 .jita-quick-foot {
   display:flex;justify-content:center;gap:9px;
   padding:10px 14px 12px;border-top:1px solid var(--border,#e2e8ee);

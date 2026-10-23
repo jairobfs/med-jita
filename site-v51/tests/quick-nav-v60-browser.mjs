@@ -35,6 +35,10 @@ try {
         await page.addScriptTag({content:quick});
         await page.addScriptTag({content:guard});
       }
+      if(process.env.MED_JITA_V60_LIVE!=='1') {
+        // Compare the candidate layout on top of the current deployed V60.
+        await page.addStyleTag({content:style});
+      }
       const btn=page.locator('#jitaQuickOpen');
       await btn.waitFor({state:'visible'});
       const metrics=await page.evaluate(()=>({
@@ -44,6 +48,23 @@ try {
       assert.ok(metrics.scrollWidth<=width+2,'Toolbar overflow: '+JSON.stringify(metrics));
       await btn.click();
       await page.locator('#jitaQuickDialog').waitFor({state:'visible'});
+      const heights=await page.evaluate(()=>{
+        const status=document.querySelector('#jitaQuickStatus');
+        const list=document.querySelector('#jitaQuickList');
+        return {statusBottom:status.getBoundingClientRect().bottom,
+          listTop:list.getBoundingClientRect().top,
+          statusHeight:status.clientHeight,statusContentHeight:status.scrollHeight};
+      });
+      // Before merge, the live environment still runs V60. The PR-preview
+      // injects V60.1 CSS, while the post-deploy live test checks it natively.
+      const deployedV601=await page.locator('link[href*="quick-nav-v60.css?v=60.1"]').count()>0;
+      if(process.env.MED_JITA_V60_LIVE!=='1'||deployedV601) {
+        assert.ok(heights.statusBottom<=heights.listTop+2 &&
+          heights.statusHeight+2>=heights.statusContentHeight,
+          'The sync state must not clip or overlap the search results: '+JSON.stringify(heights));
+        if(width===320&&deployedV601)assert.equal(
+          await page.locator('#jitaQuickSearch').getAttribute('placeholder'),'Buscar no Jita…');
+      }
       await page.screenshot({path:'outputs/quick-v60/search-'+width+'.png'});
       await page.locator('#jitaQuickSearch').fill('histórico');
       await page.locator('#jitaQuickSearch').press('Enter');

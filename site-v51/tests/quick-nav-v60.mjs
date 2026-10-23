@@ -9,8 +9,8 @@ const [html,quick,guard,css,sw,worker,profiles] = await Promise.all([
  source('source/sw.js'),source('worker/index.js'),source('source/integrations/profiles-ui.js')
 ]);
 
-assert.match(html,/quick-nav-v60\.css\?v=60/);
-assert.match(html,/integrations\/quick-nav-v60\.js\?v=60/);
+assert.match(html,/quick-nav-v60\.css\?v=60\.1/);
+assert.match(html,/integrations\/quick-nav-v60\.js\?v=60\.1/);
 assert.match(html,/integrations\/preview-guard-v60\.js\?v=60/);
 for(const path of [
  '/quick-nav-v60.css','/integrations/quick-nav-v60.js','/integrations/preview-guard-v60.js'
