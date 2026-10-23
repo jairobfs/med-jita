@@ -59,6 +59,17 @@
       container.replaceChildren(img);
     }
   }
+  function refreshPersonalMarks(profile=active) {
+    // A shared MED JITA installation is neutral until someone enters.
+    // Its visual monogram is derived from the active person, never a fixed J.
+    const letter = profile?.name?.trim().charAt(0).toLocaleUpperCase('pt-BR') || '';
+    [$('headerProfileMark'),$('settingsProfileMark')].filter(Boolean).forEach(mark => {
+      mark.textContent = letter;
+      mark.dataset.neutral = String(!profile);
+      if (profile?.id) mark.dataset.profile = profile.id;
+      else delete mark.dataset.profile;
+    });
+  }
   function refreshActiveAvatar() {
     if (!active) return;
     const avatar = bridge.getAvatar();
@@ -330,6 +341,7 @@
     document.documentElement.dataset.profileReady = 'yes';
     document.body.classList.add('account-mode');
     $('profileActiveName').textContent = opened.name;
+    refreshPersonalMarks();
     refreshActiveAvatar();
     $('profileControls').hidden = false;
     passwordStage(false);
@@ -418,6 +430,7 @@
     clearTimeout(timer);
     document.documentElement.dataset.profileReady = 'no';
     document.body.classList.remove('account-mode');
+    refreshPersonalMarks();
     $('profileControls').hidden = true;
     passwordStage(false);
     $('profileUnlockPassword').value = '';
