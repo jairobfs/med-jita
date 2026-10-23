@@ -72,6 +72,7 @@ dialog::backdrop{background:#061e25b7}dialog h2{margin:0 0 8px}dialog p{color:va
  <p>É configurada uma vez neste aparelho; não vai para o código público do GitHub. A API deve permitir requisições CORS do navegador.</p>
  <div class="actions"><button id="testCraft" class="ghost">Testar leitura</button><button id="testCraftWrite" class="ghost">Testar escrita</button><button id="saveCraft" class="btn">Salvar e sincronizar</button></div>
  <p id="cfgStatus" role="status"></p>
+ <div class="actions"><button id="openLegacy" class="ghost">Abrir modo clássico</button></div>
  <div class="actions"><button id="shareInvite" class="ghost">Copiar convite dos amigos</button><button id="export" class="ghost">Exportar backup</button><button id="closeCfg" class="ghost">Fechar</button></div>
 </dialog>
 <script>
@@ -81,8 +82,9 @@ const P=[["jbfs","JBFS"],["barba","Barba"],["tay","Tay"],["igu","Igu"]];
 const C="4f2532a5-feb8-9816-2681-54905764f8d3",PREFIX="jita_autonomo_v1_";
 const STATE="med_jita_state_v3",HISTORY="med_jita_history_v1";
 const $=id=>document.getElementById(id);
-let selected="",current="",busy=false,timer=0,rowCache={},remoteReady=false,pendingPush=false,lastRefresh=0;
+let selected="",current="",busy=false,timer=0,rowCache={},remoteReady=false,pendingPush=false,lastRefresh=0,legacyMode=false;
 const k=(id,type)=>PREFIX+type+"_"+id;
+const calculatorPath=()=>legacyMode?"./calculadora-legado.html":"./calculadora.html";
 const get=(key)=>{try{return localStorage.getItem(key)}catch{return null}};
 const put=(key,val)=>{try{localStorage.setItem(key,val)}catch{}};
 const del=(key)=>{try{localStorage.removeItem(key)}catch{}};
@@ -233,7 +235,7 @@ async function refresh(){
    if(!ok)return;
    if(signature(backup(id))!==get(k(id,"lastSig"))){await push();return}
    if(signature(backup(id))!==was){
-    useProfile(id);$("calculator").src="./calculadora.html";
+    useProfile(id);$("calculator").src=calculatorPath();
     status("Atualizado do Craft");
    }
    return;
@@ -241,7 +243,7 @@ async function refresh(){
   const row=await remoteRow(id),remote=JSON.parse(deb64(prop(row,"dados")));
   if(signature(remote)===base)return;
   const ok=await pull(id);
-  if(ok){useProfile(id);$("calculator").src="./calculadora.html";status("Atualizado do Craft")}
+  if(ok){useProfile(id);$("calculator").src=calculatorPath();status("Atualizado do Craft")}
  }catch(e){status("Offline · dados locais preservados",true)}
 }
 window.addEventListener("focus",()=>setTimeout(refresh,250));
@@ -274,7 +276,7 @@ async function enter(){
    }
   }
   await pull(id);current=id;useProfile(id);
-  $("gate").hidden=true;$("shell").hidden=false;$("calculator").src="./calculadora.html";
+  $("gate").hidden=true;$("shell").hidden=false;$("calculator").src=calculatorPath();
   status(remoteReady?"Craft conectado":"Modo local · alterações neste aparelho");
   if(remoteReady&&signature(backup(id))!==get(k(id,"lastSig")))setTimeout(push,1400);
  }catch(error){$("error").textContent=fmt(error)}
@@ -282,6 +284,7 @@ async function enter(){
 }
 $("calculator").onload=()=>{
  if(!current)return;
+ if(legacyMode){status("Modo clássico · notas preservadas");return}
  try{
   const child=$("calculator").contentWindow,bridge=child?.MED_JITA_BRIDGE;
   if(!bridge)throw Error("Motor moderno indisponível");
@@ -295,6 +298,7 @@ $("enter").onclick=enter;$("back").onclick=()=>{$("pinFields").hidden=true;selec
 $("switch").onclick=async()=>{capture();if(remoteReady&&signature(backup(current))!==get(k(current,"lastSig")))await push();resetGate()};
 $("settings").onclick=()=>{$("apiBase").value=url();$("cfgStatus").textContent="";$("cfg").showModal()};
 $("closeCfg").onclick=()=>$("cfg").close();
+$("openLegacy").onclick=()=>{if(!current)return;capture();legacyMode=!legacyMode;$("openLegacy").textContent=legacyMode?"Voltar à versão atual":"Abrir modo clássico";$("cfg").close();$("calculator").src=calculatorPath()};
 $("testCraft").onclick=async()=>{try{const v=$("apiBase").value.trim();if(!v.startsWith("https://"))throw Error("Use HTTPS.");const old=url();put(PREFIX+"craft_url",v);try{await remoteRow("jbfs");$("cfgStatus").textContent="Conexão validada por leitura."}catch(e){if(old)put(PREFIX+"craft_url",old);else del(PREFIX+"craft_url");throw e}}catch(e){$("cfgStatus").textContent="Falha: "+fmt(e)}};
 $("testCraftWrite").onclick=async()=>{
  const typed=$("apiBase").value.trim(),old=url();
@@ -319,7 +323,7 @@ $("saveCraft").onclick=async()=>{
  const ok=await pull(current);
  if(!ok)return $("cfgStatus").textContent="Conexão guardada, mas sem leitura confirmada. Somente salvamento local continua.";
  useProfile(current);
- $("calculator").src="./calculadora.html";
+ $("calculator").src=calculatorPath();
  $("cfgStatus").textContent="Dados conciliados com Craft. A gravação ficará ativa após a próxima edição.";
 }
 $("shareInvite").onclick=async()=>{
