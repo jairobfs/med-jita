@@ -135,5 +135,5 @@
   const open=()=>{memo=ucState();screen.hidden=false;trigger.hidden=true;render();screen.querySelector('#mjuc-close')?.focus()};
   function close(){screen.hidden=true;trigger.hidden=false;memo=null;trigger.focus()}
   trigger.onclick=open;
-  screen.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+  screen.addEventListener('keydown',e=>{if(e.key!=='Escape')return;const input=e.target?.closest?.('input, select, textarea');if(input){input.blur();e.stopPropagation();return}close()});
 })();
