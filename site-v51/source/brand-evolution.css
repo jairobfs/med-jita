@@ -302,3 +302,19 @@ html[data-palette-orbit=on]{
 .gateway-install:focus-visible{outline:3px solid var(--brand);outline-offset:3px}
 @media(max-width:740px){.gateway-install{min-height:48px;margin-top:12px}}
 @media(prefers-reduced-motion:reduce){.gateway-install{transition:none}.gateway-install:hover,.gateway-install:active{transform:none}}
+.vercel-exit{border-color:color-mix(in srgb,var(--brand) 22%,var(--border));padding:17px}
+.vercel-exit summary{display:flex;justify-content:space-between;align-items:center;gap:10px;cursor:pointer;font-size:15px;font-weight:850;color:var(--ink);min-height:40px;list-style:none}
+.vercel-exit summary::-webkit-details-marker{display:none}
+.vercel-exit summary:focus-visible{outline:3px solid var(--brand);outline-offset:3px;border-radius:6px}
+.vercel-exit summary:before{content:'+';font-size:19px;font-weight:550;color:var(--brand)}
+.vercel-exit[open] summary:before{content:'−'}
+.vercel-exit-chip{white-space:nowrap;border-radius:100px;border:1px solid var(--border);color:var(--brand);background:var(--card-soft);padding:5px 9px;font-size:10px;font-weight:850}
+.vercel-exit-body{display:grid;gap:13px;padding-top:16px}
+.vercel-exit-file{text-align:center;justify-content:center;min-height:48px}
+.vercel-exit-result{border:1px solid var(--border);background:var(--card-soft);border-radius:13px;padding:12px 13px;font-size:12px;line-height:1.65;color:var(--ink);white-space:pre-line}
+.vercel-exit-result[data-state=error]{border-color:var(--red,#B93845)}
+.vercel-exit-confirm{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.5;color:var(--ink)}
+.vercel-exit-confirm input{flex:none;width:18px;height:18px;accent-color:var(--brand);margin-top:1px}
+.vercel-exit #vercelExitDownload{width:100%;min-height:48px}
+.vercel-exit #vercelExitDownload:disabled{opacity:.53;cursor:not-allowed}
+@media(max-width:370px){.vercel-exit{padding:13px}.vercel-exit summary{flex-wrap:wrap}.vercel-exit-chip{margin-left:27px}}

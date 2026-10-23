@@ -37,10 +37,12 @@ const files = [
   'integrations/uc-engine.js', 'integrations/brand-v08.js', 'integrations/jita-motion.js',
   'integrations/gateway-motion.js', 'integrations/palette-orbit.js',
   'integrations/navigation-motion.js', 'integrations/med-brand-system.js',
+  'integrations/vercel-exit.js', 'integrations/fusion-archive.mjs',
 ];
 const mimeByExt = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
+  '.mjs': 'text/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
   '.svg': 'image/svg+xml',
   '.png': 'image/png',

@@ -118,4 +118,11 @@ for (const [index, match] of [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\
   if (match[1].trim()) assert.doesNotThrow(() => new Script(match[1]),
     `Inline application script ${index} must parse`);
 }
+for (const nodeId of ['vercelExitPanel','vercelExitFile','vercelExitConfirm','vercelExitDownload']) {
+  assert.ok(html.includes(`id="${nodeId}"`), 'Vercel comparison UI must expose ' + nodeId);
+}
+assert.match(html,/integrations\/vercel-exit\.js\?v=\d+/, 'Reconciliation must load from the active app');
+assert.match(sw,/integrations\/fusion-archive\.mjs/, 'Offline mode must preserve reconciliation helpers');
+assert.match(profileUI,/dataset\.activeProfile = active\.id/, 'Export must bind the actual opened profile');
+assert.match(profileUI,/delete document\.documentElement\.dataset\.activeProfile/, 'Export must clear identity on profile exit');
 console.log('Release gates: versioned assets, fresh scripts, personal history, simple profile, optional password and syntax OK');
