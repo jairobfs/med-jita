@@ -69,4 +69,7 @@ Conflitos devem criar versões recuperáveis; não substituir silenciosamente da
 - Adicionados testes dedicados ao PIN e a todos os ativos usados pela navegação e pelo cache offline.
 - Adicionadas ações para verificação contínua e preparação de publicação manual independente.
 
-- As melhorias da biblioteca V52/V53 presentes no GitHub foram incorporadas com marcas por pessoa, galeria, selos de notas/módulos e áudio opcional; isso **não constitui comparação completa** com todas as alterações da versão Sites efetivamente publicada.\n- O serviço de testes foi configurado, mas a execução no GitHub Actions **ainda precisa ser confirmada**.\n\nDocumentação oficial usada: https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/ ; https://developers.cloudflare.com/d1/get-started/ ; https://developers.cloudflare.com/workers/configuration/secrets/ .
+- As melhorias da biblioteca V52/V53 presentes no GitHub foram incorporadas com marcas por pessoa, galeria, selos de notas/módulos e áudio opcional; isso **não constitui comparação completa** com todas as alterações da versão Sites efetivamente publicada.
+- O serviço de testes foi configurado, mas a execução no GitHub Actions **ainda precisa ser confirmada**.
+
+Documentação oficial usada: https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/ ; https://developers.cloudflare.com/d1/get-started/ ; https://developers.cloudflare.com/workers/configuration/secrets/ .
