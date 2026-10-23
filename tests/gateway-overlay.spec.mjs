@@ -14,8 +14,8 @@ new Script(originalScript, { filename: "login-original.js" });
 new Script(overlay, { filename: "gateway-enhance.js" });
 
 assert.match(html, /<link rel="manifest" href="\.\/manifest\.webmanifest">/);
-assert.match(html, /<link rel="stylesheet" href="\.\/gateway-enhance\.css">/);
-assert.match(html, /<script src="\.\/gateway-enhance\.js"><\/script>/);
+assert.match(html, /<link rel="stylesheet" href="\.\/gateway-enhance\.css(?:\?v=[^"]+)?">/);
+assert.match(html, /<script src="\.\/gateway-enhance\.js(?:\?v=[^"]+)?"><\/script>/);
 assert.doesNotMatch(overlay, /jita-pin-pad|jita-pin-key|setRangeText|activeField/, 'Não inserir teclado numérico artificial');
 assert.doesNotMatch(css, /jita-pin-pad|jita-pin-key/, 'Não manter grade de teclado virtual no CSS');
 assert.match(html, /id="pin"[^>]*inputmode="numeric"/, 'O iPhone deve oferecer teclado numérico nativo');
