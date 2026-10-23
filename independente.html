@@ -100,7 +100,7 @@ const P=[["jbfs","JBFS"],["barba","Barba"],["tay","Tay"],["igu","Igu"]];
 const C="4f2532a5-feb8-9816-2681-54905764f8d3",PREFIX="jita_autonomo_v1_";
 const STATE="med_jita_state_v3",HISTORY="med_jita_history_v1";
 const $=id=>document.getElementById(id);
-let selected="",current="",busy=false,timer=0,rowCache={},remoteReady=false,pendingPush=false,lastRefresh=0;
+let selected="",current="",busy=false,timer=0,rowCache={},remoteReady=false,pendingPush=false,lastRefresh=0,loginAttempt=0;
 const k=(id,type)=>PREFIX+type+"_"+id;
 const get=(key)=>{try{return localStorage.getItem(key)}catch{return null}};
 const put=(key,val)=>{try{localStorage.setItem(key,val)}catch{}};
@@ -138,8 +138,8 @@ function b64(str){return "b64:"+btoa(unescape(encodeURIComponent(str)))}
 function deb64(x){const s=String(x||"");if(!s.startsWith("b64:"))throw Error("Backup remoto inválido");return decodeURIComponent(escape(atob(s.slice(4))))}
 async function digest(id,pin){const bytes=new TextEncoder().encode("MEDJITA:"+id+":"+pin);const hash=await crypto.subtle.digest("SHA-256",bytes);return [...new Uint8Array(hash)].map(v=>v.toString(16).padStart(2,"0")).join("")}
 function renderProfiles(){const av=$("avatars");av.replaceChildren();for(const [id,name] of P){const b=document.createElement("button");b.className="avatar"+(selected===id?" selected":"");b.innerHTML='<span class="face" data-profile="'+id+'" aria-hidden="true">'+name.trim().charAt(0).toLocaleUpperCase("pt-BR")+'</span><span>'+name+'</span>';b.onclick=()=>choose(id);av.append(b)}}
-function choose(id){selected=id;renderProfiles();$("pinFields").hidden=false;$("pin").value="";$("pinConfirm").value="";const fresh=!url()&&!get(k(id,"pin"));$("pinConfirmWrap").hidden=!fresh;$("pinLabel").textContent=url()?"PIN do perfil (definido pelo JBFS no Craft)":fresh?"Crie um PIN local":"Digite seu PIN";$("error").textContent="";$("pin").focus()}
-function resetGate(){$("gate").hidden=false;$("shell").hidden=true;selected="";renderProfiles();$("pinFields").hidden=true;$("pin").value="";$("pinConfirm").value="";$("calculator").src="about:blank";current=""}
+function choose(id){loginAttempt++;selected=id;renderProfiles();$("pinFields").hidden=false;$("pin").value="";$("pinConfirm").value="";const fresh=!url()&&!get(k(id,"pin"));$("pinConfirmWrap").hidden=!fresh;$("pinLabel").textContent=url()?"PIN do perfil (definido pelo JBFS no Craft)":fresh?"Crie um PIN local":"Digite seu PIN";$("error").textContent="";$("pin").focus()}
+function resetGate(){loginAttempt++;clearTimeout(timer);remoteReady=false;pendingPush=false;$("gate").hidden=false;$("shell").hidden=true;selected="";renderProfiles();$("pinFields").hidden=true;$("pin").value="";$("pinConfirm").value="";$("calculator").src="about:blank";current=""}
 async function craft(method,path,data){const base=url().replace(/\/+$/,"");if(!/^https:\/\/connect\.craft\.do\/(?:links|link)\//.test(base))throw Error("Configure uma conexão Craft deste documento.");
 const res=await fetch(base+path,{method,cache:"no-store",headers:{"Accept":"application/json",...(data?{"Content-Type":"application/json"}:{})},body:data?JSON.stringify(data):undefined});
 if(!res.ok)throw Error("Craft respondeu "+res.status);return await res.json()}
@@ -255,14 +255,16 @@ setInterval(()=>{if(!document.hidden)refresh()},60000);
 async function enter(){
  if(!selected)return;
  remoteReady=false;$("error").textContent="";
- const id=selected,pin=$("pin").value;
+ const attempt=++loginAttempt,id=selected,pin=$("pin").value;
  if(!/^\d{4,6}$/.test(pin))return $("error").textContent="Use PIN de 4 a 6 números.";
  $("enter").disabled=true;
  try{
   const hash=await digest(id,pin),cached=get(k(id,"pin"));
+  if(attempt!==loginAttempt||selected!==id)return;
   if(url()){
    try{
     const row=await remoteRow(id),central=String(prop(row,"pin")||"").trim();
+    if(attempt!==loginAttempt||selected!==id)return;
     if(!/^\d{4,6}$/.test(central))throw Error("PIN não cadastrado no Craft.");
     if(pin!==central&&cached!==hash)throw Error("PIN incorreto no Craft.");
     if(pin===central)put(k(id,"pin"),hash);
@@ -277,14 +279,16 @@ async function enter(){
     put(k(id,"pin"),hash);
    }
   }
-  await pull(id);current=id;useProfile(id);
+  await pull(id);
+  if(attempt!==loginAttempt||selected!==id)return;
+  current=id;useProfile(id);
   $("gate").hidden=true;$("shell").hidden=false;$("calculator").src="./calculadora.html";
   status(remoteReady?"Craft conectado":"Modo local · alterações neste aparelho");
   if(remoteReady&&signature(backup(id))!==get(k(id,"lastSig")))setTimeout(push,1400);
  }catch(error){$("error").textContent=fmt(error)}
- finally{$("enter").disabled=false;$("pin").value="";$("pinConfirm").value=""}
+ finally{$("enter").disabled=false;if(attempt===loginAttempt){$("pin").value="";$("pinConfirm").value=""}}
 }
-$("enter").onclick=enter;$("back").onclick=()=>{$("pinFields").hidden=true;selected="";renderProfiles()};$("pin").onkeydown=e=>{if(e.key==="Enter")enter()};
+$("enter").onclick=enter;$("back").onclick=()=>{loginAttempt++;$("pinFields").hidden=true;selected="";renderProfiles()};$("pin").onkeydown=e=>{if(e.key==="Enter")enter()};
 $("switch").onclick=async()=>{capture();if(remoteReady&&signature(backup(current))!==get(k(current,"lastSig")))await push();resetGate()};
 $("settings").onclick=()=>{$("apiBase").value=url();$("cfgStatus").textContent="";$("cfg").showModal()};
 $("closeCfg").onclick=()=>$("cfg").close();
