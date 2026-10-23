@@ -1,0 +1,70 @@
+name: MED JITA · Publicar independente
+
+on:
+  workflow_dispatch:
+    inputs:
+      publicar:
+        description: 'Confirmo publicação independente de teste; nenhum histórico antigo será apagado ou migrado automaticamente'
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Publicação controlada no meu Worker
+    if: inputs.publicar == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar preparação da conta
+        env:
+          MED_JITA_D1_DATABASE_ID: ${{ secrets.MED_JITA_D1_DATABASE_ID }}
+          MED_JITA_MASTER_KEY: ${{ secrets.MED_JITA_MASTER_KEY }}
+          CRAFT_API_BASE: ${{ secrets.CRAFT_API_BASE }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        shell: bash
+        run: |
+          if [[ -z "$CLOUDFLARE_ACCOUNT_ID" || -z "$CLOUDFLARE_API_TOKEN" || -z "$CRAFT_API_BASE" ]]; then
+            echo 'Faltam credenciais de publicação ou vínculo Craft. Nenhuma mudança aplicada.'
+            exit 1
+          fi
+          if [[ ! "$MED_JITA_MASTER_KEY" =~ ^[[:xdigit:]]{64}$ ]]; then
+            echo 'Chave de dados ausente/inválida (64 caracteres hexadecimais).'
+            exit 1
+          fi
+          node scripts/prepare-portable-config.mjs
+      - name: Gerar aplicativo e API em uma implantação
+        run: node scripts/build-assets.mjs
+      - name: Testar todos os cálculos e os quatro perfis
+        run: |
+          node tests/pin-keyboard.mjs
+          npm test
+      - name: Publicar sem Vercel e sem Sites
+        id: worker
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --config wrangler.toml
+          secrets: |
+            MED_JITA_MASTER_KEY
+            CRAFT_API_BASE
+        env:
+          MED_JITA_MASTER_KEY: ${{ secrets.MED_JITA_MASTER_KEY }}
+          CRAFT_API_BASE: ${{ secrets.CRAFT_API_BASE }}
+      - name: Mostrar endereço independente
+        env:
+          WORKER_URL: ${{ steps.worker.outputs.deployment-url }}
+        run: |
+          if [[ -n "$WORKER_URL" ]]; then
+            echo "MED JITA de teste: $WORKER_URL"
+            echo "Validar /api/health, /api/profiles e histórico antes de trocar o link oficial."
+          fi
