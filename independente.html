@@ -172,6 +172,22 @@ window.addEventListener("storage",e=>{
  if(e.key===STATE||e.key===HISTORY)schedule();
 });
 window.addEventListener("pagehide",capture);
+async function refresh(){
+ if(!current||!url()||busy||document.hidden||Date.now()-lastRefresh<10000)return;
+ lastRefresh=Date.now();
+ capture();
+ const base=get(k(current,"lastSig"));
+ if(!base||signature(backup(current))!==base)return;
+ try{
+  const row=await remoteRow(current),other=JSON.parse(deb64(prop(row,"dados")));
+  if(signature(other)===base)return;
+  const ok=await pull(current);
+  if(ok){useProfile(current);$("calculator").src="./calculadora.html";status("Atualizado pelo Craft")}
+ }catch(e){status("Offline · notas deste aparelho preservadas",true)}
+}
+window.addEventListener("focus",()=>setTimeout(refresh,250));
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)refresh()});
+setInterval(()=>{if(!document.hidden)refresh()},60000);
 async function enter(){
  if(!selected)return;
  remoteReady=false;$("error").textContent="";
@@ -200,6 +216,7 @@ async function enter(){
   await pull(id);current=id;useProfile(id);
   $("gate").hidden=true;$("shell").hidden=false;$("calculator").src="./calculadora.html";
   status(remoteReady?"Craft conectado":"Modo local · alterações neste aparelho");
+  if(remoteReady&&signature(backup(id))!==get(k(id,"lastSig")))setTimeout(push,1400);
  }catch(error){$("error").textContent=fmt(error)}
  finally{$("enter").disabled=false;$("pin").value="";$("pinConfirm").value=""}
 }
