@@ -18,6 +18,10 @@ assert.match(html, /<link rel="stylesheet" href="\.\/gateway-enhance\.css(?:\?v=
 assert.match(html, /<script src="\.\/gateway-enhance\.js(?:\?v=[^"]+)?"><\/script>/);
 assert.doesNotMatch(overlay, /jita-pin-pad|jita-pin-key|setRangeText|activeField/, 'Não inserir teclado numérico artificial');
 assert.doesNotMatch(css, /jita-pin-pad|jita-pin-key/, 'Não manter grade de teclado virtual no CSS');
+assert.match(overlay, /jita-showcase-mascot/, 'Jita original deve aparecer inteiro no painel');
+assert.match(overlay, /\.\/icons\/jita-corpo\.svg/, 'Personagem integral canônico, sem redesenho');
+assert.match(css, /cartola original e inicial em posições independentes/, 'Avatares devem respeitar geometria da cartola');
+assert.match(css, /transform:translateX\(-50%\) rotate\(0deg\)/, 'Cartola deve ter eixo alinhado');
 assert.match(html, /id="pin"[^>]*inputmode="numeric"/, 'O iPhone deve oferecer teclado numérico nativo');
 assert.match(html, /id="pinConfirm"[^>]*inputmode="numeric"/, 'O PIN local também usa teclado nativo');
 assert.match(overlay, /pin\.setAttribute\("inputmode", "numeric"\)/, 'Não remover configuração nativa');
