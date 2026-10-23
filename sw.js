@@ -1,5 +1,5 @@
 /* MED JITA. Change the cache version when publishing an updated bundle. */
-const CACHE_NAME = 'med-jita-github-v20-recovery-v52-20261023';
+const CACHE_NAME = 'med-jita-github-v20-1-v52-polished-20261023';
 const BASE = new URL('./', self.registration.scope);
 const OFFLINE_FILES = [
   './', './index.html', './independente.html', './calculadora.html', './manifest.webmanifest', './JITA_vetorial.svg',
