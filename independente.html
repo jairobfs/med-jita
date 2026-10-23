@@ -143,7 +143,7 @@ const hash=await digest(id,pin);let expected=get(k(id,"pin"));
 if(expected&&hash!==expected)return $("error").textContent="PIN incorreto neste aparelho.";
 if(!expected){if(pin!==$("pinConfirm").value)return $("error").textContent="Repita o mesmo PIN.";put(k(id,"pin"),hash)}
 $("enter").disabled=true;try{await pull(id);current=id;useProfile(id);$("gate").hidden=true;$("shell").hidden=false;
-$("calculator").src="./index.html";status(url()?"Carregado · Craft configurado":"Local · configure o Craft para sincronização");
+$("calculator").src="./calculadora.html";status(url()?"Carregado · Craft configurado":"Local · configure o Craft para sincronização");
 }catch(e){$("error").textContent=fmt(e)}finally{$("enter").disabled=false}}
 $("enter").onclick=enter;$("back").onclick=()=>{$("pinFields").hidden=true;selected="";renderProfiles()};$("pin").onkeydown=e=>{if(e.key==="Enter")enter()};
 $("switch").onclick=()=>{capture();resetGate()};
@@ -173,7 +173,7 @@ $("saveCraft").onclick=async()=>{
  const ok=await pull(current);
  if(!ok)return $("cfgStatus").textContent="Conexão guardada, mas sem leitura confirmada. Somente salvamento local continua.";
  useProfile(current);
- $("calculator").src="./index.html";
+ $("calculator").src="./calculadora.html";
  $("cfgStatus").textContent="Dados conciliados com Craft. A gravação ficará ativa após a próxima edição.";
 }
 $("shareInvite").onclick=async()=>{
