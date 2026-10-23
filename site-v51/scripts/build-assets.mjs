@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const template = await readFile(join(root, 'worker/runtime.js'), 'utf8');
 const rootFiles = [
-  'index.html', 'atelier.html', 'vercel-exit.css', 'brand-evolution.css', 'jita-motion.css', 'navigation-motion.css', 'jita-curricular.css', 'sw.js', 'manifest.webmanifest', 'JITA_vetorial.svg',
+  'index.html', 'atelier.html', 'vercel-exit.css', 'mobile-editorial-v58.css', 'brand-evolution.css', 'jita-motion.css', 'navigation-motion.css', 'jita-curricular.css', 'sw.js', 'manifest.webmanifest', 'JITA_vetorial.svg',
   'favicon.png', 'apple-touch-icon.png',
 ];
 const images = [
