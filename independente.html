@@ -213,7 +213,7 @@ $("mergeFile").onchange=async()=>{
  if(!file||!profile)return;
  try{
   if(file.size>12*1024*1024)throw Error("O arquivo ultrapassa 12 MB.");
-  if(!/\\.json$/i.test(file.name))throw Error("Escolha um backup JSON do MED JITA.");
+  if(!/\.json$/i.test(file.name))throw Error("Escolha um backup JSON do MED JITA.");
   const container=JSON.parse(await file.text());
   if(current!==profile)throw Error("Perfil alterado durante a leitura.");
   const foreign=container?.backup?.format==="med-jita-backup"?container.backup:container;
@@ -236,7 +236,7 @@ $("mergeFile").onchange=async()=>{
    plan.sameLiveState?"Notas atuais equivalentes.":"Notas atuais diferentes; ambas serão preservadas.",
    plan.needsSeparateArchive?"Histórico acima do limite: arquive antes de importar.":"Nenhum dado foi alterado.",
    declared?"Perfil identificado no arquivo.":"Arquivo sem identificação de perfil: confira antes de confirmar."
-  ].join("\\n");
+  ].join("\n");
  }catch(error){mergeReset(error instanceof SyntaxError?"JSON ilegível.":String(error?.message||error),true)}
  finally{$("mergeFile").value=""}
 };
@@ -263,7 +263,7 @@ $("mergeDownload").onclick=()=>{
  const link=document.createElement("a");link.href=address;
  link.download="MED_JITA_CONCILIACAO_"+current.toUpperCase()+".json";
  document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(address),10000);
- $("mergeReport").textContent+="\\nArquivo completo preparado. Nenhuma nota foi substituída.";
+ $("mergeReport").textContent+="\nArquivo completo preparado. Nenhuma nota foi substituída.";
 };
 renderProfiles();
 })();
