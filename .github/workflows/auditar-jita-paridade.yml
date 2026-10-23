@@ -3,6 +3,9 @@ name: Auditar fidelidade V52 Sites e V58 Cloudflare
 on:
   pull_request:
     paths:
+      - 'site-v51/source/**'
+      - 'site-v51/worker/**'
+      - 'site-v51/scripts/build-assets.mjs'
       - 'site-v51/tests/compare-sites-cloudflare.mjs'
       - '.github/workflows/auditar-jita-paridade.yml'
   workflow_dispatch:
