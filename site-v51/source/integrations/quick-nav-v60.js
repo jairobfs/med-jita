@@ -58,6 +58,7 @@
     </div>`;
   document.body.appendChild(dialog);
   const input=dialog.querySelector('#jitaQuickSearch');
+  if(window.matchMedia('(max-width:370px)').matches)input.placeholder='Buscar no Jita…';
   const list=dialog.querySelector('#jitaQuickList');
   const statusText=dialog.querySelector('#jitaQuickStatus');
   let matching=actions.slice(),index=0,previousFocus=null;
