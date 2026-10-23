@@ -27,17 +27,47 @@ async function choose(id) {
   await button.click();
 }
 async function switchPerson() {
-  await page.locator('#profileSwitch').click();
+  await page.locator('#headerProfileMark').click();
   await page.waitForFunction(()=>document.documentElement.dataset.profileReady!=='yes');
 }
 try {
   await page.goto(url,{waitUntil:'domcontentloaded',timeout:40000});
   await page.locator('#profileChoices .profile-choice[data-profile="barba"]').waitFor();
+  const gatewayBrand = await page.locator('.profile-gateway-card').evaluate(
+    node => getComputedStyle(node,'::before').backgroundImage);
+  assert.match(gatewayBrand,/completa-organic-inversa\.svg/,
+    'Login must use the original transparent inverse MED JITA logo.');
+  assert.equal(await page.locator('#jita-gateway-canary').isVisible(),true,
+    'Login must show the safe demo notice inside the layout.');
   await page.screenshot({path:out+'/01-login-dark.png',fullPage:false});
   const all=await page.locator('#profileChoices .profile-choice').count();
   assert.equal(all,4,'Four profiles must be visible on mobile.');
   await choose('barba');
   await ready('Barba');
+  const mobileLayout=await page.evaluate(()=>{
+    const nav=document.querySelector('nav.mobilebar').getBoundingClientRect();
+    const alert=document.querySelector('#jita-canary-notice');
+    const box=alert.getBoundingClientRect();
+    const profile=document.querySelector('#profileControls');
+    const logo=document.querySelector('.jita-cover .med-jita-logo-wrap');
+    const header=document.querySelector('#headerProfileMark');
+    return {navTop:nav.top,noticeBottom:box.bottom,
+      noticePosition:getComputedStyle(alert).position,
+      floatingProfileDisplay:getComputedStyle(profile).display,
+      logoBackground:getComputedStyle(logo).backgroundColor,
+      headerTag:header.tagName,headerLabel:header.getAttribute('aria-label'),
+      visibleHeight:window.innerHeight};
+  });
+  assert.equal(mobileLayout.noticePosition,'relative',
+    'Demo label must participate in layout and never overlay bottom tabs.');
+  assert.ok(mobileLayout.noticeBottom<mobileLayout.navTop-10,
+    'Demo warning overlaps bottom navigation: '+JSON.stringify(mobileLayout));
+  assert.equal(mobileLayout.floatingProfileDisplay,'none',
+    'Floating switch overlaps grade inputs on iPhone.');
+  assert.equal(mobileLayout.logoBackground,'rgba(0, 0, 0, 0)',
+    'The white/lavender plaque must not cover the brand on dark backgrounds.');
+  assert.equal(mobileLayout.headerTag,'BUTTON');
+  assert.equal(mobileLayout.headerLabel,'Trocar pessoa');
   await page.screenshot({path:out+'/02-home-barba-dark.png',fullPage:false});
 
   await page.locator('nav.mobilebar button[data-page="cab"]').click();
@@ -87,7 +117,7 @@ try {
     'Unexpected horizontal scrolling on iPhone-sized viewport: '+JSON.stringify(mobileMetrics));
   await page.screenshot({path:out+'/05-jbfs-home-dark.png',fullPage:false});
   assert.deepEqual(errors,[],'Browser console JS errors must be addressed.');
-  console.log('LIVE MOBILE BROWSER PASS: original Jita, 4 profiles, Barba persistence, profile switch, Tay isolation, numeric JBFS PIN, iPhone width, dark mode.');
+  console.log('LIVE MOBILE POST-POLISH PASS: inverse SVG, no white logo plaque, no fixed overlay on bottom tabs/inputs, switch by hat button, 4 profiles, CAB autosave, iPhone dark mode.');
 } finally {
   await browser.close();
 }
