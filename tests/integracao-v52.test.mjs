@@ -44,9 +44,9 @@ test('Históricos extensos são preservados integralmente', () => {
 
 test('Arquivos exigidos pelo cache offline realmente existem', () => {
   const sw = readFileSync(new URL('../sw.js', import.meta.url), 'utf8');
-  const block = sw.match(/const OFFLINE_FILES\\s*=\\s*\\[([\\s\\S]*?)\\]/)?.[1];
+  const block = sw.match(/const OFFLINE_FILES\s*=\s*\[([\s\S]*?)\]/)?.[1];
   assert.ok(block, 'Lista de recursos offline ausente');
-  const paths = [...block.matchAll(/['"]\\.\\/([^'"]+)['"]/g)].map(x => x[1]);
+  const paths = [...block.matchAll(/['"]\.\/([^'"]+)['"]/g)].map(x => x[1]);
   assert.ok(paths.includes('integrations/fusion-archive.mjs'));
   for (const path of paths) {
     assert.ok(existsSync(fileURLToPath(new URL('../' + path, import.meta.url))),
