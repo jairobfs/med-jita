@@ -31,8 +31,12 @@ jobs:
           mkdir -p _site
           unzip -q MED_JITA_GitHub_Pages_v6.zip -d _site
           test -f _site/index.html
+          mv _site/index.html _site/calculadora.html
+          cp independente.html _site/index.html
           cp independente.html _site/independente.html
           cp sw.js _site/sw.js
+          test -f _site/calculadora.html
+          test -f _site/index.html
           touch _site/.nojekyll
 
       - name: Configurar Pages
