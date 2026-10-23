@@ -172,19 +172,27 @@ window.addEventListener("storage",e=>{
  if(e.key===STATE||e.key===HISTORY)schedule();
 });
 window.addEventListener("pagehide",capture);
-window.addEventListener("online",()=>{if(current&&remoteReady&&signature(backup(current))!==get(k(current,"lastSig")))setTimeout(push,450);else refresh()});
+window.addEventListener("online",()=>{lastRefresh=0;setTimeout(refresh,350)});
 async function refresh(){
  if(!current||!url()||busy||document.hidden||Date.now()-lastRefresh<10000)return;
- lastRefresh=Date.now();
- capture();
- const base=get(k(current,"lastSig"));
- if(!base||signature(backup(current))!==base)return;
+ lastRefresh=Date.now();capture();
+ const id=current,base=get(k(id,"lastSig")),localSig=signature(backup(id));
  try{
-  const row=await remoteRow(current),other=JSON.parse(deb64(prop(row,"dados")));
-  if(signature(other)===base)return;
-  const ok=await pull(current);
-  if(ok){useProfile(current);$("calculator").src="./calculadora.html";status("Atualizado pelo Craft")}
- }catch(e){status("Offline · notas deste aparelho preservadas",true)}
+  if(!remoteReady||!base||localSig!==base){
+   const was=localSig,ok=await pull(id);
+   if(!ok)return;
+   if(signature(backup(id))!==get(k(id,"lastSig"))){await push();return}
+   if(signature(backup(id))!==was){
+    useProfile(id);$("calculator").src="./calculadora.html";
+    status("Atualizado do Craft");
+   }
+   return;
+  }
+  const row=await remoteRow(id),remote=JSON.parse(deb64(prop(row,"dados")));
+  if(signature(remote)===base)return;
+  const ok=await pull(id);
+  if(ok){useProfile(id);$("calculator").src="./calculadora.html";status("Atualizado do Craft")}
+ }catch(e){status("Offline · dados locais preservados",true)}
 }
 window.addEventListener("focus",()=>setTimeout(refresh,250));
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)refresh()});
