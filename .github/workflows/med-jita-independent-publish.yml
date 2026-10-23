@@ -48,6 +48,7 @@ jobs:
           node tests/pin-keyboard.mjs
           node tests/portable-assets.mjs
           node tests/portable-identity.mjs
+          node tests/check-snapshot-migration.mjs
           npm test
       - name: Publicar sem Vercel e sem Sites
         id: worker
