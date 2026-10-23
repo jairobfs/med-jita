@@ -1,0 +1,31 @@
+name: MED JITA · V50 portátil
+
+on:
+  push:
+    branches:
+      - med-jita-portatil-v50
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    name: Testes e pacote independente
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Obter código do GitHub
+        uses: actions/checkout@v4
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Gerar servidor portátil sem arquivos Sites
+        run: node scripts/build-assets.mjs
+      - name: Validar sintaxe do servidor
+        run: node --check worker/index.js
+      - name: Conferir teclado de PIN no iPhone
+        run: node tests/pin-keyboard.mjs
+      - name: Validar cálculos, perfis, sincronização e temas
+        run: npm test
