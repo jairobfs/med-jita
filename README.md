@@ -1,4 +1,8 @@
-# MED JITA · aplicativo vivo
+# MED JITA · V50 portátil e independente
+
+> **Preparação da migração:** esta ramificação contém uma cópia editável do app V50 e testes de publicação fora da Vercel e do Sites. O endereço antigo e seus históricos continuam intocados. Um link independente só será anunciado depois da instalação e migração de dados validadas.
+
+[Plano de migração com segurança para os quatro perfis](docs/DESMAME_VERCEL_SITES_V50.md)
 
 Calculadora de notas mobile-first, com motor curricular para todas as UCs de Medicina (matrizes 2023, 2024 e 2025), preservando o legado V6 e a identidade Jita V11.1.
 
@@ -11,15 +15,17 @@ Calculadora de notas mobile-first, com motor curricular para todas as UCs de Med
 - `source/integrations/editorial-live.js` — textos públicos revisados do Craft ao abrir/retomar o aplicativo.
 - `worker/runtime.js` — API do histórico cifrado em D1 e leitura seletiva do Craft pelo servidor.
 - `scripts/build-assets.mjs` — preserva os arquivos e incorpora-os ao Worker ESM.
-- `.openai/hosting.json` — infraestrutura D1 do Site.
+- `wrangler.portable.example.toml` — modelo de infraestrutura D1 + Worker fora do Sites.
+- `.github/workflows/` — testes automáticos e publicação manual (ainda não ativada).
 
 Não inserir a URL privada do Craft no código. `CRAFT_API_BASE` deve ser uma variável secreta do Site; o serviço também exige `CRAFT_SPACE_ID=6606bf28-79b6-7415-c5c5-6d0a79f7f279`. Sem as duas configurações, a API editorial permanece desativada. Mesmo depois de configurado, o servidor valida o ID real com `GET /connection` antes de ler a Collection e bloqueia conexões de outros espaços. O link deve ser criado no próprio espaço ⌯ MED, jamais reaproveitado de outro espaço.
 
 ## Construção e testes
 
 ```bash
-npm run build
-npm run validate
+node scripts/build-assets.mjs
+node tests/pin-keyboard.mjs
+node tests/portable-assets.mjs
 npm test
 ```
 
@@ -43,11 +49,13 @@ O TP pode depender da posição do estudante na distribuição da turma, por iss
 
 A API publica apenas textos públicos revisados. Fórmulas, pesos, mascote e dados pessoais não são editáveis nessa Collection. O histórico pessoal vai exclusivamente para o banco cifrado D1.
 
-## Backup privado
+## Perfis, PIN e histórico online
 
-O código criado no aparelho tem 256 bits. O navegador cifra o backup com AES-GCM; o servidor só armazena bytes cifrados e um identificador derivado do código, sem receber o conteúdo em claro. O mesmo código permite recuperar as notas em outro aparelho. Escritas concorrentes retornam HTTP 409.
+O app organiza quatro perfis iniciais — JBFS/Jairo, Barba, Tay e Igu — selecionados na tela de entrada. A escolha do nome é cosmética/organizativa; um PIN opcional pode proteger a abertura do histórico. A entrada solicita o teclado numérico no iPhone e permite teclado completo para senhas antigas.
 
-Sem envio explícito, notas e histórico permanecem no armazenamento local. Não existe sincronização automática silenciosa de notas.
+As notas são salvas automaticamente em uma base D1 quando o perfil está ativo. A API mantém revisões e recusa sobrescritas concorrentes; o histórico local é preservado e pode ser conciliado. O espelho do Craft é atualizado quando a conexão editorial está disponível. O conteúdo do novo banco é cifrado; a chave fica na infraestrutura do usuário, nunca no repositório público.
+
+O recurso complementar de backup por código de recuperação permanece disponível, mas não substitui o salvamento automático dos perfis. **A migração da Vercel/Sites para uma nova D1 ainda exige copiar e verificar os históricos reais — copiar o código-fonte sozinho não os transfere.**
 
 ## Homologação
 
