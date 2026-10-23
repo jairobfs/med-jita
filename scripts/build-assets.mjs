@@ -35,7 +35,7 @@ const files = [
   ...rootFiles, ...images, ...functionalIconsV11, ...icons.map(name => `icons/${name}`),
   'integrations/sync-ui.js', 'integrations/profiles-ui.js', 'integrations/editorial-live.js',
   'integrations/uc-engine.js', 'integrations/brand-v08.js', 'integrations/jita-motion.js',
-  'integrations/gateway-motion.js', 'integrations/palette-orbit.js',
+  'integrations/gateway-motion.js', 'integrations/palette-orbit.js', 'integrations/navigation-motion.js',
 ];
 const mimeByExt = {
   '.html': 'text/html; charset=utf-8',
