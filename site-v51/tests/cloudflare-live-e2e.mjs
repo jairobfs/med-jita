@@ -19,7 +19,7 @@ async function call(path,method='GET',body=null,cookie='',pin='') {
 const home=await call('/');
 assert.equal(home.status,200);
 assert.match(home.data,/MED JITA/);
-assert.match(home.data,/Prévia de teste · JBFS PIN 0000/);
+assert.match(home.data,/Prévia · não use notas reais · PIN 0000/);
 const health=await call('/api/health');
 assert.equal(health.status,200);
 assert.equal(health.data.version,'V58');
