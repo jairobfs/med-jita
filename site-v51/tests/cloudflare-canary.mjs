@@ -45,7 +45,7 @@ async function fetchApi(path,method='GET',data=null,cookie='',pin='',origin='') 
 
 let result=await fetchApi('/');
 assert.equal(result.status,200);
-assert.match(result.data,/Prévia de teste · JBFS PIN 0000 · Não use notas reais/);
+assert.match(result.data,/Prévia · não use notas reais · PIN 0000/);
 assert.equal(result.headers.get('X-Robots-Tag'),'noindex, nofollow, noarchive');
 assert.equal((await fetchApi('/assets/jita-cartola-avatar.svg')).status,200);
 
