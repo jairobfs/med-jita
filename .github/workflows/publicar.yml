@@ -78,7 +78,7 @@ jobs:
           assert html.count(tag)==1, 'Missing modern profiles integration'
           html=html.replace(tag,'')
           assert html.count('</head>')==1
-          html=html.replace('</head>','<style>.profile-controls,#accountSyncPane{display:none!important}</style></head>',1)
+          html=html.replace('</head>','<style>.profile-gateway,.profile-controls,#accountSyncPane{display:none!important}</style></head>',1)
           f.write_text(html,encoding='utf-8')
           assert 'med-jita-brand-v11.svg' in html
           assert 'integrations/uc-engine.js' in html
