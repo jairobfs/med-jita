@@ -47,6 +47,7 @@ jobs:
         run: |
           node tests/pin-keyboard.mjs
           node tests/portable-assets.mjs
+          node tests/portable-identity.mjs
           npm test
       - name: Publicar sem Vercel e sem Sites
         id: worker
