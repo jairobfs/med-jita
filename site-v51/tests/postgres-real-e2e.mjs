@@ -3,6 +3,7 @@ import { randomBytes } from 'node:crypto';
 import { Pool } from 'pg';
 import worker from '../worker/index.js';
 import { bootstrapSnapshots, makeD1PgAdapter } from '../render-production/postgres-d1-adapter.mjs';
+import { verifyHistoryKey } from '../render-production/verify-key.mjs';
 
 const url = process.env.MED_JITA_TEST_DATABASE_URL;
 if (!url || !/^postgres(?:ql)?:\/\/[^/]+\/jita_ci$/.test(url))
@@ -77,6 +78,14 @@ try {
   assert.equal((await api('/api/profile/backup?id=jbfs','GET',null,'0000')).json.backup.data.cab.hits,'22');
   assert.equal((await api('/api/profile/backup?id=tay')).json.revision,0);
   assert.equal((await api('/api/profile/backup?id=igu')).json.revision,0);
+  const verified=await verifyHistoryKey(pool,master,['jbfs','barba']);
+  assert.equal(verified.total,2);
+  assert.deepEqual(verified.profiles.map(p=>p.id),['barba','jbfs']);
+  assert.equal(verified.profiles.find(p=>p.id==='jbfs').revision,2);
+  await assert.rejects(verifyHistoryKey(pool,'f'.repeat(64),['jbfs','barba']),
+    /Chave incompatível ou histórico danificado/);
+  await assert.rejects(verifyHistoryKey(pool,master,['jbfs','barba','tay','igu']),
+    /Histórico obrigatório não encontrado/);
   // Reconnect to PostgreSQL with a fresh pool; simulated process restart.
   const reopened = new Pool({ connectionString: url, max: 1 });
   try {
