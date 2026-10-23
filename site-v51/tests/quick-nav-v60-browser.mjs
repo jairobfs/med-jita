@@ -82,7 +82,11 @@ try {
       await page.locator('#jitaQuickSearch').fill('cab');
       await page.locator('#jitaQuickSearch').press('Enter');
       await page.locator('#page-cab.active').waitFor();
-      await page.locator('#cabHits').focus();
+      // Form rendering after tab switching may replace the input once. Focus
+      // the settled, visible DOM field rather than a stale detached node.
+      await page.waitForTimeout(380);
+      await page.locator('#cabHits').click();
+      await page.waitForFunction(()=>document.activeElement?.id==='cabHits');
       await page.keyboard.press('/');
       assert.equal(await page.locator('#jitaQuickDialog').isVisible(),false,
         'Slash cannot hijack active grade field.');
