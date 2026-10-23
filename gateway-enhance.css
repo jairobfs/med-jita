@@ -1,0 +1,61 @@
+/* MED JITA · polimento iPhone V19, sem tocar nos cálculos ou no login. */
+#gate { align-items: safe center; }
+.jita-pin-pad {
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px; margin:12px 0 0;
+}
+.jita-pin-key {
+  min-height:48px; border:1px solid var(--border); border-radius:13px;
+  background:var(--bg); color:var(--ink); font:800 21px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  cursor:pointer; touch-action:manipulation; transition:transform .13s ease,background-color .16s ease,border-color .16s ease;
+}
+.jita-pin-key.action { color:var(--sea); font-size:13px; }
+.jita-pin-key:active { transform:scale(.96); background:#c8ece7; }
+.jita-pin-key:focus-visible,.jita-install-gate:focus-visible { outline:3px solid var(--sea);outline-offset:2px; }
+.jita-install-gate {
+  display:block; margin:0 auto 14px; padding:9px 15px;
+  border:1px solid var(--border);border-radius:999px;background:var(--card);
+  color:var(--sea);font-size:12px;font-weight:750;cursor:pointer;
+}
+.jita-install-gate[hidden],.jita-install-bar[hidden] { display:none!important; }
+#jita-install-guide {
+  max-width:440px;width:calc(100% - 24px);border:1px solid var(--border);
+  border-radius:18px;padding:22px;background:var(--card);color:var(--ink);
+  box-shadow:0 20px 75px #12343b44;
+}
+#jita-install-guide::backdrop { background:#061e25b7; }
+#jita-install-guide h2 { margin:0 0 8px;font-size:22px; }
+#jita-install-guide p { font-size:12px;line-height:1.6;color:var(--mut); }
+#jita-install-guide ol { font-size:13px;line-height:1.6;padding-left:21px; }
+#jita-install-guide li { margin:0 0 8px; }
+.jita-install-actions { display:flex;gap:8px;flex-wrap:wrap;margin-top:14px; }
+.jita-install-actions button {
+  min-height:44px;padding:10px 14px;border-radius:11px;border:1px solid var(--border);
+  color:var(--ink);background:var(--bg);font-weight:750;cursor:pointer;
+}
+.jita-install-actions .jita-install-copy { background:#087f89;color:#fff;border-color:#087f89; }
+#gate img.logo { animation:jita-entry-float 5.8s ease-in-out infinite;transform-origin:50% 55%; }
+@keyframes jita-entry-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+@media(max-width:520px) {
+  #bar{height:auto;min-height:46px;flex:0 0 auto;flex-wrap:wrap}
+  #status{order:5;flex-basis:100%;text-align:left;padding-bottom:4px}
+  #bar button{font-size:11px;padding:6px 8px}
+}
+@media(prefers-color-scheme:dark) {
+  :root{color-scheme:dark;--sea:#69d5d0;--ink:#edf9f8;--mut:#abc9ce;--border:#315765;--bg:#0b1c26;--card:#12313e}
+  #gate{background:linear-gradient(155deg,#10343d,#081820 56%,#142b36)}
+  .panel{background:var(--card);box-shadow:0 20px 65px #010c1399}
+  .avatar{background:#173943;color:var(--ink)}
+  .avatar.selected{background:#154e55;border-color:#69d5d0}
+  .face{background:#25545b;color:#d1fffa}
+  input{background:#0b2530;color:var(--ink);border-color:#3a6670}
+  .btn{background:#087f89;color:#fff}
+  .jita-pin-key:active{background:#235c64}
+  #shell iframe{background:#0b1c26}
+  #cfg{background:var(--card);color:var(--ink)}
+}
+@media(prefers-reduced-motion:reduce) {
+  #gate img.logo { animation:none }
+  .jita-pin-key { transition:none }
+  .jita-pin-key:active { transform:none }
+}
