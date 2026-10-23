@@ -52,9 +52,10 @@
   const gateInstall = document.createElement("button");
   gateInstall.type = "button";
   gateInstall.className = "jita-install-gate";
-  gateInstall.textContent = "Adicionar como app no iPhone";
-  const lead = gate.querySelector(".lead");
-  lead?.after(gateInstall);
+  gateInstall.textContent = "Instalar no iPhone";
+  const helper = gate.querySelector(".notice");
+  if (helper) helper.after(gateInstall);
+  else gate.querySelector(".panel")?.append(gateInstall);
 
   const barInstall = document.createElement("button");
   barInstall.type = "button";
