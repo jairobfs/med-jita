@@ -1,0 +1,181 @@
+/* MED JITA · Navegação tátil V49. Apenas apresentação: nenhum estado de notas. */
+:root{
+  --jita-motion-ease:cubic-bezier(.22,1,.36,1);
+  --jita-motion-fast:230ms;
+  --jita-motion-page:480ms;
+}
+
+/* A troca de página permanece imediata e funcional; o conteúdo entra em camadas. */
+.view.active{
+  animation:jita-page-enter var(--jita-motion-page) var(--jita-motion-ease) both;
+}
+.view.active>.page-head{
+  animation:jita-item-enter 450ms var(--jita-motion-ease) both;
+}
+.view.active>.grid,
+.view.active>.stack,
+.view.active>.home-curriculum,
+.view.active>.jita-cover,
+.view.active>.cohort-ribbon{
+  animation:jita-item-enter 490ms var(--jita-motion-ease) 55ms both;
+}
+.view.active>.grid~.grid,
+.view.active>.stack~.stack{
+  animation-delay:100ms;
+}
+.subview.active{
+  animation:jita-page-enter 360ms var(--jita-motion-ease) both;
+}
+@keyframes jita-page-enter{
+  from{opacity:0;transform:translate3d(0,14px,0) scale(.993);filter:blur(2px)}
+  to{opacity:1;transform:translate3d(0,0,0) scale(1);filter:blur(0)}
+}
+@keyframes jita-item-enter{
+  from{opacity:.35;transform:translate3d(0,16px,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+
+/* Uma guia luminosa e a cartola reagem à mudança de seção. */
+.side .navbtn{
+  position:relative;overflow:hidden;isolation:isolate;
+  transition:background-color var(--jita-motion-fast) ease,
+    color var(--jita-motion-fast) ease,
+    transform var(--jita-motion-fast) var(--jita-motion-ease),
+    box-shadow var(--jita-motion-fast) ease;
+}
+.side .navbtn::before{
+  content:"";position:absolute;top:23%;bottom:23%;left:3px;width:3px;
+  border-radius:10px;background:var(--brand2);
+  opacity:0;transform:scaleY(.2);
+  box-shadow:0 0 13px color-mix(in srgb,var(--brand2) 75%,transparent);
+  transition:transform 320ms var(--jita-motion-ease),opacity 200ms;
+}
+.side .navbtn[aria-current=page]::before{opacity:1;transform:scaleY(1)}
+.side .navbtn[aria-current=page]{box-shadow:inset 0 0 17px rgba(104,219,209,.045)}
+.side .navbtn:active{transform:scale(.975)}
+.side .navbtn .nav-v11-icon{transform-origin:center 66%}
+.side .navbtn.jita-activated .nav-v11-icon{animation:jita-icon-bounce 420ms var(--jita-motion-ease)}
+
+.mobilebar button{
+  position:relative;isolation:isolate;overflow:hidden;
+  transition:transform var(--jita-motion-fast) var(--jita-motion-ease),
+    background-color 280ms ease,border-color 280ms ease,color 280ms ease,
+    box-shadow 280ms ease;
+}
+.mobilebar button::after{
+  content:"";position:absolute;bottom:1px;left:31%;right:31%;height:3px;
+  border-radius:99px;background:var(--brand2);opacity:0;
+  transform:scaleX(.1);
+  transition:opacity 220ms ease,transform 370ms var(--jita-motion-ease);
+}
+.mobilebar button[aria-current=page]{
+  box-shadow:0 4px 16px color-mix(in srgb,var(--brand2) 16%,transparent);
+}
+.mobilebar button[aria-current=page]::after{opacity:1;transform:scaleX(1)}
+.mobilebar button:active{transform:scale(.93)}
+.mobilebar button.jita-activated .nav-v11-icon{animation:jita-icon-bounce 420ms var(--jita-motion-ease)}
+@keyframes jita-icon-bounce{
+  0%{transform:translateY(0) scale(1)}
+  40%{transform:translateY(-5px) rotate(-6deg) scale(1.16)}
+  75%{transform:translateY(1px) rotate(2deg) scale(.97)}
+  100%{transform:translateY(-2px) scale(1.04)}
+}
+
+/* Cartões e ações com profundidade discreta — sem alterar sua hierarquia. */
+.btn,.icon-btn,.profile-choice,.module-row,.home-uc-card,
+.segmented button,.subtab button{
+  transition-property:transform,box-shadow,border-color,background-color,filter;
+  transition-duration:var(--jita-motion-fast);
+  transition-timing-function:var(--jita-motion-ease);
+}
+.btn:active,.icon-btn:active,.profile-choice:active,
+.module-row:active,.home-uc-card:active,.segmented button:active,
+.subtab button:active{transform:scale(.974)}
+.jita-press-surface{position:relative;isolation:isolate;overflow:hidden}
+.jita-tap-wave{
+  position:absolute;z-index:6;pointer-events:none;display:block;
+  width:12px;height:12px;left:var(--jita-tap-x);top:var(--jita-tap-y);
+  border-radius:50%;background:color-mix(in srgb,var(--brand2) 32%,white);
+  transform:translate(-50%,-50%) scale(0);opacity:.65;
+  animation:jita-tap-wave 540ms cubic-bezier(.12,.64,.32,1) both;
+}
+@keyframes jita-tap-wave{
+  to{transform:translate(-50%,-50%) scale(var(--jita-tap-scale,20));opacity:0}
+}
+
+@media(hover:hover) and (pointer:fine){
+  .side .navbtn:hover{transform:translateX(3px)}
+  .btn:not(:disabled):hover,.icon-btn:not(:disabled):hover{
+    box-shadow:0 8px 22px color-mix(in srgb,var(--brand2) 12%,transparent);
+  }
+  .module-row:hover,.home-uc-card:hover,.profile-choice:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 28px color-mix(in srgb,var(--brand2) 10%,transparent);
+  }
+}
+.field input:focus-visible,.field select:focus-visible{
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--brand2) 13%,transparent);
+  transition:box-shadow 250ms ease,border-color 250ms ease;
+}
+.modal[open]{animation:jita-dialog-in 350ms var(--jita-motion-ease) both}
+.modal[open]::backdrop{animation:jita-backdrop-in 240ms ease-out both}
+@keyframes jita-dialog-in{
+  from{opacity:0;transform:translateY(18px) scale(.97)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes jita-backdrop-in{from{opacity:0}to{opacity:1}}
+.toast.visible{animation:jita-toast-pop 380ms var(--jita-motion-ease)}
+@keyframes jita-toast-pop{
+  from{filter:brightness(1.3);scale:.94}
+  to{filter:brightness(1);scale:1}
+}
+
+/* Guia de instalação: o ícone retrata a ação real da barra do Safari. */
+.install-browser-share{
+  display:flex;align-items:center;gap:14px;
+  padding:15px;margin:12px 0 16px;
+  border:1px solid color-mix(in srgb,var(--brand2) 34%,var(--border));
+  border-radius:18px;
+  background:linear-gradient(130deg,var(--brand-faint),var(--card-soft));
+  color:var(--ink);
+}
+.install-browser-share-icon{
+  width:52px;height:52px;flex:none;
+  display:grid;place-items:center;border-radius:16px;
+  color:var(--brand);
+  background:var(--card);
+  border:1px solid var(--border);
+  box-shadow:0 6px 18px color-mix(in srgb,var(--brand2) 11%,transparent);
+  animation:jita-share-attention 2.7s ease-in-out infinite;
+}
+.install-browser-share-icon svg{width:30px;height:30px}
+.install-browser-share strong{display:block;font-size:13px;line-height:1.45}
+.install-browser-share small{display:block;margin-top:3px;font-size:11px;line-height:1.5;color:var(--secondary)}
+@keyframes jita-share-attention{
+  0%,100%{box-shadow:0 6px 18px color-mix(in srgb,var(--brand2) 11%,transparent);transform:translateY(0)}
+  50%{box-shadow:0 7px 24px color-mix(in srgb,var(--brand2) 26%,transparent);transform:translateY(-2px)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .view.active,.view.active>.page-head,.view.active>.grid,
+  .view.active>.stack,.view.active>.home-curriculum,
+  .view.active>.jita-cover,.view.active>.cohort-ribbon,
+  .subview.active,.modal[open],.modal[open]::backdrop,
+  .toast.visible,.jita-tap-wave,.install-browser-share-icon,
+  .side .navbtn.jita-activated .nav-v11-icon,
+  .mobilebar button.jita-activated .nav-v11-icon{
+    animation:none!important;filter:none!important;
+  }
+  .side .navbtn,.mobilebar button,.btn,.icon-btn,.profile-choice,
+  .module-row,.home-uc-card,.segmented button,.subtab button,
+  .side .navbtn::before,.mobilebar button::after{
+    transition:none!important;
+  }
+  .side .navbtn:hover,.module-row:hover,.home-uc-card:hover,
+  .profile-choice:hover,.btn:active,.icon-btn:active,
+  .module-row:active,.home-uc-card:active,.profile-choice:active,
+  .mobilebar button:active,.side .navbtn:active{transform:none!important}
+}
+@media print{
+  .view,.view *,.subview,.subview *{animation:none!important;filter:none!important}
+}
