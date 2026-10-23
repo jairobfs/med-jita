@@ -36,6 +36,7 @@ jobs:
           Path('/tmp/med-jita-v18.js').write_text(js, encoding='utf-8')
           PY
           node --check /tmp/med-jita-v18.js
+          node tests/v18-pwa-mock.mjs
           test -s sw.js
 
       - name: Extrair aplicativo
