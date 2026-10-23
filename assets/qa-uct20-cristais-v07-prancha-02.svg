@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<rect x="0" y="0" width="1280" height="720" rx="0" fill="#102A35" stroke="#102A35" stroke-width="0" opacity="1"/>
+<rect x="0" y="0" width="1280" height="9" rx="0" fill="#0AA5AD" stroke="#0AA5AD" stroke-width="0" opacity="1"/>
+<rect x="0" y="0" width="13" height="720" rx="0" fill="#56C9C7" stroke="#56C9C7" stroke-width="0" opacity="1"/>
+<text x="51" y="44" fill="#E8BD84" font-family="Arial,sans-serif" font-size="23" text-anchor="start" dominant-baseline="middle" opacity="1">02 / RACIOCÍNIO CLÍNICO</text>
+<text x="47" y="106" fill="#F6F1E8" font-family="Arial,sans-serif" font-size="55" text-anchor="start" dominant-baseline="middle" opacity="1">Dentro da articulação</text>
+<text x="48" y="163" fill="#9BB8BC" font-family="Arial,sans-serif" font-size="22" text-anchor="start" dominant-baseline="middle" opacity="1">DOR  →  PUNÇÃO  →  MICROBIOLOGIA + CRISTAIS</text>
+<polyline points="1184,255 1196,255" fill="none" stroke="#C8A57C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.65"/>
+<polyline points="1190,249 1190,261" fill="none" stroke="#C8A57C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.65"/>
+<rect x="48" y="209" width="706" height="343" rx="10" fill="#0A1B27" stroke="#0A1B27" stroke-width="0" opacity="1"/>
+<ellipse cx="395" cy="379.5" rx="264" ry="159.5" fill="#173846" stroke="#7FABB7" stroke-width="2" opacity="1"/>
+<polyline points="817,452 829,445" fill="none" stroke="#C8A57C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<polyline points="171.91999917502378,334.87829814861834 177.8067953210922,323.9163955532237 185.00175927093662,313.2772695245253 193.46195073267006,303.02441547129496 203.13687840524963,293.2190234910491 213.96880131580315,283.91961318119377 225.8930734237505,275.18168438799137 238.83852943508566,267.05738597771597 252.72790952424046,259.5952046068045 267.4783204287452,252.8396753484571 283.0017301648254,246.83111590269647 299.2054934114215,241.60538597614777 315.99290442708394,237.1936732675863 333.2637741998786,233.62230733651336 350.9150283858125,230.91260246561103 368.84132246722095,229.08073045489039 386.93567045978614,228.13762410670984 405.09008341600014,228.0889119776756 423.19621391441547,228.9348847868314 441.14600268830577,230.67049368061697 458.83232353458925,233.28538036495064 476.14962265413135,236.76393892460345 492.994548607777,241.08540896092188 509.2665691284707,246.22399949204225 524.8685711082641,252.14904287614866 539.7074401794268,258.82517783914307 553.6946164306617,266.2125605144008 566.7466229418499,274.26710223510355 578.785563982977,282.9407326599804 589.7395899039382,292.18168666209533 599.5433259407095,301.9348132685 608.1382623787274,312.14190480696595 615.4731037449403,322.7420442954162 621.5040749445175,333.6719690007991" fill="none" stroke="#B9A0D2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.65"/>
+<text x="574" y="268.5" fill="#56C9C7" font-family="Arial,sans-serif" font-size="18" text-anchor="start" dominant-baseline="middle" opacity="1">ASPIRAÇÃO</text>
+<polyline points="621.5040749445175,422.3280309992009 615.4731037449403,433.2579557045839 608.1382623787274,443.85809519303416 599.5433259407093,454.06518673150003 589.739589903938,463.81831333790467 578.7855639829769,473.0592673400197 566.7466229418499,481.7328977648964 553.6946164306617,489.7874394855992 539.7074401794268,497.17482216085693 524.868571108264,503.85095712385134 509.2665691284707,509.77600050795775 492.994548607777,514.9145910390782 476.14962265413135,519.2360610753965 458.83232353458925,522.7146196350494 441.14600268830577,525.329506319383 423.1962139144154,527.0651152131686 405.0900834160001,527.9110880223244 386.9356704597861,527.8623758932902 368.84132246722083,526.9192695451096 350.91502838581243,525.087397534389 333.2637741998785,522.3776926634866 315.99290442708394,518.8063267324137 299.2054934114215,514.3946140238522 283.0017301648254,509.1688840973036 267.4783204287451,503.16032465154285 252.72790952424046,496.4047953931955 238.83852943508566,488.94261402228403 225.8930734237505,480.81831561200863 213.96880131580315,472.08038681880623 203.13687840524963,462.78097650895097 193.46195073267,452.975584528705 185.00175927093656,442.7227304754747 177.8067953210922,432.0836044467763 171.91999917502378,421.12170185138166" fill="none" stroke="#B9A0D2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.65"/>
+<polyline points="829,452 841,445" fill="none" stroke="#C8A57C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<polyline points="275,237 311,228 357,247 390,281 413,286 434,271 472,235 511,221 546,231 573,272 565,324 549,340 505,344 470,329 435,315 403,318 364,342 312,347 275,327 256,292 263,257 275,237 275,237" fill="none" stroke="#F4D7AA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<text x="93" y="255" fill="#B9A0D2" font-family="Arial,sans-serif" font-size="18" text-anchor="start" dominant-baseline="middle" opacity="1">SINÓVIA</text>
+<polyline points="260,291 271,311 306,317 337,303 364,310 395,313 422,307 453,315 492,305 525,316 566,316" fill="none" stroke="#9FE1D9" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+<polyline points="841,452 853,445" fill="none" stroke="#C8A57C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<polyline points="268,414 318,401 375,399 430,414 475,396 531,397 573,412 562,449 523,476 319,476 280,457 268,414 268,414" fill="none" stroke="#F4D7AA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<text x="91" y="504" fill="#56C9C7" font-family="Arial,sans-serif" font-size="18" text-anchor="start" dominant-baseline="middle" opacity="1">CARTILAGEM</text>
+<polyline points="272,415 322,405 370,406 429,419 477,406 532,405 573,412" fill="none" stroke="#9FE1D9" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+<polyline points="853,452 865,445" fill="none" stroke="#C8A57C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<polyline points="309,353 348,349 388,354 425,348 468,356 515,352" fill="none" stroke="#E47B70" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.65"/>
+<text x="90" y="541.5" fill="#9BB8BC" font-family="Arial,sans-serif" font-size="17" text-anchor="start" dominant-baseline="middle" opacity="1">ESQUEMA ARTICULAR DIDÁTICO</text>
+<ellipse cx="437.352619886864" cy="385.44695294764824" rx="2.7749051582068205" ry="2.7749051582068205" fill="#E47B70" stroke="#E47B70" stroke-width="0" opacity="0.65"/>
+<rect x="795" y="571" width="425" height="58" rx="8" fill="#603D44" stroke="#9E5256" stroke-width="1" opacity="1"/>
+<ellipse cx="369.8269476300338" cy="393.4176750573097" rx="2.693345901905559" ry="2.693345901905559" fill="#B9A0D2" stroke="#B9A0D2" stroke-width="0" opacity="0.65"/>
+<text x="796" y="228.5" fill="#F6F1E8" font-family="Arial,sans-serif" font-size="36" text-anchor="start" dominant-baseline="middle" opacity="1">DUAS LEITURAS</text>
+<ellipse cx="380.2598764479626" cy="386.63790485914797" rx="2.868606165284291" ry="2.868606165284291" fill="#B9A0D2" stroke="#B9A0D2" stroke-width="0" opacity="0.65"/>
+<text x="1007.5" y="593.5" fill="#F6F1E8" font-family="Arial,sans-serif" font-size="23" text-anchor="middle" dominant-baseline="middle" opacity="1">CRISTAIS NÃO EXCLUEM INFECÇÃO</text>
+<ellipse cx="456.8716385163134" cy="379.94051891064737" rx="2.793305349186994" ry="2.793305349186994" fill="#E47B70" stroke="#E47B70" stroke-width="0" opacity="0.65"/>
+<rect x="795" y="262" width="425" height="2" rx="0" fill="#395661" stroke="#395661" stroke-width="0" opacity="1"/>
+<ellipse cx="443.90803852677345" cy="375.2410655382555" rx="1.648571238387376" ry="1.648571238387376" fill="#B9A0D2" stroke="#B9A0D2" stroke-width="0" opacity="0.65"/>
+<text x="796" y="303.5" fill="#56C9C7" font-family="Arial,sans-serif" font-size="37" text-anchor="start" dominant-baseline="middle" opacity="1">01</text>
+<ellipse cx="372.9557684866013" cy="386.11262222134974" rx="1.6475366520462558" ry="1.6475366520462558" fill="#B9A0D2" stroke="#B9A0D2" stroke-width="0" opacity="0.65"/>
+<text x="863" y="304" fill="#F6F1E8" font-family="Arial,sans-serif" font-size="29" text-anchor="start" dominant-baseline="middle" opacity="1">GRAM + CULTURA</text>
+<ellipse cx="360.9915278169792" cy="394.88108938233927" rx="2.0111249077599496" ry="2.0111249077599496" fill="#E47B70" stroke="#E47B70" stroke-width="0" opacity="0.65"/>
+<text x="864" y="339" fill="#9BB8BC" font-family="Arial,sans-serif" font-size="19" text-anchor="start" dominant-baseline="middle" opacity="1">Pesquisa microbiológica</text>
+<ellipse cx="327.2862604147522" cy="378.4655208979966" rx="1.931418803636916" ry="1.931418803636916" fill="#B9A0D2" stroke="#B9A0D2" stroke-width="0" opacity="0.65"/>
+<ellipse cx="819.5" cy="324.5" rx="2.5" ry="2.5" fill="#E47B70" stroke="#E47B70" stroke-width="0" opacity="1"/>
+<ellipse cx="418.3290580282919" cy="396.0619949216489" rx="2.359717438928783" ry="2.359717438928783" fill="#B9A0D2" stroke="#B9A0D2" stroke-width="0" opacity="0.65"/>
+<ellipse cx="831.5" cy="324.5" rx="2.5" ry="2.5" fill="#56C9C7" stroke="#56C9C7" stroke-width="0" opacity="1"/>
+<ellipse cx="389.69117109815124" cy="395.2984993242426" rx="1.5536351784830913" ry="1.5536351784830913" fill="#E47B70" stroke="#E47B70" stroke-width="0" opacity="0.65"/>
+<ellipse cx="843.5" cy="324.5" rx="2.5" ry="2.5" fill="#E47B70" stroke="#E47B70" stroke-width="0" opacity="1"/>
+<ellipse cx="380.08645421476103" cy="388.5949821639806" rx="1.6428057302255183" ry="1.6428057302255183" fill="#B9A0D2" stroke="#B9A0D2" stroke-width="0" opacity="0.65"/>
+<ellipse cx="855.5" cy="324.5" rx="2.5" ry="2.5" fill="#56C9C7" stroke="#56C9C7" stroke-width="0" opacity="1"/>
+<ellipse cx="395.424751644372" cy="381.5732770577306" rx="2.3380249195033684" ry="2.3380249195033684" fill="#B9A0D2" stroke="#B9A0D2" stroke-width="0" opacity="0.65"/>
+<ellipse cx="867.5" cy="324.5" rx="2.5" ry="2.5" fill="#E47B70" stroke="#E47B70" stroke-width="0" opacity="1"/>
+<polyline points="691,252 630,280 555,309 490,339" fill="none" stroke="#F6F1E8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<ellipse cx="819.5" cy="335.5" rx="2.5" ry="2.5" fill="#56C9C7" stroke="#56C9C7" stroke-width="0" opacity="1"/>
+<polyline points="684,247 623,275 549,303 485,332" fill="none" stroke="#56C9C7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<ellipse cx="831.5" cy="335.5" rx="2.5" ry="2.5" fill="#E47B70" stroke="#E47B70" stroke-width="0" opacity="1"/>
+<polyline points="690,232 720,239 718,258 686,251 690,232" fill="none" stroke="#F6F1E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<ellipse cx="843.5" cy="335.5" rx="2.5" ry="2.5" fill="#56C9C7" stroke="#56C9C7" stroke-width="0" opacity="1"/>
+<rect x="713" y="235" width="30" height="18" rx="0" fill="#56C9C7" stroke="#56C9C7" stroke-width="0" opacity="1"/>
+<ellipse cx="855.5" cy="335.5" rx="2.5" ry="2.5" fill="#E47B70" stroke="#E47B70" stroke-width="0" opacity="1"/>
+<ellipse cx="488.5" cy="335.5" rx="7.5" ry="7.5" fill="#E47B70" stroke="#F6F1E8" stroke-width="2" opacity="1"/>
+<rect x="795" y="369" width="425" height="2" rx="0" fill="#395661" stroke="#395661" stroke-width="0" opacity="1"/>
+<polyline points="853,444 865,437" fill="none" stroke="#C8A57C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<text x="796" y="409" fill="#B9A0D2" font-family="Arial,sans-serif" font-size="37" text-anchor="start" dominant-baseline="middle" opacity="1">02</text>
+<polyline points="528,312 574,280" fill="none" stroke="#56C9C7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<text x="866" y="413.5" fill="#F6F1E8" font-family="Arial,sans-serif" font-size="30" text-anchor="start" dominant-baseline="middle" opacity="1">CRISTAIS</text>
+<text x="866" y="443" fill="#9BB8BC" font-family="Arial,sans-serif" font-size="19" text-anchor="start" dominant-baseline="middle" opacity="1">Microscopia compensada</text>
+<polyline points="817,444 829,437" fill="none" stroke="#C8A57C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<polyline points="829,444 841,437" fill="none" stroke="#C8A57C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<polyline points="841,444 853,437" fill="none" stroke="#C8A57C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<text x="795" y="558" fill="#E8BD84" font-family="Arial,sans-serif" font-size="18" text-anchor="start" dominant-baseline="middle" opacity="1">SEGURANÇA CLÍNICA</text>
+</svg>
