@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "target": "render-canary-validation-only",
+  "description": "Placeholder solely for validating existing Sites Worker bundle in isolated Render CI. Never publish this as a Sites hosting manifest."
+}
