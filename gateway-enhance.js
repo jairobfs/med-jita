@@ -3,64 +3,16 @@
   "use strict";
   const byId = id => document.getElementById(id);
   const pin = byId("pin"), confirm = byId("pinConfirm");
-  const fields = byId("pinFields"), gate = byId("gate"), bar = byId("bar");
-  if (!pin || !confirm || !fields || !gate || !bar) return;
+  const gate = byId("gate"), bar = byId("bar");
+  if (!pin || !confirm || !gate || !bar) return;
 
-  // A entrada protegida permanece no código canônico; o teclado é uma alternativa de toque.
+  // Um único campo abre o teclado numérico nativo no iPhone. Nenhum teclado HTML paralelo.
   pin.setAttribute("inputmode", "numeric");
   pin.setAttribute("autocomplete", "off");
   pin.setAttribute("enterkeyhint", "go");
   confirm.setAttribute("inputmode", "numeric");
   confirm.setAttribute("autocomplete", "off");
   confirm.setAttribute("enterkeyhint", "done");
-  let activeField = pin;
-  for (const field of [pin, confirm]) {
-    field.addEventListener("focus", () => { activeField = field; });
-  }
-
-  const pad = document.createElement("div");
-  pad.className = "jita-pin-pad";
-  pad.setAttribute("role", "group");
-  pad.setAttribute("aria-label", "Teclado numérico do PIN");
-  const targetField = () =>
-    activeField === confirm && !byId("pinConfirmWrap").hidden ? confirm : pin;
-
-  function tap(value) {
-    const input = targetField();
-    if (value === "ok") {
-      if (input === pin && !byId("pinConfirmWrap").hidden) {
-        activeField = confirm;
-        confirm.focus();
-      } else {
-        byId("enter").click();
-      }
-      return;
-    }
-    const start = input.selectionStart ?? input.value.length;
-    const end = input.selectionEnd ?? start;
-    if (value === "erase") {
-      const from = start === end ? Math.max(0, start - 1) : start;
-      input.setRangeText("", from, end, "end");
-    } else if (input.value.length < 6) {
-      input.setRangeText(value, start, end, "end");
-    }
-    input.dispatchEvent(new Event("input", { bubbles: true }));
-    input.focus();
-  }
-
-  for (const value of ["1", "2", "3", "4", "5", "6", "7", "8", "9", "erase", "0", "ok"]) {
-    const key = document.createElement("button");
-    key.type = "button";
-    key.className = "jita-pin-key" + (value === "erase" || value === "ok" ? " action" : "");
-    key.textContent = value === "erase" ? "Apagar" : value === "ok" ? "OK" : value;
-    key.setAttribute("aria-label",
-      value === "erase" ? "Apagar dígito" : value === "ok" ? "Confirmar PIN" : "Número " + value);
-    key.addEventListener("click", () => tap(value));
-    pad.append(key);
-  }
-  const actions = fields.querySelector(".actions");
-  if (actions) actions.before(pad);
-
   // O Safari instala via menu Compartilhar. Nada tenta forçar um share sheet diferente.
   let installPrompt = null;
   window.addEventListener("beforeinstallprompt", event => {
