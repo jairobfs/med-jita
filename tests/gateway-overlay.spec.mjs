@@ -21,7 +21,8 @@ assert.match(overlay, /new URL\("\.\/", window\.location\.href\)\.href/);
 assert.match(overlay, /navigator\.serviceWorker\.register\("\.\/sw\.js"\)/);
 assert.match(css, /prefers-color-scheme:dark/);
 assert.match(css, /prefers-reduced-motion:reduce/);
-assert.match(sw, /med-jita-github-v19-20261023/);
+assert.match(sw, /const CACHE_NAME = 'med-jita-github-[^']+'/);
+assert.ok(sw.includes("'./assets/jita-cartola-avatar.svg'"), 'Cartola original disponível offline');
 for (const asset of ["gateway-enhance.js", "gateway-enhance.css"]) {
   assert.ok(sw.includes("'./" + asset + "'"), "Recurso precache: " + asset);
 }
