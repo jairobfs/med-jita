@@ -23,11 +23,13 @@ try {
       await page.locator('#profileChoices .profile-choice[data-profile="barba"]').click();
       await page.waitForFunction(()=>document.documentElement.dataset.profileReady==='yes');
       // PR preview: inject only new controls/style against already deployed V59.
-      if(process.env.MED_JITA_V60_LIVE==='1') {
+      const deployed=await page.locator('#jitaQuickOpen').count()>0;
+      if(process.env.MED_JITA_V60_LIVE==='1'||deployed) {
+        // GitHub production main now ships the module. Never inject it twice.
         assert.equal(await page.evaluate(()=>window.MED_JITA_PREVIEW_ISOLATED),true,
           'Live Cloudflare must identify isolated preview before initializing profiles.');
       } else {
-        // PR-only preview: test new assets against full live V59 before deploying.
+        // First-time PR preview against an older Worker before promotion.
         await page.evaluate(()=>{window.MED_JITA_PREVIEW_ISOLATED=true;});
         await page.addStyleTag({content:style});
         await page.addScriptTag({content:quick});
