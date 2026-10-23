@@ -356,7 +356,7 @@ html[data-profile-ready=yes] #profileGateway{display:none}
 .jita-cover .med-jita-logo-wrap{padding:4px 10px;background:#fffefa;border-color:rgba(255,255,255,.7);border-radius:16px}
 .jita-cover .med-jita-logo-wrap img{width:217px;max-width:100%;max-height:60px;height:auto;aspect-ratio:980/260;object-fit:contain}
 .jita-cover .cover-identity img{max-height:60px}
-.location:before{content:"";display:block;width:27px;height:27px;flex:none;background:url('./assets/j-cartola.svg') center/contain no-repeat}
+.location:before{content:none}
 .profile-gateway-card:before{content:"";display:block;width:195px;max-width:100%;height:60px;margin:0 auto 11px;background:url('./assets/wordmark-organic.svg') center/contain no-repeat}
 :root[data-theme=dark] .profile-gateway-card:before{filter:brightness(0) invert(1)}
 #openSettings>svg.icon,#topExport>svg.icon,#saveSnapshot>svg.icon,#exportHistory>svg.icon{display:none}
@@ -394,7 +394,7 @@ html[data-profile-ready=yes] #profileGateway{display:none}
 .account-avatar-editor{border-top:1px solid var(--border);padding-top:14px}
 .account-avatar-editor summary{list-style:none;cursor:pointer;font-size:12px;font-weight:850;color:var(--brand);display:flex;gap:10px;align-items:center}
 .account-avatar-editor summary::-webkit-details-marker{display:none}
-.account-avatar-editor summary:before{content:"";display:block;width:22px;height:22px;background:url('./assets/j-cartola.svg') center/contain no-repeat}
+.account-avatar-editor summary:before{content:none}
 .account-avatar-editor[open] summary{margin-bottom:14px}
 .avatar-editor-head{display:flex;gap:12px;align-items:center;margin-bottom:12px}
 .avatar-editor-head strong{display:block;font-size:14px}
@@ -411,7 +411,7 @@ html[data-profile-ready=yes] #profileGateway{display:none}
 .jita-section-head:before{content:"";position:absolute;inset:0 auto 0 0;width:5px;background:linear-gradient(var(--brand),var(--brand2));border-radius:24px;pointer-events:none}
 .jita-section-head .jita-section-badge{transform:rotate(-2deg);background:linear-gradient(145deg,#FDFBFF,#E8E2F7);border-color:color-mix(in srgb,var(--brand) 25%,var(--border));box-shadow:0 8px 22px rgba(76,50,140,.13)}
 .view>.grid .card{border-top-color:color-mix(in srgb,var(--brand) 30%,var(--border))}
-.spotlight:before{content:"";position:absolute;right:24px;top:62px;width:110px;height:110px;background:url('./assets/j-cartola.svg') center/contain no-repeat;filter:brightness(0) invert(1);opacity:.075;pointer-events:none}
+.spotlight:before{content:"";position:absolute;right:24px;top:62px;width:110px;height:110px;background:url('./assets/jita-cartola-avatar.svg') center/contain no-repeat;filter:brightness(0) invert(1);opacity:.075;pointer-events:none}
 :root[data-theme=dark] .profile-avatar{background:linear-gradient(145deg,#332A56,#1D1A34)}
 :root[data-theme=dark] .jita-section-head .jita-section-badge{background:linear-gradient(145deg,#32274D,#453764)}
 :root[data-theme=dark] .jita-section-head .jita-section-badge svg{color:#D5CAFF}
@@ -469,8 +469,6 @@ html[data-profile-ready=yes] #profileGateway{display:none}
 .gateway-selection .profile-password-reveal{position:absolute;right:6px;top:10px;min-width:77px;min-height:38px;border:0;border-radius:9px;background:color-mix(in srgb,var(--brand-faint) 70%,var(--card));color:var(--brand2);font-size:12px;font-weight:800;cursor:pointer}
 .gateway-selection .profile-password-reveal:focus-visible,.gateway-selection .profile-unlock-back:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
 .gateway-selection .profile-password-note{display:block;margin-top:9px;font-size:11px;line-height:1.5;color:var(--secondary)}
-.gateway-selection .profile-keyboard-switch{display:block;min-height:36px;margin-top:4px;padding:4px 0;border:0;background:transparent;color:var(--brand2);font-size:11px;font-weight:700;text-align:left;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
-.gateway-selection .profile-keyboard-switch:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
 @media(max-width:740px){
   .profile-gateway{display:block;padding:13px 12px max(20px,env(safe-area-inset-bottom))}
   .profile-gateway-card{display:block;width:min(100%,470px);min-height:0;margin:auto;border-radius:25px}
@@ -539,12 +537,26 @@ html[data-profile-ready=yes] #profileGateway{display:none}
 .profile-choice .avatar-monogram{font-size:24px}
 .profile-avatar.large .avatar-monogram{font-size:37px;padding-bottom:7px}
 .profile-controls .avatar-monogram{font-size:18px;padding-bottom:3px}
+/* The hat belongs to Jita; the letter belongs to the currently selected person. */
+.profile-identity-mark{position:relative;isolation:isolate;display:inline-grid;place-items:end center;flex:none;width:30px;height:30px;padding-bottom:2px;border:1px solid color-mix(in srgb,var(--brand) 22%,var(--border));border-radius:10px;background:linear-gradient(145deg,#E9E2FB,#D6C9F4);color:#3D2878;font:900 17px/1 ui-rounded,'Arial Rounded MT Bold',system-ui,sans-serif;letter-spacing:-.05em;box-shadow:inset 0 1px rgba(255,255,255,.5);transition:background .25s,color .25s,transform .25s}
+.profile-identity-mark:before{content:"";position:absolute;z-index:1;top:0;left:23%;width:54%;height:39%;background:url('./assets/jita-cartola-avatar.svg') center/contain no-repeat;transform:rotate(-5deg)}
+.profile-identity-mark[data-profile=barba]{background:linear-gradient(145deg,#D9F5EC,#A9E5D9);color:#085E59}
+.profile-identity-mark[data-profile=tay]{background:linear-gradient(145deg,#FCE8F0,#F1C7DA);color:#86315D}
+.profile-identity-mark[data-profile=igu]{background:linear-gradient(145deg,#FFF2DB,#F2D7A5);color:#7D501E}
+.profile-identity-mark[data-neutral=true]{place-items:center;background:color-mix(in srgb,var(--brand-faint) 75%,var(--card));color:var(--brand)}
+.profile-identity-mark[data-neutral=true]:before{top:22%;left:18%;width:64%;height:56%;transform:none}
+.account-avatar-editor .profile-identity-mark{width:25px;height:25px;border-radius:8px;font-size:14px}
+:root[data-theme=dark] .profile-identity-mark[data-neutral=true]{border-color:var(--border)}
+@media(prefers-reduced-motion:reduce){.profile-identity-mark{transition:none}}
 .gateway-selection .profile-choice:has(.avatar-monogram){border-color:color-mix(in srgb,currentColor 12%,var(--border))}
 @media(max-width:740px){.profile-choice .avatar-monogram{font-size:22px}}
+.gateway-selection .profile-keyboard-switch{display:block;min-height:36px;margin-top:4px;padding:4px 0;border:0;background:transparent;color:var(--brand2);font-size:11px;font-weight:700;text-align:left;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.gateway-selection .profile-keyboard-switch:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
 </style>
-<link rel="stylesheet" href="./brand-evolution.css?v=50">
-<link rel="stylesheet" href="./jita-motion.css?v=50">
-<link rel="stylesheet" href="./navigation-motion.css?v=50">
+<link rel="stylesheet" href="./brand-evolution.css?v=51">
+<link rel="stylesheet" href="./jita-motion.css?v=51">
+<link rel="stylesheet" href="./navigation-motion.css?v=51">
+<link rel="stylesheet" href="./jita-curricular.css?v=52">
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
@@ -648,7 +660,7 @@ html[data-profile-ready=yes] #profileGateway{display:none}
     <div class="side-footer"><span class="side-chip">SALVA AUTOMATICAMENTE</span><div>Suas alterações são enviadas à nuvem e sincronizadas com o Craft quando disponível.</div><div class="institutional-mini"><span class="institution-logo"><img data-institution-logo src="./assets/integrado-oficial-2026.png" alt="Marca oficial atual do Centro Universitário Integrado"></span><small>Referência acadêmica.<br>Ferramenta independente.</small></div></div>
   </aside>
   <div class="main">
-    <header class="topbar"><div class="location">MED JITA <svg class="icon" style="width:12px;height:12px"><use href="#i-chevron"/></svg> <strong id="topTitle">Painel geral</strong></div><div class="toolbar"><button class="icon-btn" id="themeToggle" title="Aparência automática" aria-label="Alternar aparência"><svg class="icon"><use id="themeIcon" href="#i-auto-theme"/></svg></button><button class="icon-btn install-action" id="installApp" title="Instalar ou ver instruções" aria-label="Como instalar o MED JITA"><svg class="icon"><use href="#i-phone-add"/></svg></button><button class="icon-btn" id="openSettings" title="Critérios e arquivos" aria-label="Critérios e arquivos"><svg class="icon"><use href="#i-sliders"/></svg></button><button class="btn primary" id="topExport"><svg class="icon" style="width:17px;height:17px"><use href="#i-download"/></svg><span class="desktop-label">Exportar</span></button></div></header>
+    <header class="topbar"><div class="location"><span id="headerProfileMark" class="profile-identity-mark" data-personal-mark data-neutral="true" aria-hidden="true"></span>MED JITA <svg class="icon" style="width:12px;height:12px"><use href="#i-chevron"/></svg> <strong id="topTitle">Painel geral</strong></div><div class="toolbar"><button class="icon-btn" id="themeToggle" title="Aparência automática" aria-label="Alternar aparência"><svg class="icon"><use id="themeIcon" href="#i-auto-theme"/></svg></button><button class="icon-btn install-action" id="installApp" title="Instalar ou ver instruções" aria-label="Como instalar o MED JITA"><svg class="icon"><use href="#i-phone-add"/></svg></button><button class="icon-btn" id="openSettings" title="Critérios e arquivos" aria-label="Critérios e arquivos"><svg class="icon"><use href="#i-sliders"/></svg></button><button class="btn primary" id="topExport"><svg class="icon" style="width:17px;height:17px"><use href="#i-download"/></svg><span class="desktop-label">Exportar</span></button></div></header>
     <div class="content">
       <div id="guideBanner" class="demo-alert"><svg class="icon"><use href="#i-info"/></svg><span><strong>Comece pelas suas UCs.</strong> Abra o módulo do semestre, registre as avaliações e acompanhe sua meta. O Jita salva automaticamente.</span><button class="btn" id="startMine">Minhas UCs</button></div>
       <section class="view active" id="page-home">
@@ -721,7 +733,7 @@ html[data-profile-ready=yes] #profileGateway{display:none}
           <div class="stack"><div class="card"><p class="eyebrow">Novo registro</p><h2>Guardar este momento</h2><p class="lead">Salve um retrato completo do que foi preenchido, incluindo pesos, CAB, Tutoria e simulações.</p><div class="field" style="margin:18px 0 13px"><label for="snapshotName">Nome da versão</label><input id="snapshotName" maxlength="70" placeholder="Ex.: UCT20 · 1º bimestre / revisão de prova" autocomplete="off"></div><button class="btn primary" id="saveSnapshot"><svg class="icon" style="width:16px;height:16px"><use href="#i-check"/></svg>Salvar versão</button><p class="history-note" id="localStatus">Versões guardadas no seu espaço e sincronizadas quando há conexão.</p></div><div class="card flat"><p class="eyebrow">Cópia de segurança</p><h2>Backup completo</h2><p class="lead">O Jita já sincroniza entre aparelhos. Se quiser uma cópia extra sob seu controle, exporte as notas e o histórico em JSON.</p><div class="grid" style="gap:9px;margin-top:15px"><button class="btn" id="exportHistory"><svg class="icon"><use href="#i-download"/></svg>Exportar notas + histórico</button><label class="btn" for="importHistory">Importar backup</label><input id="importHistory" type="file" accept="application/json,.json" hidden></div></div></div>
           <div class="stack"><div class="card"><div class="card-heading"><div><p class="eyebrow">Registros pessoais</p><h2>Versões salvas <span id="historyCount" class="badge">0</span></h2></div></div><div id="historyList" aria-live="polite"></div></div>
           <div class="account-sync-pane" id="accountSyncPane"><div><p class="eyebrow">Seu espaço</p><h2>O Jita salva por você</h2><p>Suas notas ficam aqui e acompanham você quando trocar de aparelho.</p></div><div class="sync-badges"><span>Salva sozinho</span><span>Seu histórico</span><span>Senha se quiser</span></div><div id="accountSyncStatus" class="sync-status" aria-live="polite">Abrindo seu espaço…</div><div class="account-sync-actions"><button id="accountSyncNow" class="btn muted" type="button">Salvar agora</button><button id="accountPasswordToggle" class="btn muted" type="button">Configurar senha</button></div><div id="accountPasswordForm" hidden><p id="accountPasswordHint" class="profile-password-note">Para ativar a senha pela primeira vez, peça o código de ativação ao JBFS.</p><input id="accountCurrentPassword" type="password" autocomplete="current-password" placeholder="Senha atual ou código de ativação"><input id="accountNewPassword" type="password" autocomplete="new-password" placeholder="Nova senha (4 caracteres ou mais). Vazio para tirar." style="margin-top:8px"><button id="accountPasswordSave" type="button" class="btn primary" style="margin-top:8px;width:100%">Salvar proteção</button></div></div>
-          <details class="account-sync-pane account-avatar-editor" id="accountAvatarEditor"><summary>Minha foto e meus avatares Jita</summary>
+          <details class="account-sync-pane account-avatar-editor" id="accountAvatarEditor"><summary><span id="settingsProfileMark" class="profile-identity-mark" data-personal-mark data-neutral="true" aria-hidden="true"></span>Minha foto e meus avatares Jita</summary>
             <div class="avatar-editor-head"><span id="accountAvatarPreview" class="profile-avatar large"></span><div><strong id="accountAvatarName">Meu perfil</strong><small>Sua inicial com cartola é o ícone padrão. Você pode escolher uma arte do banco Jita ou sua própria foto.</small></div></div>
             <div id="avatarPresetGrid" class="avatar-preset-grid" role="group" aria-label="Avatares do banco Jita"></div>
             <div class="avatar-editor-actions"><label class="btn muted" for="avatarPhotoUpload">Escolher minha foto<input id="avatarPhotoUpload" type="file" accept="image/*"></label><button id="avatarUseDefault" class="btn muted" type="button">Usar minha inicial</button></div>
@@ -802,7 +814,7 @@ html[data-profile-ready=yes] #profileGateway{display:none}
   <div class="modal-footer"><button class="btn primary" id="installDone">Entendi</button></div>
 </dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="./integrations/uc-engine.js?v=50"></script>
+<script src="./integrations/uc-engine.js?v=51"></script>
 <script id="grade-core-v2">
 (function(root){
   'use strict';
@@ -1128,13 +1140,14 @@ Object.defineProperty(window,'MED_JITA_BRIDGE',{value:Object.freeze({exportBacku
 })();
 </script>
 <script>window.MED_JITA_ACCOUNTS_ENABLED=true;</script>
-<script src="./integrations/sync-ui.js?v=50" defer></script>
-<script src="./integrations/profiles-ui.js?v=50" defer></script>
-<script src="./integrations/editorial-live.js?v=50" defer></script>
-<script src="./integrations/brand-v08.js?v=50" defer></script>
-<script src="./integrations/jita-motion.js?v=50" defer></script>
-<script src="./integrations/gateway-motion.js?v=50" defer></script>
-<script src="./integrations/palette-orbit.js?v=50" defer></script>
-<script src="./integrations/navigation-motion.js?v=50" defer></script>
+<script src="./integrations/sync-ui.js?v=51" defer></script>
+<script src="./integrations/profiles-ui.js?v=51" defer></script>
+<script src="./integrations/editorial-live.js?v=51" defer></script>
+<script src="./integrations/brand-v08.js?v=51" defer></script>
+<script src="./integrations/jita-motion.js?v=51" defer></script>
+<script src="./integrations/gateway-motion.js?v=51" defer></script>
+<script src="./integrations/palette-orbit.js?v=51" defer></script>
+<script src="./integrations/navigation-motion.js?v=51" defer></script>
+<script src="./integrations/med-brand-system.js?v=52" defer></script>
 </body>
 </html>
