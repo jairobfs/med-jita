@@ -33,11 +33,12 @@
 
 #headerProfileMark {
   display:inline-grid;
-  place-items:center;
+  place-items:end center;
   flex:0 0 auto;
   appearance:none;
-  font:inherit;
-  padding:0;
+  font:900 18px/1 ui-rounded,'Arial Rounded MT Bold',system-ui,sans-serif;
+  letter-spacing:-.05em;
+  padding:0 0 3px;
   outline-offset:3px;
   -webkit-tap-highlight-color:transparent;
   touch-action:manipulation;
