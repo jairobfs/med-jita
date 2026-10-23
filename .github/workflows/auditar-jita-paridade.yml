@@ -1,0 +1,24 @@
+name: Auditar fidelidade V52 Sites e V58 Cloudflare
+
+on:
+  pull_request:
+    paths:
+      - 'site-v51/tests/compare-sites-cloudflare.mjs'
+      - '.github/workflows/auditar-jita-paridade.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  auditar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Comparar HTML publico e inventario de componentes
+        working-directory: site-v51
+        run: node tests/compare-sites-cloudflare.mjs
