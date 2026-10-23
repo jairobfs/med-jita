@@ -467,6 +467,9 @@
   });
   $('profileUnlockPassword').addEventListener('keydown',e => { if (e.key === 'Enter') void unlockCandidate(); });
   $('profileSwitch').addEventListener('click',() => void switchProfile());
+  $('headerProfileMark')?.addEventListener('click',() => {
+    if (active) void switchProfile();
+  });
   $('profileAvatarEdit').addEventListener('click',() => {
     const page = document.querySelector('[data-page="history"]');
     if (page) page.click();

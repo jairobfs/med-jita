@@ -1,8 +1,8 @@
 /* MED JITA. Network-first assets avoid mixing a new HTML with old scripts. */
-const CACHE_NAME = 'med-jita-v51-2026102303';
+const CACHE_NAME = 'med-jita-v51-2026102304';
 const BASE = new URL('./', self.registration.scope);
 const OFFLINE_FILES = [
-  './', './index.html', './atelier.html', './vercel-exit.css', './brand-evolution.css', './jita-motion.css', './navigation-motion.css', './jita-curricular.css', './manifest.webmanifest', './JITA_vetorial.svg',
+  './', './index.html', './atelier.html', './vercel-exit.css', './mobile-editorial-v58.css', './brand-evolution.css', './jita-motion.css', './navigation-motion.css', './jita-curricular.css', './manifest.webmanifest', './JITA_vetorial.svg',
   './apple-touch-icon.png', './favicon.png',
   './icons/icon-192.png', './icons/icon-512.png',
   './assets/estigma-atlas-principal.svg', './assets/estigma-atlas-esquina.svg',
