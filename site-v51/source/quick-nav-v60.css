@@ -162,3 +162,20 @@
 @media(prefers-reduced-motion:reduce){
   .jita-quick-item {transition:none}
 }
+
+
+/* Only injected on the isolated Cloudflare demonstration, never on V52. */
+.jita-preview-safety-note {
+  margin:4px 0 13px;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid color-mix(in srgb,#b08324 36%,var(--border,#d5dbe4));
+  border-left:3px solid #b08324;
+  background:color-mix(in srgb,#b08324 7%,var(--card,#fff));
+  color:var(--ink,#142d3c);
+  font:600 11px/1.45 system-ui,-apple-system,sans-serif;
+}
+[data-preview-locked="yes"] {opacity:.55;cursor:not-allowed!important}
+@media(max-width:740px) {
+  .jita-preview-safety-note {font-size:10px;padding:8px 10px;margin:0 0 9px}
+}
