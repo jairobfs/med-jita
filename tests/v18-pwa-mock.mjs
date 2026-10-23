@@ -40,6 +40,18 @@ await sleep(1350);
 assert.equal(db.properties.revisao,2,'Legacy app initialization must not bump Craft revision');
 assert.ok(unbytes(db.properties.dados).data.uc,'Curricular UC entries must survive initialization');
 assert.ok(JSON.parse(store.getItem('jita_autonomo_v1_state_barba')).uc,'Local mirrored backup must retain UC');
+// A troca central do PIN deve revogar o PIN antigo, mesmo já validado localmente.
+db.properties.pin='654321';
+await nodes.get('switch').onclick();
+nodes.get('avatars').children[1].onclick();
+nodes.get('pin').value='123456';
+await nodes.get('enter').onclick();
+assert.equal(nodes.get('gate').hidden,false,'Old cached PIN must not bypass Craft when online');
+assert.match(nodes.get('error').textContent,/PIN incorreto no Craft/);
+nodes.get('pin').value='654321';
+await nodes.get('enter').onclick();
+assert.equal(nodes.get('gate').hidden,true,'New PIN from Craft should grant access');
+assert.equal(db.properties.revisao,2,'Changing PIN must not touch score revisions');
 const key='med_jita_state_v3',edited=JSON.parse(store.getItem(key));edited.cab.hits='4';store.setItem(key,JSON.stringify(edited));listeners.storage({key,storageArea:store});
 await sleep(1550);
 assert.equal(unbytes(db.properties.dados).data.cab.hits,'4','autosave must reach Craft');
