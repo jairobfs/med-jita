@@ -6,7 +6,7 @@ const url='https://med-jita-v57-canario.jairobfs7.workers.dev/';
 const stylesheet=await readFile(new URL('../source/mobile-editorial-v58.css',import.meta.url),'utf8');
 const out='outputs/mobile-v59';
 await mkdir(out,{recursive:true});
-const browser=await chromium.launch({headless:true});
+const browser=await chromium.launch({headless:true,...(process.env.CI?{channel:'chrome'}:{})});
 const errors=[];
 for(const dims of [{width:390,height:844},{width:320,height:700}]) {
  const context=await browser.newContext({
