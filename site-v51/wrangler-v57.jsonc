@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "med-jita-v57-canario",
+  "main": "worker/canary-entry.mjs",
+  "compatibility_date": "2026-10-23",
+  "workers_dev": true,
+  "send_metrics": false,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "med-jita-v57-canario",
+      "database_id": "43a5ba64-0e3d-4527-b7ba-9dcd6616f968"
+    }
+  ]
+}
