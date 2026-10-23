@@ -1,0 +1,19 @@
+# MED JITA V50 portátil: copiar para wrangler.toml e preencher database_id.
+# Arquivo independente da hospedagem Sites e da Vercel.
+name = "med-jita-jbfs"
+main = "worker/index.js"
+compatibility_date = "2026-10-23"
+workers_dev = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "med-jita-jbfs"
+database_id = "COLE_AQUI_O_ID_DO_SEU_BANCO_D1"
+
+[vars]
+# Metadado público usado para conferir se o Craft vinculado é o espaço certo.
+CRAFT_SPACE_ID = "6606bf28-79b6-7415-c5c5-6d0a79f7f279"
+
+# Segredos do Worker (não preencher neste arquivo):
+# CRAFT_API_BASE: URL privada da Full Space API do espaço MED.
+# MED_JITA_MASTER_KEY: chave hex de 64 caracteres para cifrar os históricos.
