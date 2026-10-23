@@ -39,6 +39,7 @@ export default {
       headers.set('Cache-Control','no-store');
       // Both notices are in normal layout: never cover the mobile tab bar or inputs.
       const positioned=html
+        .replace(/<\/head>/i,'<script>window.MED_JITA_PREVIEW_ISOLATED=true;<\/script><\/head>')
         .replace(/(<header class="topbar">[\s\S]*?<\/header>)/i,'$1'+NOTICE)
         .replace(/(<button id="gatewayInstallApp")/i,GATEWAY_NOTICE+'$1');
       if(!positioned.includes('id="jita-canary-notice"'))

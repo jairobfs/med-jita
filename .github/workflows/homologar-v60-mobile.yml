@@ -1,0 +1,39 @@
+name: Homologar busca JITA V60 no iPhone
+
+on:
+  pull_request:
+    paths:
+      - 'site-v51/source/integrations/quick-nav-v60.js'
+      - 'site-v51/source/integrations/preview-guard-v60.js'
+      - 'site-v51/source/quick-nav-v60.css'
+      - 'site-v51/tests/quick-nav-v60-browser.mjs'
+      - '.github/workflows/homologar-v60-mobile.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  navega:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Preparar Chrome nativo
+        working-directory: site-v51
+        run: |
+          npm install --no-save --package-lock=false playwright
+          google-chrome --version
+      - name: Navegação real em 320, 390 e 768 px
+        working-directory: site-v51
+        run: node tests/quick-nav-v60-browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: med-jita-v60-quicknav-mobile
+          path: site-v51/outputs/quick-v60/
+          retention-days: 7
+          if-no-files-found: ignore

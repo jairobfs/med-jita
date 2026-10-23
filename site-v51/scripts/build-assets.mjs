@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const template = await readFile(join(root, 'worker/runtime.js'), 'utf8');
 const rootFiles = [
-  'index.html', 'atelier.html', 'vercel-exit.css', 'mobile-editorial-v58.css', 'brand-evolution.css', 'jita-motion.css', 'navigation-motion.css', 'jita-curricular.css', 'sw.js', 'manifest.webmanifest', 'JITA_vetorial.svg',
+  'index.html', 'atelier.html', 'quick-nav-v60.css', 'vercel-exit.css', 'mobile-editorial-v58.css', 'brand-evolution.css', 'jita-motion.css', 'navigation-motion.css', 'jita-curricular.css', 'sw.js', 'manifest.webmanifest', 'JITA_vetorial.svg',
   'favicon.png', 'apple-touch-icon.png',
 ];
 const images = [
@@ -33,7 +33,7 @@ const icons = [
 ];
 const files = [
   ...rootFiles, ...images, ...functionalIconsV11, ...icons.map(name => `icons/${name}`),
-  'integrations/sync-ui.js', 'integrations/profiles-ui.js', 'integrations/editorial-live.js',
+  'integrations/sync-ui.js', 'integrations/profiles-ui.js', 'integrations/quick-nav-v60.js', 'integrations/preview-guard-v60.js', 'integrations/editorial-live.js',
   'integrations/vercel-exit.js', 'integrations/fusion-archive.mjs',
   'integrations/uc-engine.js', 'integrations/brand-v08.js', 'integrations/jita-motion.js',
   'integrations/gateway-motion.js', 'integrations/palette-orbit.js',
