@@ -34,5 +34,7 @@ jobs:
         run: node tests/portable-assets.mjs
       - name: Validar selos curriculares, galeria e PIN
         run: node tests/portable-identity.mjs
+      - name: Validar comparador de históricos sem tocar no banco real
+        run: node tests/check-snapshot-migration.mjs
       - name: Validar cálculos, perfis, sincronização e temas
         run: npm test
