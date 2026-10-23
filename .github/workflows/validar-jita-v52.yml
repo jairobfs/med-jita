@@ -6,12 +6,14 @@ on:
       - 'site-v51/source/**'
       - 'site-v51/scripts/build-assets.mjs'
       - 'tests/v52-identity.spec.mjs'
+      - 'tests/v53-gallery.spec.mjs'
       - '.github/workflows/validar-jita-v52.yml'
   pull_request:
     paths:
       - 'site-v51/source/**'
       - 'site-v51/scripts/build-assets.mjs'
       - 'tests/v52-identity.spec.mjs'
+      - 'tests/v53-gallery.spec.mjs'
       - '.github/workflows/validar-jita-v52.yml'
   workflow_dispatch:
 permissions:
@@ -25,4 +27,6 @@ jobs:
         with:
           node-version: '22'
       - name: Testar cobertura curricular e sintaxe
-        run: node tests/v52-identity.spec.mjs
+        run: |
+          node tests/v52-identity.spec.mjs
+          node tests/v53-gallery.spec.mjs
