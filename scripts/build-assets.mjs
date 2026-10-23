@@ -44,6 +44,7 @@ const mimeByExt = {
   '.svg': 'image/svg+xml',
   '.png': 'image/png',
   '.webmanifest': 'application/manifest+json',
+  '.json': 'application/json; charset=utf-8',
 };
 const assets = {};
 for (const path of files) {
