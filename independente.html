@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#102D3C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="./manifest.webmanifest">
 <title>MED JITA · Independente</title>
 <link rel="icon" href="./favicon.png"><link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <style>
@@ -30,6 +33,22 @@ iframe{width:100%;border:0;flex:1;min-height:0;background:#f2f8f7}
 dialog{max-width:440px;width:calc(100% - 24px);border:1px solid var(--border);border-radius:18px;padding:23px;box-shadow:0 20px 75px #12343b44}
 dialog::backdrop{background:#061e25b7}dialog h2{margin:0 0 8px}dialog p{color:var(--mut);font-size:12px}
 .code{font-size:11px;word-break:break-all}.layout{display:grid;gap:11px}
+.pin-pad{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0 0}
+.pin-key{min-height:48px;border:1px solid var(--border);border-radius:13px;background:var(--bg);color:var(--ink);font-size:21px;font-weight:800;touch-action:manipulation}
+.pin-key:active{transform:scale(.96);background:#c8ece7}.pin-key.action{font-size:13px;color:var(--sea);font-weight:850}
+.install-guide{line-height:1.7;font-size:13px;padding-left:22px;color:var(--ink)}.install-guide li{margin-bottom:8px}
+@media(max-width:520px){#bar{height:auto;min-height:46px;flex:0 0 auto;flex-wrap:wrap}#status{order:5;flex-basis:100%;text-align:left;padding-bottom:4px}#bar button{font-size:11px;padding:6px 8px}}
+@media(prefers-reduced-motion:reduce){.pin-key:active{transform:none}}
+@media(prefers-color-scheme:dark){
+:root{color-scheme:dark;--sea:#69d5d0;--ink:#edf9f8;--mut:#abc9ce;--border:#315765;--bg:#0b1c26;--card:#12313e}
+#gate{background:linear-gradient(155deg,#10343d,#081820 56%,#142b36)}
+.avatar{background:#173943}.avatar.selected{background:#154e55;border-color:#69d5d0}
+.face{background:#25545b;color:#d1fffa}
+input{background:#0b2530;color:var(--ink);border-color:#3a6670}
+.btn{background:#087f89;color:#fff}.pin-key:active{background:#235c64}
+dialog{background:var(--card);color:var(--ink)}
+#shell iframe{background:#0b1c26}
+}
 </style>
 </head>
 <body>
@@ -39,19 +58,22 @@ dialog::backdrop{background:#061e25b7}dialog h2{margin:0 0 8px}dialog p{color:va
   <div class="eyebrow">Independente · Github Pages + Craft</div>
   <h1>Quem é você?</h1>
   <p class="lead">Escolha seu avatar. Um PIN, suas notas e seu histórico.</p>
+  <div class="actions" style="justify-content:center;margin:0 0 15px"><button type="button" class="ghost" id="installGate">Instalar como app no iPhone</button></div>
   <div class="avatars" id="avatars"></div>
   <div id="pinFields" hidden>
    <label id="pinLabel" for="pin">PIN numérico</label>
-   <input id="pin" type="password" inputmode="numeric" pattern="[0-9]{4,6}" minlength="4" maxlength="6" autocomplete="one-time-code" placeholder="4 a 6 números">
-   <div id="pinConfirmWrap" hidden><label for="pinConfirm">Confirme seu novo PIN</label><input id="pinConfirm" type="password" inputmode="numeric" pattern="[0-9]{4,6}" maxlength="6"></div>
-   <div class="actions"><button class="btn" id="enter">Entrar</button><button class="ghost" id="back">Voltar</button></div>
+   <input id="pin" type="password" inputmode="numeric" pattern="[0-9]{4,6}" minlength="4" maxlength="6" autocomplete="off" enterkeyhint="go" aria-describedby="pinHint" placeholder="4 a 6 números">
+   <div id="pinHint" class="notice" style="margin:6px 0 0;padding:0;border:0">Use o teclado numérico abaixo ou toque no campo para abrir o teclado do iPhone.</div>
+   <div id="pinConfirmWrap" hidden><label for="pinConfirm">Confirme seu novo PIN</label><input id="pinConfirm" type="password" inputmode="numeric" pattern="[0-9]{4,6}" minlength="4" maxlength="6" autocomplete="off" enterkeyhint="done"></div>
+   <div class="pin-pad" id="pinPad" aria-label="Teclado numérico"></div>
+   <div class="actions"><button type="button" class="btn" id="enter">Entrar</button><button type="button" class="ghost" id="back">Voltar</button></div>
   </div>
-  <div id="error" class="err" role="status"></div>
+  <div id="error" class="err" role="status" aria-live="polite"></div>
   <div class="notice">A calculadora funciona mesmo sem internet depois de carregada. O salvamento no Craft só será indicado como confirmado após resposta da API. Primeira entrada nesta rota exige cadastrar um PIN local.</div>
  </div>
 </div>
 <div id="shell" hidden>
- <div id="bar"><span class="brand">MED JITA</span><span id="status" role="status">Salvo neste aparelho</span><button id="settings">Craft</button><button id="switch">Trocar perfil</button></div>
+ <div id="bar"><span class="brand">MED JITA</span><span id="status" role="status">Salvo neste aparelho</span><button type="button" id="installBar">Instalar</button><button id="settings">Craft</button><button id="switch">Trocar perfil</button></div>
  <iframe id="calculator" title="Calculadora MED JITA" loading="eager" referrerpolicy="no-referrer" allow="clipboard-write"></iframe>
 </div>
 <dialog id="cfg">
@@ -64,6 +86,19 @@ dialog::backdrop{background:#061e25b7}dialog h2{margin:0 0 8px}dialog p{color:va
  <p id="cfgStatus" role="status"></p>
  <div class="actions"><button id="shareInvite" class="ghost">Copiar convite dos amigos</button><button id="export" class="ghost">Exportar backup</button><button id="closeCfg" class="ghost">Fechar</button></div>
 </dialog>
+<dialog id="installGuide" aria-labelledby="installTitle">
+ <h2 id="installTitle">MED JITA na Tela de Início</h2>
+ <p>Instale a versão oficial do GitHub. Assim o atalho sempre abre primeiro a escolha de perfil.</p>
+ <ol class="install-guide">
+  <li>Abra o endereço do MED JITA no <strong>Safari</strong> do iPhone.</li>
+  <li>Toque no menu da página e depois em <strong>Compartilhar</strong>.</li>
+  <li>Escolha <strong>Adicionar à Tela de Início</strong>. Se não aparecer, use <strong>Editar Ações</strong>.</li>
+  <li>Ative <strong>Abrir como App da Web</strong> e toque em <strong>Adicionar</strong>.</li>
+ </ol>
+ <p>O iPhone não permite que um botão da página conclua essa instalação por você. Evitamos abrir uma folha de compartilhamento que omite a opção.</p>
+ <div class="actions"><button type="button" id="copyHome" class="btn">Copiar endereço oficial</button><button type="button" id="closeInstall" class="ghost">Fechar</button></div>
+ <p id="installStatus" role="status" aria-live="polite"></p>
+</dialog>
 <script>
 (()=>{
 "use strict";
@@ -71,7 +106,7 @@ const P=[["jbfs","JBFS"],["barba","Barba"],["tay","Tay"],["igu","Igu"]];
 const C="4f2532a5-feb8-9816-2681-54905764f8d3",PREFIX="jita_autonomo_v1_";
 const STATE="med_jita_state_v3",HISTORY="med_jita_history_v1";
 const $=id=>document.getElementById(id);
-let selected="",current="",busy=false,timer=0,rowCache={},remoteReady=false;
+let selected="",current="",busy=false,timer=0,rowCache={},remoteReady=false,activePinField="pin",installPrompt=null;
 const k=(id,type)=>PREFIX+type+"_"+id;
 const get=(key)=>{try{return localStorage.getItem(key)}catch{return null}};
 const put=(key,val)=>{try{localStorage.setItem(key,val)}catch{}};
@@ -98,7 +133,37 @@ function b64(str){return "b64:"+btoa(unescape(encodeURIComponent(str)))}
 function deb64(x){const s=String(x||"");if(!s.startsWith("b64:"))throw Error("Backup remoto inválido");return decodeURIComponent(escape(atob(s.slice(4))))}
 async function digest(id,pin){const bytes=new TextEncoder().encode("MEDJITA:"+id+":"+pin);const hash=await crypto.subtle.digest("SHA-256",bytes);return [...new Uint8Array(hash)].map(v=>v.toString(16).padStart(2,"0")).join("")}
 function renderProfiles(){const av=$("avatars");av.replaceChildren();for(const [id,name] of P){const b=document.createElement("button");b.className="avatar"+(selected===id?" selected":"");b.innerHTML='<span class="face">'+name.slice(0,2).toUpperCase()+'</span><span>'+name+'</span>';b.onclick=()=>choose(id);av.append(b)}}
-function choose(id){selected=id;renderProfiles();$("pinFields").hidden=false;$("pin").value="";$("pinConfirm").value="";const fresh=!get(k(id,"pin"));$("pinConfirmWrap").hidden=!fresh;$("pinLabel").textContent=fresh?"Crie um PIN para este perfil neste aparelho":"Digite seu PIN";$("error").textContent="";$("pin").focus()}
+function choose(id){
+ selected=id;renderProfiles();$("pinFields").hidden=false;$("pin").value="";$("pinConfirm").value="";
+ const fresh=!get(k(id,"pin"));$("pinConfirmWrap").hidden=!fresh;
+ $("pinLabel").textContent=fresh?"Crie um PIN para este perfil neste aparelho":"Digite seu PIN";
+ $("error").textContent="";activePinField="pin";
+ $("pin").getBoundingClientRect();$("pin").focus();
+}
+function pinTarget(){return activePinField==="pinConfirm"&&!$("pinConfirmWrap").hidden?$("pinConfirm"):$("pin")}
+function pinTap(value){
+ const field=pinTarget();
+ if(value==="ok"){
+  if(field.id==="pin"&&!$("pinConfirmWrap").hidden){activePinField="pinConfirm";$("pinConfirm").focus()}else enter();
+  return;
+ }
+ const left=field.selectionStart??field.value.length,right=field.selectionEnd??left;
+ if(value==="erase"){
+  if(left===right&&left>0)field.setRangeText("",left-1,right,"end");
+  else field.setRangeText("",left,right,"end");
+ }else if(field.value.length<6)field.setRangeText(value,left,right,"end");
+ field.dispatchEvent(new Event("input",{bubbles:true}));
+ field.focus();
+}
+const pad=$("pinPad");
+for(const value of ["1","2","3","4","5","6","7","8","9","erase","0","ok"]){
+ const b=document.createElement("button");b.type="button";b.className="pin-key"+(isNaN(Number(value))?" action":"");
+ b.textContent=value==="erase"?"Apagar":value==="ok"?"OK":value;
+ b.setAttribute("aria-label",value==="erase"?"Apagar dígito":value==="ok"?"Confirmar PIN":"Número "+value);
+ b.addEventListener("click",()=>pinTap(value));pad.append(b);
+}
+$("pin").addEventListener("focus",()=>{activePinField="pin"});
+$("pinConfirm").addEventListener("focus",()=>{activePinField="pinConfirm"});
 function resetGate(){$("gate").hidden=false;$("shell").hidden=true;selected="";renderProfiles();$("pinFields").hidden=true;$("pin").value="";$("pinConfirm").value="";$("calculator").src="about:blank";current=""}
 async function craft(method,path,data){const base=url().replace(/\/+$/,"");if(!/^https:\/\/connect\.craft\.do\/(?:links|link)\//.test(base))throw Error("Configure uma conexão Craft deste documento.");
 const res=await fetch(base+path,{method,cache:"no-store",headers:{"Accept":"application/json",...(data?{"Content-Type":"application/json"}:{})},body:data?JSON.stringify(data):undefined});
@@ -145,6 +210,26 @@ if(!expected){if(pin!==$("pinConfirm").value)return $("error").textContent="Repi
 $("enter").disabled=true;try{await pull(id);current=id;useProfile(id);$("gate").hidden=true;$("shell").hidden=false;
 $("calculator").src="./calculadora.html";status(url()?"Carregado · Craft configurado":"Local · configure o Craft para sincronização");
 }catch(e){$("error").textContent=fmt(e)}finally{$("enter").disabled=false}}
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installPrompt=e});
+const installed=()=>window.matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+function updateInstallButtons(){const yes=installed();$("installGate").hidden=yes;$("installBar").hidden=yes}
+function openGuide(){$("installStatus").textContent="";$("installGuide").showModal()}
+async function installApp(){
+ if(installPrompt){
+  const prompt=installPrompt;installPrompt=null;await prompt.prompt();return;
+ }
+ openGuide();
+}
+$("installGate").onclick=installApp;$("installBar").onclick=installApp;
+$("closeInstall").onclick=()=>$("installGuide").close();
+$("copyHome").onclick=async()=>{
+ const home=new URL("./",location.href).href;
+ try{await navigator.clipboard.writeText(home);$("installStatus").textContent="Endereço oficial copiado. Abra no Safari e use Compartilhar."}
+ catch{$("installStatus").textContent="Copie manualmente este endereço: "+home}
+};
+window.addEventListener("appinstalled",updateInstallButtons);
+updateInstallButtons();
+if("serviceWorker" in navigator)navigator.serviceWorker.register("./sw.js").catch(()=>{});
 $("enter").onclick=enter;$("back").onclick=()=>{$("pinFields").hidden=true;selected="";renderProfiles()};$("pin").onkeydown=e=>{if(e.key==="Enter")enter()};
 $("switch").onclick=()=>{capture();resetGate()};
 $("settings").onclick=()=>{$("apiBase").value=url();$("cfgStatus").textContent="";$("cfg").showModal()};
