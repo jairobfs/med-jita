@@ -39,6 +39,12 @@ iframe{width:100%;border:0;flex:1;min-height:0;background:#f2f8f7}
 dialog{max-width:440px;width:calc(100% - 24px);border:1px solid var(--border);border-radius:18px;padding:23px;box-shadow:0 20px 75px #12343b44}
 dialog::backdrop{background:#061e25b7}dialog h2{margin:0 0 8px}dialog p{color:var(--mut);font-size:12px}
 .code{font-size:11px;word-break:break-all}.layout{display:grid;gap:11px}
+/* Conciliação legada V52: sem alteração automática dos dados */
+.merge-report{white-space:pre-line;font-size:12px;border:1px solid var(--border);background:var(--bg);border-radius:12px;padding:12px;margin-top:12px;color:var(--ink)}
+.merge-report[data-error="true"]{color:#b93845;border-color:#db8795}
+.merge-confirm{display:flex;align-items:flex-start;gap:6px;font-weight:600;color:var(--ink)}
+#mergeDialog select{display:block;width:100%;min-height:45px;border-radius:12px;background:var(--card);color:var(--ink);border:1px solid var(--border);padding:8px}
+#mergeDialog input[type=checkbox]{width:auto;height:auto;margin:0 8px 0 0;accent-color:var(--sea)}
 </style>
 </head>
 <body>
@@ -72,7 +78,19 @@ dialog::backdrop{background:#061e25b7}dialog h2{margin:0 0 8px}dialog p{color:va
  <p>É configurada uma vez neste aparelho; não vai para o código público do GitHub. A API deve permitir requisições CORS do navegador.</p>
  <div class="actions"><button id="testCraft" class="ghost">Testar leitura</button><button id="testCraftWrite" class="ghost">Testar escrita</button><button id="saveCraft" class="btn">Salvar e sincronizar</button></div>
  <p id="cfgStatus" role="status"></p>
- <div class="actions"><button id="shareInvite" class="ghost">Copiar convite dos amigos</button><button id="export" class="ghost">Exportar backup</button><button id="closeCfg" class="ghost">Fechar</button></div>
+ <div class="actions"><button id="shareInvite" class="ghost">Copiar convite dos amigos</button><button id="export" class="ghost">Exportar backup</button><button id="openMerge" class="ghost">Conciliar versões</button><button id="closeCfg" class="ghost">Fechar</button></div>
+</dialog>
+<dialog id="mergeDialog">
+ <h2>Conciliar notas de outras versões</h2>
+ <p>Compare um backup do MED JITA vindo do Sites ou da Vercel com as notas do perfil aberto no GitHub. Nenhuma nota será importada ou substituída.</p>
+ <label for="mergeOrigin">De qual versão veio o arquivo?</label>
+ <select id="mergeOrigin"><option value="Sites">Sites</option><option value="Vercel">Vercel</option></select>
+ <label for="mergeFile">Backup JSON exportado pelo aplicativo anterior</label>
+ <input type="file" id="mergeFile" accept=".json,application/json" style="font-size:12px;height:auto;padding:11px">
+ <p id="mergeReport" class="merge-report" role="status" aria-live="polite">Selecione um backup. A comparação será feita neste aparelho.</p>
+ <label class="merge-confirm" for="mergeConfirm"><input id="mergeConfirm" type="checkbox" disabled><span id="mergeConfirmLabel">Confirmo que este arquivo pertence ao perfil atual.</span></label>
+ <div class="actions"><button id="mergeDownload" class="btn" disabled>Guardar pacote completo</button><button id="mergeClose" class="ghost">Fechar</button></div>
+ <p>O pacote preserva as duas origens. Para escolher qual nota ficará ativa, será necessária uma etapa posterior de revisão. Não há escrita automática no Craft.</p>
 </dialog>
 <script>
 (()=>{
@@ -81,7 +99,7 @@ const P=[["jbfs","JBFS"],["barba","Barba"],["tay","Tay"],["igu","Igu"]];
 const C="4f2532a5-feb8-9816-2681-54905764f8d3",PREFIX="jita_autonomo_v1_";
 const STATE="med_jita_state_v3",HISTORY="med_jita_history_v1";
 const $=id=>document.getElementById(id);
-let selected="",current="",busy=false,timer=0,rowCache={},remoteReady=false,pendingPush=false,lastRefresh=0;
+let selected="",current="",busy=false,timer=0,rowCache={},remoteReady=false,pendingPush=false,lastRefresh=0,loginAttempt=0;
 const k=(id,type)=>PREFIX+type+"_"+id;
 const get=(key)=>{try{return localStorage.getItem(key)}catch{return null}};
 const put=(key,val)=>{try{localStorage.setItem(key,val)}catch{}};
@@ -119,8 +137,8 @@ function b64(str){return "b64:"+btoa(unescape(encodeURIComponent(str)))}
 function deb64(x){const s=String(x||"");if(!s.startsWith("b64:"))throw Error("Backup remoto inválido");return decodeURIComponent(escape(atob(s.slice(4))))}
 async function digest(id,pin){const bytes=new TextEncoder().encode("MEDJITA:"+id+":"+pin);const hash=await crypto.subtle.digest("SHA-256",bytes);return [...new Uint8Array(hash)].map(v=>v.toString(16).padStart(2,"0")).join("")}
 function renderProfiles(){const av=$("avatars");av.replaceChildren();for(const [id,name] of P){const b=document.createElement("button");b.className="avatar"+(selected===id?" selected":"");b.innerHTML='<span class="face" data-profile="'+id+'" aria-hidden="true">'+name.trim().charAt(0).toLocaleUpperCase("pt-BR")+'</span><span>'+name+'</span>';b.onclick=()=>choose(id);av.append(b)}}
-function choose(id){selected=id;renderProfiles();$("pinFields").hidden=false;$("pin").value="";$("pinConfirm").value="";const fresh=!url()&&!get(k(id,"pin"));$("pinConfirmWrap").hidden=!fresh;$("pinLabel").textContent=url()?"PIN do perfil (definido pelo JBFS no Craft)":fresh?"Crie um PIN local":"Digite seu PIN";$("error").textContent="";$("pin").focus()}
-function resetGate(){$("gate").hidden=false;$("shell").hidden=true;selected="";renderProfiles();$("pinFields").hidden=true;$("pin").value="";$("pinConfirm").value="";$("calculator").src="about:blank";current=""}
+function choose(id){loginAttempt++;$("enter").disabled=false;selected=id;renderProfiles();$("pinFields").hidden=false;$("pin").value="";$("pinConfirm").value="";const fresh=!url()&&!get(k(id,"pin"));$("pinConfirmWrap").hidden=!fresh;$("pinLabel").textContent=url()?"PIN do perfil (definido pelo JBFS no Craft)":fresh?"Crie um PIN local":"Digite seu PIN";$("error").textContent="";$("pin").focus()}
+function resetGate(){loginAttempt++;clearTimeout(timer);remoteReady=false;pendingPush=false;$("enter").disabled=false;$("gate").hidden=false;$("shell").hidden=true;selected="";renderProfiles();$("pinFields").hidden=true;$("pin").value="";$("pinConfirm").value="";$("calculator").src="about:blank";current=""}
 async function craft(method,path,data){const base=url().replace(/\/+$/,"");if(!/^https:\/\/connect\.craft\.do\/(?:links|link)\//.test(base))throw Error("Configure uma conexão Craft deste documento.");
 const res=await fetch(base+path,{method,cache:"no-store",headers:{"Accept":"application/json",...(data?{"Content-Type":"application/json"}:{})},body:data?JSON.stringify(data):undefined});
 if(!res.ok)throw Error("Craft respondeu "+res.status);return await res.json()}
@@ -145,11 +163,13 @@ const rows=out.items||out.data?.items||[];let row=rows.find(x=>String(prop(x,"id
 if(!row)throw Error("Perfil sem registro Craft");
 if(String(prop(row,"estado")||"").toLowerCase()==="bloqueado")throw Error("Perfil bloqueado no Craft");
 rowCache[id]=row;return row;}
-async function pull(id){
+async function pull(id,expectedLoginAttempt=null){
+ if(expectedLoginAttempt!==null&&expectedLoginAttempt!==loginAttempt)return false;
  remoteReady=false;
  try{
   if(!url())return false;
   const row=await remoteRow(id),incoming=JSON.parse(deb64(prop(row,"dados")));
+  if(expectedLoginAttempt!==null&&expectedLoginAttempt!==loginAttempt)return false;
   if(incoming?.data?.version!==3)throw Error("Backup Craft inválido");
   const remoteSig=signature(incoming),base=get(k(id,"lastSig"));
   const hasLocal=!!get(k(id,"state")),local=hasLocal?backup(id):null;
@@ -169,7 +189,7 @@ async function pull(id){
   remoteReady=true;
   status(unsent?"Edição local pendente":"Recuperado do Craft");
   return true;
- }catch(e){status("Modo local · "+fmt(e),true);return false}
+ }catch(e){if(expectedLoginAttempt===null||expectedLoginAttempt===loginAttempt)status("Modo local · "+fmt(e),true);return false}
 }
 async function push(){
  if(busy){pendingPush=true;return}
@@ -214,11 +234,11 @@ window.addEventListener("online",()=>{lastRefresh=0;setTimeout(refresh,350)});
 async function refresh(){
  if(!current||!url()||busy||document.hidden||Date.now()-lastRefresh<10000)return;
  lastRefresh=Date.now();capture();
- const id=current,base=get(k(id,"lastSig")),localSig=signature(backup(id));
+ const id=current,epoch=loginAttempt,base=get(k(id,"lastSig")),localSig=signature(backup(id));
  try{
   if(!remoteReady||!base||localSig!==base){
-   const was=localSig,ok=await pull(id);
-   if(!ok)return;
+   const was=localSig,ok=await pull(id,epoch);
+   if(current!==id||epoch!==loginAttempt||!ok)return;
    if(signature(backup(id))!==get(k(id,"lastSig"))){await push();return}
    if(signature(backup(id))!==was){
     useProfile(id);$("calculator").src="./calculadora.html";
@@ -226,11 +246,14 @@ async function refresh(){
    }
    return;
   }
-  const row=await remoteRow(id),remote=JSON.parse(deb64(prop(row,"dados")));
+  const row=await remoteRow(id);
+  if(current!==id||epoch!==loginAttempt)return;
+  const remote=JSON.parse(deb64(prop(row,"dados")));
   if(signature(remote)===base)return;
-  const ok=await pull(id);
+  const ok=await pull(id,epoch);
+  if(current!==id||epoch!==loginAttempt)return;
   if(ok){useProfile(id);$("calculator").src="./calculadora.html";status("Atualizado do Craft")}
- }catch(e){status("Offline · dados locais preservados",true)}
+ }catch(e){if(current===id&&epoch===loginAttempt)status("Offline · dados locais preservados",true)}
 }
 window.addEventListener("focus",()=>setTimeout(refresh,250));
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)refresh()});
@@ -238,14 +261,16 @@ setInterval(()=>{if(!document.hidden)refresh()},60000);
 async function enter(){
  if(!selected)return;
  remoteReady=false;$("error").textContent="";
- const id=selected,pin=$("pin").value;
+ const attempt=++loginAttempt,id=selected,pin=$("pin").value;
  if(!/^\d{4,6}$/.test(pin))return $("error").textContent="Use PIN de 4 a 6 números.";
  $("enter").disabled=true;
  try{
   const hash=await digest(id,pin),cached=get(k(id,"pin"));
+  if(attempt!==loginAttempt||selected!==id)return;
   if(url()){
    try{
     const row=await remoteRow(id),central=String(prop(row,"pin")||"").trim();
+    if(attempt!==loginAttempt||selected!==id)return;
     if(String(prop(row,"estado")||"").trim().toLowerCase()==="bloqueado")throw Error("Perfil bloqueado no Craft.");
     if(!/^\d{4,6}$/.test(central))throw Error("PIN não cadastrado no Craft.");
     if(pin!==central)throw Error("PIN incorreto no Craft.");
@@ -261,14 +286,16 @@ async function enter(){
     put(k(id,"pin"),hash);
    }
   }
-  await pull(id);current=id;useProfile(id);
+  await pull(id,attempt);
+  if(attempt!==loginAttempt||selected!==id)return;
+  current=id;useProfile(id);
   $("gate").hidden=true;$("shell").hidden=false;$("calculator").src="./calculadora.html";
   status(remoteReady?"Craft conectado":"Modo local · alterações neste aparelho");
   if(remoteReady&&signature(backup(id))!==get(k(id,"lastSig")))setTimeout(push,1400);
- }catch(error){$("error").textContent=fmt(error)}
- finally{$("enter").disabled=false;$("pin").value="";$("pinConfirm").value=""}
+ }catch(error){if(attempt===loginAttempt&&selected===id)$("error").textContent=fmt(error)}
+ finally{if(attempt===loginAttempt){$("enter").disabled=false;$("pin").value="";$("pinConfirm").value=""}}
 }
-$("enter").onclick=enter;$("back").onclick=()=>{$("pinFields").hidden=true;selected="";renderProfiles()};$("pin").onkeydown=e=>{if(e.key==="Enter")enter()};
+$("enter").onclick=enter;$("back").onclick=()=>{loginAttempt++;$("enter").disabled=false;$("pinFields").hidden=true;selected="";renderProfiles()};$("pin").onkeydown=e=>{if(e.key==="Enter")enter()};
 $("switch").onclick=async()=>{capture();if(remoteReady&&signature(backup(current))!==get(k(current,"lastSig")))await push();resetGate()};
 $("settings").onclick=()=>{$("apiBase").value=url();$("cfgStatus").textContent="";$("cfg").showModal()};
 $("closeCfg").onclick=()=>$("cfg").close();
@@ -306,6 +333,78 @@ $("shareInvite").onclick=async()=>{
  catch{$("cfgStatus").textContent="Seu navegador não permitiu copiar. Abra no Safari ou Chrome.";}
 };
 $("export").onclick=()=>{if(!current)return;capture();const body=JSON.stringify(backup(current),null,2),a=document.createElement("a"),obj=URL.createObjectURL(new Blob([body],{type:"application/json"}));a.href=obj;a.download="MED_JITA_"+current+"_independente.json";a.click();URL.revokeObjectURL(obj)};
+const mergeDlg=$("mergeDialog");
+let mergeStaged=null;
+function mergeSignature(doc){return JSON.stringify({data:doc?.data,history:doc?.history});}
+function mergeReset(message="Selecione um backup. A comparação será feita neste aparelho.",error=false){
+ mergeStaged=null;$("mergeConfirm").checked=false;$("mergeConfirm").disabled=true;
+ $("mergeDownload").disabled=true;$("mergeFile").value="";
+ $("mergeReport").textContent=message;$("mergeReport").dataset.error=String(error);
+ $("mergeConfirmLabel").textContent="Confirmo que este arquivo pertence ao perfil atual.";
+}
+$("openMerge").onclick=()=>{if(!current)return;capture();mergeReset();mergeDlg.showModal()};
+$("mergeClose").onclick=()=>{mergeDlg.close();mergeReset()};
+$("mergeOrigin").onchange=()=>mergeReset("Origem alterada. Selecione o backup novamente.");
+$("mergeFile").onchange=async()=>{
+ const file=$("mergeFile").files?.[0],profile=current,origin=$("mergeOrigin").value;
+ if(!file||!profile)return;
+ try{
+  if(file.size>12*1024*1024)throw Error("O arquivo ultrapassa 12 MB.");
+  if(!/\.json$/i.test(file.name))throw Error("Escolha um backup JSON do MED JITA.");
+  const container=JSON.parse(await file.text());
+  if(current!==profile)throw Error("Perfil alterado durante a leitura.");
+  const foreign=container?.backup?.format==="med-jita-backup"?container.backup:container;
+  const declared=container?.profileId||container?.profile||foreign?.profile||null;
+  if(declared&&declared!==profile)throw Error("O arquivo declara outro perfil. Fusão bloqueada.");
+  capture();const own=backup(profile);
+  const {prepareMigration}=await import("./integrations/fusion-archive.mjs");
+  const plan=prepareMigration({profileId:profile,current:own,incoming:foreign,
+    currentOrigin:"GitHub",incomingOrigin:origin});
+  if(current!==profile)throw Error("Perfil alterado durante a comparação.");
+  mergeStaged={profile,origin,plan,ownSignature:mergeSignature(own),
+    hasEvidence:Boolean(declared)};
+  $("mergeConfirm").disabled=false;
+  $("mergeConfirmLabel").textContent="Confirmo que o backup da origem "+origin+" pertence ao perfil "+profile.toUpperCase()+".";
+  $("mergeReport").dataset.error="false";
+  $("mergeReport").textContent=[
+   "Perfil: "+profile.toUpperCase()+" · Fonte: "+origin,
+   "GitHub: "+own.history.length+" registro(s) · "+origin+": "+foreign.history.length+" registro(s).",
+   "Pacote: "+plan.totalVersions+" versões incluindo os estados atuais.",
+   plan.sameLiveState?"Notas atuais equivalentes.":"Notas atuais diferentes; ambas serão preservadas.",
+   plan.needsSeparateArchive?"Histórico acima do limite: arquive antes de importar.":"Nenhum dado foi alterado.",
+   declared?"Perfil identificado no arquivo.":"Arquivo sem identificação de perfil: confira antes de confirmar."
+  ].join("\n");
+ }catch(error){mergeReset(error instanceof SyntaxError?"JSON ilegível.":String(error?.message||error),true)}
+ finally{$("mergeFile").value=""}
+};
+$("mergeConfirm").onchange=()=>{
+ $("mergeDownload").disabled=!mergeStaged||!$("mergeConfirm").checked||current!==mergeStaged.profile;
+};
+$("mergeDownload").onclick=()=>{
+ if(!mergeStaged||!$("mergeConfirm").checked||current!==mergeStaged.profile){
+  mergeReset("Confirmação ou perfil alterado. Recomece.",true);return;
+ }
+ capture();
+ if(mergeSignature(backup(current))!==mergeStaged.ownSignature){
+  mergeReset("As notas mudaram depois da comparação. Recomece com dados recentes.",true);return;
+ }
+ const payload={format:"med-jita-transition-archive",version:1,
+  preparedAt:new Date().toISOString(),profileId:current,
+  attribution:mergeStaged.hasEvidence?"declared-in-source-and-confirmed":"confirmed-by-user-only",
+  review:{sameLiveState:mergeStaged.plan.sameLiveState,
+    requiresActiveStateDecision:mergeStaged.plan.requiresActiveStateDecision,
+    needsSeparateArchive:mergeStaged.plan.needsSeparateArchive,
+    totalVersions:mergeStaged.plan.totalVersions},
+  archive:mergeStaged.plan.completeArchive};
+ const address=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}));
+ const link=document.createElement("a");link.href=address;
+ link.download="MED_JITA_CONCILIACAO_"+current.toUpperCase()+".json";
+ document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(address),10000);
+ $("mergeReport").textContent+="\nArquivo completo preparado. Nenhuma nota foi substituída.";
+};
+
+
+
 renderProfiles();
 loadProfiles();
 })();
