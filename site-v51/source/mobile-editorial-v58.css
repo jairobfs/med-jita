@@ -378,3 +378,64 @@
     min-height:96px !important;
   }
 }
+
+
+/* V59 · CAB disclosure: o regulamento segue legível sob demanda. */
+#page-cab .cab-format-help {
+  display:block;
+  margin-top:9px;
+  padding:9px 11px;
+  border:1px solid color-mix(in srgb,var(--brand) 22%,var(--border));
+  border-radius:12px;
+  background:color-mix(in srgb,var(--brand-faint) 45%,var(--card));
+}
+#page-cab .cab-format-help > summary {
+  cursor:pointer;
+  list-style:none;
+  font-size:12px;
+  line-height:1.4;
+  font-weight:750;
+  color:var(--brand);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  min-height:24px;
+}
+#page-cab .cab-format-help > summary::-webkit-details-marker { display:none; }
+#page-cab .cab-format-help > summary::after {
+  content:'+';
+  font-size:19px;
+  line-height:1;
+  font-weight:500;
+  color:var(--brand);
+}
+#page-cab .cab-format-help[open] > summary::after {content:'−'}
+#page-cab .cab-format-help #cabWeightsExplained {
+  margin:9px 0 0;
+  border-radius:10px;
+}
+@media(max-width:740px) {
+  /* Esta frase repetia exatamente as condições do cabeçalho e dos botões. */
+  #page-cab > .grid > .stack:first-child > .card:first-child .card-heading .lead {
+    display:none !important;
+  }
+  #page-cab .cab-format-help { margin-top:7px; }
+  #page-cab .cab-format-help > summary {
+    min-height:22px;
+    font-size:11px;
+  }
+}
+@media(max-width:355px) {
+  /* Em 320 px a exceção continua explicada nos dois modos e no detalhe. */
+  #page-cab > .page-head p:not(.eyebrow) {
+    display:none !important;
+  }
+  #page-cab > .page-head.jita-section-head {
+    padding:12px 13px 12px 17px !important;
+    gap:7px !important;
+    margin-bottom:9px !important;
+  }
+  #page-cab > .grid, #page-cab .stack {gap:9px !important;}
+  #page-cab .stack > .card { padding:12px !important; }
+}
