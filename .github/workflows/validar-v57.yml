@@ -1,0 +1,33 @@
+name: Validar MED JITA V57 sem dados reais
+
+on:
+  pull_request:
+    paths:
+      - 'site-v51/**'
+      - '.github/workflows/validar-v57.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: site-v51/package.json
+      - name: Dependencias para os testes
+        working-directory: site-v51
+        run: npm install --no-audit --no-fund --package-lock=false
+      - name: Testes completos do aplicativo e transferencia
+        working-directory: site-v51
+        run: npm run qa
+      - name: Garantir que nenhuma chave ou nota real entrou no repositorio
+        run: |
+          test ! -e site-v51/migration/export.json
+          test ! -e site-v51/render-production/.env
+          git diff --exit-code
