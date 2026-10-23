@@ -355,3 +355,21 @@
   #gate .jita-showcase::before,#gate .jita-showcase-mascot img {animation:none}
   #gate .jita-auth .avatar,#gate .jita-showcase-mascot {transition:none}
 }
+
+/* Direção de arte do perfil: cartola original e inicial em posições independentes. */
+#gate .jita-auth .face {
+  width:54px;height:58px;min-width:54px;flex:0 0 58px;
+  position:relative;display:flex;align-items:flex-end;justify-content:center;
+  padding:0 0 6px;border-radius:15px;
+  font-size:22px;line-height:1;
+}
+#gate .jita-auth .face::before {
+  top:4px;left:50%;width:33px;height:21px;
+  transform:translateX(-50%) rotate(0deg);
+  background-size:contain;background-position:center;
+}
+#gate .jita-auth .avatar {gap:9px}
+@media(max-width:350px){
+  #gate .jita-auth .face {width:50px;height:54px;min-width:50px;flex-basis:54px}
+  #gate .jita-auth .face::before {width:31px;height:20px}
+}
