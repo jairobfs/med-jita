@@ -1,5 +1,5 @@
 /* MED JITA. Change the cache version when publishing an updated bundle. */
-const CACHE_NAME = 'med-jita-github-v20-1-v52-polished-20261023';
+const CACHE_NAME = 'med-jita-github-v21-uc-v51-20261023';
 const BASE = new URL('./', self.registration.scope);
 const OFFLINE_FILES = [
   './', './index.html', './independente.html', './calculadora.html', './manifest.webmanifest', './JITA_vetorial.svg',
@@ -9,6 +9,7 @@ const OFFLINE_FILES = [
   './assets/estigma-atlas-elaces.svg', './assets/med-jita-logo.svg',
   './assets/med-jita-app-icon.svg', './assets/jita-cartola-avatar.svg', './assets/integrado-oficial-2026.png',
   './integrations/sync-ui.js', './gateway-enhance.js', './gateway-enhance.css',
+  './uc-engine.js', './uc-native.js', './uc-native.css',
   './icons/jita-corpo.svg', './icons/jita-rosto.svg', './icons/jita-rc.svg',
   './icons/jita-morfo.svg', './icons/jita-anatomia.svg',
   './icons/jita-tutoria.svg', './icons/jita-simulacoes.svg',
