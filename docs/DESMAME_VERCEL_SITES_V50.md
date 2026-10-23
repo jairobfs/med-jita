@@ -1,11 +1,11 @@
 # MED JITA · Saída gradual da Vercel e do Sites (V50 portátil)
 
-**Estado desta ramificação:** código preservado no GitHub e preparativos de publicação independente. **Ainda não há um endereço novo publicado nem dados migrados.** Não modificar os dois sites antigos ou a base de dados em uso enquanto as quatro contas não passarem na validação.
+**Estado desta ramificação:** código-fonte V50 com identidade curricular V52/V53 incorporada e preservado no GitHub e preparativos de publicação independente. **Ainda não há um endereço novo publicado nem dados migrados.** Não modificar os dois sites antigos ou a base de dados em uso enquanto as quatro contas não passarem na validação.
 
 ## Qual é a versão confiável?
 
 - **Fonte congelada:** MED JITA V50 do Sites, commit de origem `4283f02`, copiado com 134 arquivos originais para a ramificação `med-jita-portatil-v50` em `jairobfs/med-jita`.
-- **Fonte das próximas melhorias:** esta ramificação, com correção do teclado numérico para PIN no iPhone e do CSS das transições no pacote.
+- **Fonte das próximas melhorias:** esta ramificação, agora com selos e galeria V52/V53 provenientes de `main/site-v51/source`, além do PIN numérico com foco imediato no iPhone e da inclusão do CSS/JS das transições no pacote.
 - **Vercel:** legado em modo de preservação; não fazer deploy nem apagar banco.
 - **Sites:** mantém acesso e sincronização atuais até que outra hospedagem prove paridade.
 - **GitHub `main`:** intocado; não substituir a antiga V6 sem validar a migração.
@@ -69,4 +69,4 @@ Conflitos devem criar versões recuperáveis; não substituir silenciosamente da
 - Adicionados testes dedicados ao PIN e a todos os ativos usados pela navegação e pelo cache offline.
 - Adicionadas ações para verificação contínua e preparação de publicação manual independente.
 
-Documentação oficial usada: https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/ ; https://developers.cloudflare.com/d1/get-started/ ; https://developers.cloudflare.com/workers/configuration/secrets/ .
+- As melhorias da biblioteca V52/V53 presentes no GitHub foram incorporadas com marcas por pessoa, galeria, selos de notas/módulos e áudio opcional; isso **não constitui comparação completa** com todas as alterações da versão Sites efetivamente publicada.\n- O serviço de testes foi configurado, mas a execução no GitHub Actions **ainda precisa ser confirmada**.\n\nDocumentação oficial usada: https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/ ; https://developers.cloudflare.com/d1/get-started/ ; https://developers.cloudflare.com/workers/configuration/secrets/ .
