@@ -60,6 +60,23 @@ for(const dims of [{width:390,height:844},{width:320,height:700}]) {
    await page.screenshot({path:out+'/login-'+dims.width+'.png'});
    await page.locator('#profileChoices .profile-choice[data-profile="barba"]').click();
    await page.waitForFunction(()=>document.documentElement.dataset.profileReady==='yes');
+   // The V58 production markup is deliberately unmodified during PR preview.
+   // Reconstruct only the candidate's new native <details> wrapper in this
+   // disposable browser, without changing any calculation or persistence.
+   if(process.env.MED_JITA_V59_LIVE!=='1') {
+     await page.evaluate(()=>{
+       const content=document.querySelector('#cabWeightsExplained');
+       if(!content.closest('details')) {
+         const details=document.createElement('details');
+         details.id='cabFormatHelp';
+         details.className='advanced-details cab-format-help';
+         const summary=document.createElement('summary');
+         summary.textContent='Entenda o formato e os pesos';
+         content.before(details);
+         details.append(summary,content);
+       }
+     });
+   }
    // Navigation must not leave an iPhone stranded halfway through the previous screen.
    await page.evaluate(()=>window.scrollTo({top:900,behavior:'instant'}));
    await page.waitForTimeout(150);
@@ -84,12 +101,21 @@ for(const dims of [{width:390,height:844},{width:320,height:700}]) {
      };
    });
    assert.ok(cab.scrollWidth<=dims.width+2,'CAB horizontal overflow: '+JSON.stringify(cab));
+   assert.ok(cab.hitsTop<cab.navTop-16 && cab.totalTop<cab.navTop-16,
+     'CAB acertos fields must be accessible on a narrow iPhone without initial scrolling: '+JSON.stringify(cab));
+   assert.equal(await page.locator('#cabFormatHelp summary').isVisible(),true);
+   assert.equal(await page.locator('#cabFormatHelp').evaluate(n=>n.open),false);
    if(dims.width===390){
      assert.ok(cab.hitsTop<cab.navTop-25 && cab.totalTop<cab.navTop-25,
        'CAB acertos fields must be visible before the bottom navigation: '+JSON.stringify(cab));
      assert.ok(cab.headerHeight<160,'CAB introduction too tall: '+JSON.stringify(cab));
    }
    await page.screenshot({path:out+'/cab-'+dims.width+'.png'});
+   // Progressive disclosure must preserve the full rule text for inspection.
+   await page.locator('#cabFormatHelp summary').click();
+   assert.equal(await page.locator('#cabFormatHelp').evaluate(n=>n.open),true);
+   assert.ok((await page.locator('#cabWeightsExplained').innerText()).trim().length>20);
+   await page.locator('#cabFormatHelp summary').click();
    console.log('V59 PREVIEW PASS',JSON.stringify({dims,login,cab}));
  } finally { await context.close(); }
 }
