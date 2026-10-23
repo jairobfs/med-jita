@@ -49,3 +49,11 @@ Os campos de notas e acertos começam vazios; exemplos aparecem somente como tex
 O Histórico agora contém um **cliente funcional** de backup cifrado, sem login, com geração de código e ações explícitas para testar, enviar e recuperar. Ele funciona após você publicar e configurar `backend/` como Worker com banco D1. Para testar uma conexão real com o Craft, configure o segredo `CRAFT_API_BASE` apenas no Worker: o endpoint `/api/craft/test` faz leitura `GET /connection`, sem publicar credenciais e sem modificar documentos.
 
 Consulte [`backend/README.md`](backend/README.md) e [`integrations/CRAFT_COMPATIBILIDADE.md`](integrations/CRAFT_COMPATIBILIDADE.md). A sincronia do Craft como repositório documental de notas **ainda não está implementada**. O armazenamento remoto do protótipo é o D1, não o Craft. Nenhum login ou envio automático está ativo.
+
+## V17 · Aplicativo independente (23/10/2026)
+
+O endereço principal `https://jairobfs.github.io/med-jita/` abre a entrada independente com os quatro avatares e PIN numérico local de 4 a 6 dígitos. A calculadora original é preservada dentro do mesmo domínio em `calculadora.html`. A atualização é publicada pelo GitHub Actions, sem a cota de deployments da Vercel.
+
+Notas e históricos são sincronizados diretamente com a coleção `MED JITA · Estados por perfil` no Craft após cadastrar no aparelho uma conexão API limitada a esse documento. A URL da conexão não é gravada no código público; a configuração pode ser compartilhada com os quatro amigos pelo convite do próprio aplicativo. Os quatro backups anteriores (versão 3) foram copiados ao Craft e verificados. Leitura, escrita idempotente e recuperação do histórico JBFS (CAB 22/27, prática 6,42 e 1 histórico) foram homologadas no navegador.
+
+`MED_JITA_GitHub_Pages_v6.zip` permanece no GitHub como fonte de restauração. Vercel permanece apenas como contingência enquanto os aparelhos dos quatro perfis migram. Em dispositivos novos, abra o endereço principal, selecione o avatar e crie o PIN local; para restaurar as notas use o botão Craft ou convite de configuração. Evite apagar o app antigo antes da confirmação no iPhone.
