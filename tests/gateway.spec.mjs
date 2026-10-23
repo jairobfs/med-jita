@@ -27,6 +27,11 @@ assert.match(worker, /med-jita-github-v18-20261023/);
 assert.match(worker, /'\.\/index\.html'/);
 assert.match(worker, /'\.\/calculadora\.html'/);
 
+// Uma URL Craft configurada não deve ocultar a confirmação de um PIN ainda não criado.
+assert.match(script, /const fresh=!get\(k\(id,"pin"\)\)/);
+assert.doesNotMatch(script, /const fresh=!url\(\)&&!get\(k\(id,"pin"\)\)/);
+assert.match(script, /if\(!expected\)\{if\(pin!==\$\("pinConfirm"\)\.value\)/);
+
 for (const name of ["jita_autonomo_v1_", "med_jita_state_v3", "med_jita_history_v1"]) {
   assert.ok(script.includes(name), "A correção não pode mudar os dados locais: " + name);
 }
