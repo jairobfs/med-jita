@@ -60,8 +60,13 @@ for(const dims of [{width:390,height:844},{width:320,height:700}]) {
    await page.screenshot({path:out+'/login-'+dims.width+'.png'});
    await page.locator('#profileChoices .profile-choice[data-profile="barba"]').click();
    await page.waitForFunction(()=>document.documentElement.dataset.profileReady==='yes');
+   // Navigation must not leave an iPhone stranded halfway through the previous screen.
+   await page.evaluate(()=>window.scrollTo({top:900,behavior:'instant'}));
+   await page.waitForTimeout(150);
    await page.locator('nav.mobilebar button[data-page="cab"]').click();
-   await page.waitForTimeout(250);
+   await page.waitForTimeout(120);
+   const afterSwitch=await page.evaluate(()=>scrollY);
+   assert.ok(afterSwitch<8,'Bottom navigation must reset scroll immediately, got '+afterSwitch);
    const cab=await page.evaluate(()=>{
      const box=s=>document.querySelector(s).getBoundingClientRect();
      return {
