@@ -93,3 +93,288 @@
 @media (prefers-reduced-motion:reduce) {
   #headerProfileMark { transition:none; }
 }
+
+
+/*
+ * V59 · Mobile-first: mais aplicação, menos rolagem introdutória.
+ * Os quatro perfis continuam legíveis, o mascote intacto e áudio/movimento
+ * permanecem acessíveis sem forçar uma segunda tela só de apresentação.
+ */
+@media (max-width:740px) {
+  .profile-gateway {
+    padding:8px 9px max(12px,env(safe-area-inset-bottom)) !important;
+  }
+  .profile-gateway-card {
+    border-radius:21px !important;
+  }
+  .profile-gateway-card::before {
+    width:148px !important;
+    height:43px !important;
+    top:11px !important;
+    left:17px !important;
+  }
+  .gateway-intro {
+    display:grid !important;
+    grid-template-columns:86px minmax(0,1fr) !important;
+    grid-template-areas:
+      "mascot eyebrow"
+      "mascot title"
+      "mascot description"
+      "tools tools" !important;
+    grid-template-rows:auto auto auto 37px !important;
+    column-gap:13px !important;
+    row-gap:0 !important;
+    align-content:start !important;
+    align-items:center !important;
+    min-height:0 !important;
+    padding:60px 17px 12px !important;
+  }
+  .gateway-intro .profile-gateway-mark {
+    grid-area:mascot !important;
+    width:86px !important;
+    height:86px !important;
+    align-self:center !important;
+    margin:0 !important;
+  }
+  .gateway-intro .profile-gateway-mark svg {
+    width:77px !important;
+    height:77px !important;
+  }
+  .gateway-intro .eyebrow {
+    grid-area:eyebrow !important;
+    align-self:end !important;
+    margin:0 0 2px !important;
+    font-size:8px !important;
+    letter-spacing:.095em !important;
+  }
+  .gateway-intro h1 {
+    grid-area:title !important;
+    font-size:clamp(23px,6.5vw,30px) !important;
+    line-height:1.06 !important;
+    align-self:center !important;
+    margin:0 0 3px !important;
+  }
+  .gateway-intro > p {
+    grid-area:description !important;
+    font-size:10px !important;
+    line-height:1.32 !important;
+    margin:0 !important;
+    max-width:39ch !important;
+  }
+  .gateway-intro .gateway-promise { display:none !important; }
+  .gateway-intro #gatewayMotionToggle {
+    grid-area:tools !important;
+    display:inline-flex;
+    justify-self:end !important;
+    align-self:center !important;
+    margin:0 !important;
+    padding:7px 9px !important;
+    min-height:30px !important;
+    font-size:10px !important;
+  }
+  .gateway-intro #gatewayMotionToggle[hidden] { display:none !important; }
+  .gateway-intro .jita-audio-tools {
+    grid-area:tools !important;
+    justify-self:start !important;
+    align-self:center !important;
+    display:flex !important;
+    align-items:center !important;
+    gap:8px !important;
+    min-width:0 !important;
+    margin:0 !important;
+  }
+  .gateway-intro .jita-audio-tools button {
+    margin:0 !important;
+    min-height:31px !important;
+    padding:6px 10px !important;
+    font-size:10px !important;
+    line-height:1.2 !important;
+  }
+  .gateway-intro .jita-audio-tools .gateway-audio-toggle {
+    flex:0 0 34px !important;
+    width:34px !important;
+    padding:5px !important;
+  }
+  .gateway-intro #jitaMotionInstruction {
+    position:absolute !important;
+    width:1px !important;
+    height:1px !important;
+    padding:0 !important;
+    margin:-1px !important;
+    overflow:hidden !important;
+    clip-path:inset(50%) !important;
+    white-space:nowrap !important;
+    border:0 !important;
+  }
+  .gateway-selection {
+    padding:13px 17px 15px !important;
+  }
+  .gateway-selection .gateway-overline {
+    font-size:9px !important;
+    letter-spacing:.09em !important;
+  }
+  .gateway-selection .gateway-overline::before {
+    width:23px !important;
+    height:23px !important;
+    border-radius:8px !important;
+  }
+  .gateway-selection h2 {
+    font-size:23px !important;
+    margin:8px 0 3px !important;
+    line-height:1.1 !important;
+  }
+  .gateway-selection .gateway-hint {
+    margin:0 0 11px !important;
+    font-size:11px !important;
+    line-height:1.35 !important;
+  }
+  .gateway-selection .profile-choice-list {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:9px !important;
+  }
+  .gateway-selection .profile-choice {
+    min-height:99px !important;
+    padding:10px 11px !important;
+    gap:5px !important;
+    border-radius:15px !important;
+  }
+  .gateway-selection .profile-choice .profile-avatar {
+    width:36px !important;
+    height:36px !important;
+    border-radius:12px !important;
+  }
+  .gateway-selection .profile-choice strong {
+    font-size:16px !important;
+    line-height:1.1 !important;
+  }
+  .gateway-selection .profile-choice small {
+    font-size:10px !important;
+    line-height:1.25 !important;
+  }
+  .gateway-selection #profileMessage {
+    margin:8px 0 0 !important;
+    min-height:0 !important;
+  }
+  .gateway-selection .gateway-footnote {
+    margin-top:8px !important;
+    font-size:10px !important;
+    line-height:1.3 !important;
+  }
+  .gateway-selection .gateway-install {
+    margin-top:9px !important;
+    min-height:36px !important;
+  }
+  #jita-gateway-canary {
+    margin:8px 0 5px !important;
+    padding:5px 8px !important;
+    font-size:9px !important;
+    line-height:1.3 !important;
+  }
+
+  /* CAB: os campos de acertos vêm antes do fim da primeira tela, sem
+     esconder as opções de Macro, explicações nem detalhes avançados. */
+  #page-cab > .page-head.jita-section-head {
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) 58px !important;
+    gap:10px !important;
+    align-items:center !important;
+    min-height:0 !important;
+    padding:14px 14px 14px 18px !important;
+    margin-bottom:12px !important;
+    border-radius:19px !important;
+  }
+  #page-cab > .page-head .eyebrow {
+    font-size:9px !important;
+    margin-bottom:4px !important;
+  }
+  #page-cab > .page-head h1 {
+    font-size:clamp(23px,6vw,28px) !important;
+    line-height:1.08 !important;
+    margin:0 0 5px !important;
+  }
+  #page-cab > .page-head p:not(.eyebrow) {
+    font-size:10.5px !important;
+    line-height:1.35 !important;
+    margin:0 !important;
+  }
+  #page-cab > .page-head .jita-section-badge {
+    width:57px !important;
+    height:57px !important;
+    align-self:center !important;
+  }
+  #page-cab > .page-head .jita-section-badge svg {
+    width:48px !important;
+    height:48px !important;
+  }
+  #page-cab > .grid,
+  #page-cab .stack {
+    gap:11px !important;
+  }
+  #page-cab .stack > .card {
+    padding:15px !important;
+    border-radius:18px !important;
+  }
+  #page-cab .card-heading {
+    gap:8px !important;
+    margin-bottom:11px !important;
+  }
+  #page-cab .card-heading h2 {
+    font-size:19px !important;
+    line-height:1.2 !important;
+    margin-bottom:6px !important;
+  }
+  #page-cab .card-heading .eyebrow {
+    font-size:9px !important;
+    margin-bottom:4px !important;
+  }
+  #page-cab .card-heading .lead {
+    font-size:11px !important;
+    line-height:1.4 !important;
+    margin-bottom:5px !important;
+  }
+  #page-cab .segmented {
+    margin:8px 0 !important;
+  }
+  #page-cab .segmented button {
+    font-size:12px !important;
+    padding:10px 7px !important;
+    min-height:42px !important;
+  }
+  #page-cab #cabWeightsExplained {
+    padding:10px 12px !important;
+    font-size:11px !important;
+    line-height:1.4 !important;
+  }
+  #page-cab #theoryCombined .field label {
+    font-size:11px !important;
+  }
+  #page-cab #theoryCombined input {
+    min-height:44px !important;
+    font-size:16px !important;
+  }
+}
+@media(max-width:355px) {
+  .gateway-intro {
+    grid-template-columns:75px minmax(0,1fr) !important;
+    column-gap:10px !important;
+    padding-inline:12px !important;
+  }
+  .gateway-intro .profile-gateway-mark {
+    width:75px !important;
+    height:75px !important;
+  }
+  .gateway-intro .profile-gateway-mark svg {
+    width:69px !important;
+    height:69px !important;
+  }
+  .gateway-intro h1 { font-size:22px !important; }
+  .gateway-intro .jita-audio-tools button {
+    font-size:9px !important;
+    padding-inline:7px !important;
+  }
+  .gateway-selection { padding-inline:12px !important; }
+  .gateway-selection .profile-choice {
+    padding:9px !important;
+    min-height:96px !important;
+  }
+}
