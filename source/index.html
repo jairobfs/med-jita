@@ -469,6 +469,8 @@ html[data-profile-ready=yes] #profileGateway{display:none}
 .gateway-selection .profile-password-reveal{position:absolute;right:6px;top:10px;min-width:77px;min-height:38px;border:0;border-radius:9px;background:color-mix(in srgb,var(--brand-faint) 70%,var(--card));color:var(--brand2);font-size:12px;font-weight:800;cursor:pointer}
 .gateway-selection .profile-password-reveal:focus-visible,.gateway-selection .profile-unlock-back:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
 .gateway-selection .profile-password-note{display:block;margin-top:9px;font-size:11px;line-height:1.5;color:var(--secondary)}
+.gateway-selection .profile-keyboard-switch{display:block;min-height:36px;margin-top:4px;padding:4px 0;border:0;background:transparent;color:var(--brand2);font-size:11px;font-weight:700;text-align:left;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.gateway-selection .profile-keyboard-switch:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
 @media(max-width:740px){
   .profile-gateway{display:block;padding:13px 12px max(20px,env(safe-area-inset-bottom))}
   .profile-gateway-card{display:block;width:min(100%,470px);min-height:0;margin:auto;border-radius:25px}
@@ -620,8 +622,8 @@ html[data-profile-ready=yes] #profileGateway{display:none}
           <strong><small>ENTRANDO COMO</small><span id="profileUnlockName">seu perfil</span></strong>
           <button id="profileUnlockBack" class="profile-unlock-back" type="button">Trocar perfil</button>
         </div>
-        <label class="field" style="display:grid;text-align:left;margin-top:16px"><span>PIN ou senha pessoal</span><span class="profile-password-row"><input id="profileUnlockPassword" type="password" autocomplete="current-password" placeholder="Digite seu PIN" aria-describedby="profilePasswordNote"><button id="profileUnlockReveal" class="profile-password-reveal" type="button" aria-pressed="false" aria-label="Mostrar senha">Mostrar</button></span></label>
-        <span id="profilePasswordNote" class="profile-password-note">Suas notas e seu histórico só serão abertos após a confirmação.</span>
+        <label class="field" style="display:grid;text-align:left;margin-top:16px"><span>PIN ou senha pessoal</span><span class="profile-password-row"><input id="profileUnlockPassword" type="password" inputmode="numeric" autocomplete="current-password" autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="Digite seu PIN" aria-describedby="profilePasswordNote"><button id="profileUnlockReveal" class="profile-password-reveal" type="button" aria-pressed="false" aria-label="Mostrar senha">Mostrar</button></span></label>
+        <span id="profilePasswordNote" class="profile-password-note">Suas notas e seu histórico só serão abertos após a confirmação.</span><button id="profileKeyboardMode" class="profile-keyboard-switch" type="button" aria-pressed="false">PIN com letras? Teclado completo</button>
         <button class="btn primary" id="profileUnlockButton" style="width:100%;margin-top:12px" type="button">Entrar no meu espaço</button>
       </div>
       <div class="gateway-footnote"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4.5 6v5.4c0 4.9 3.1 8.5 7.5 9.6 4.4-1.1 7.5-4.7 7.5-9.6V6L12 3Z"/><path d="m9 12 2 2 4-4"/></svg><span>Suas alterações são salvas automaticamente. Se você protegeu seu histórico com senha, ela será solicitada.</span></div>
