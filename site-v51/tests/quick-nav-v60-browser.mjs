@@ -23,10 +23,18 @@ try {
       await page.locator('#profileChoices .profile-choice[data-profile="barba"]').click();
       await page.waitForFunction(()=>document.documentElement.dataset.profileReady==='yes');
       // PR preview: inject only new controls/style against already deployed V59.
-      await page.evaluate(()=>{window.MED_JITA_PREVIEW_ISOLATED=true;});
-      await page.addStyleTag({content:style});
-      await page.addScriptTag({content:quick});
-      await page.addScriptTag({content:guard});
+      const deployed=await page.locator('#jitaQuickOpen').count()>0;
+      if(process.env.MED_JITA_V60_LIVE==='1'||deployed) {
+        // GitHub production main now ships the module. Never inject it twice.
+        assert.equal(await page.evaluate(()=>window.MED_JITA_PREVIEW_ISOLATED),true,
+          'Live Cloudflare must identify isolated preview before initializing profiles.');
+      } else {
+        // First-time PR preview against an older Worker before promotion.
+        await page.evaluate(()=>{window.MED_JITA_PREVIEW_ISOLATED=true;});
+        await page.addStyleTag({content:style});
+        await page.addScriptTag({content:quick});
+        await page.addScriptTag({content:guard});
+      }
       const btn=page.locator('#jitaQuickOpen');
       await btn.waitFor({state:'visible'});
       const metrics=await page.evaluate(()=>({
@@ -79,7 +87,7 @@ try {
       await page.waitForFunction(()=>document.documentElement.dataset.profileReady==='no');
       await page.screenshot({path:'outputs/quick-v60/login-'+width+'.png'});
       assert.deepEqual(errors,[],'Uncaught JS errors');
-      console.log('V60 QUICK-NAV BROWSER PASS '+JSON.stringify({
+      console.log((process.env.MED_JITA_V60_LIVE==='1'?'V60 CLOUDFLARE LIVE PASS ':'V60 QUICK-NAV BROWSER PASS ')+JSON.stringify({
         width,overflow:false,history:true,cab:true,shortcuts:true,
         previewImportBlocked:true,statusIndicator:true,profileSwitch:true
       }));
