@@ -19,6 +19,8 @@ assert.match(html, /<script src="\.\/gateway-enhance\.js(?:\?v=[^"]+)?"><\/scrip
 assert.doesNotMatch(overlay, /jita-pin-pad|jita-pin-key|setRangeText|activeField/, 'Não inserir teclado numérico artificial');
 assert.doesNotMatch(css, /jita-pin-pad|jita-pin-key/, 'Não manter grade de teclado virtual no CSS');
 assert.match(overlay, /jita-showcase-mascot/, 'Jita original deve aparecer inteiro no painel');
+assert.match(overlay, /identidade\/med-jita-brand-v11\.svg/, 'Lettering V11 aprovado deve ser usado na portaria');
+assert.match(css, /V57 · fidelidade editorial ao login V51\/V52 aprovado/, 'Paleta oficial deve acompanhar a marca aprovada');
 assert.match(overlay, /\.\/icons\/jita-corpo\.svg/, 'Personagem integral canônico, sem redesenho');
 assert.match(css, /cartola original e inicial em posições independentes/, 'Avatares devem respeitar geometria da cartola');
 assert.match(css, /transform:translateX\(-50%\) rotate\(0deg\)/, 'Cartola deve ter eixo alinhado');
@@ -31,6 +33,8 @@ assert.match(css, /prefers-color-scheme:dark/);
 assert.match(css, /prefers-reduced-motion:reduce/);
 assert.match(sw, /const CACHE_NAME = 'med-jita-github-[^']+'/);
 assert.ok(sw.includes("'./assets/jita-cartola-avatar.svg'"), 'Cartola original disponível offline');
+assert.ok(sw.includes("'./identidade/med-jita-brand-v11.svg'"), 'Marca V11 disponível offline');
+assert.match(sw, /ignoreSearch:\s*true/, 'CSS/JS versionados devem abrir offline');
 for (const asset of ["gateway-enhance.js", "gateway-enhance.css"]) {
   assert.ok(sw.includes("'./" + asset + "'"), "Recurso precache: " + asset);
 }

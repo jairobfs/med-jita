@@ -106,7 +106,7 @@
   scene.setAttribute("aria-label", "Universo MED JITA");
   scene.innerHTML = `
     <div class="jita-showcase-brand">
-      <img src="./assets/med-jita-logo.svg" alt="MED JITA">
+      <img src="./identidade/med-jita-brand-v11.svg" alt="MED JITA · lettering autoral V11">
     </div>
     <button type="button" class="jita-showcase-mascot"
       aria-label="Toque no Jita para iluminar o cenário" aria-pressed="false">
