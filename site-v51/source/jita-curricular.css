@@ -22,3 +22,7 @@
 @keyframes jita-sonic-spark{0%{opacity:0;transform:rotate(var(--spark-angle)) translateX(16px) scale(.5)}25%{opacity:1}100%{opacity:0;transform:rotate(var(--spark-angle)) translateX(90px) scale(0)}}
 @media(max-width:620px){.topbar .toolbar>.jita-audio-toggle{display:none}.home-uc-card .med-identity-seal{width:38px;height:38px}.uc-component-head .med-identity-seal{width:40px;height:40px}}
 @media(prefers-reduced-motion:reduce){.med-identity-seal,.jita-audio-toggle .jita-sound-wave{transition:none!important}.jita-sonic-spark{animation:none!important;display:none!important}}
+
+/* Traço de cauda: assinatura periférica derivada da gestualidade do Jita. */
+.med-identity-seal{position:relative}
+.med-identity-seal::after{content:'';position:absolute;right:-3px;bottom:-2px;width:9px;height:6px;border:2px solid var(--identity-accent);border-top:0;border-left:0;border-radius:0 0 10px 0;transform:rotate(-8deg);pointer-events:none}
