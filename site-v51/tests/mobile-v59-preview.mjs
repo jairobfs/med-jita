@@ -65,6 +65,8 @@ for(const dims of [{width:390,height:844},{width:320,height:700}]) {
    // disposable browser, without changing any calculation or persistence.
    if(process.env.MED_JITA_V59_LIVE!=='1') {
      await page.evaluate(()=>{
+       const notice=document.querySelector('#jita-canary-notice');
+       if(notice)notice.textContent='Prévia · não use notas reais · PIN 0000';
        const content=document.querySelector('#cabWeightsExplained');
        if(!content.closest('details')) {
          const details=document.createElement('details');
@@ -94,6 +96,7 @@ for(const dims of [{width:390,height:844},{width:320,height:700}]) {
      const box=s=>document.querySelector(s).getBoundingClientRect();
      return {
        hitsTop:box('#cabHits').top,totalTop:box('#cabTotal').top,
+       hitsBottom:box('#cabHits').bottom,totalBottom:box('#cabTotal').bottom,
        navTop:box('nav.mobilebar').top,
        headerHeight:box('#page-cab > .page-head').height,
        scrollWidth:document.documentElement.scrollWidth,
@@ -101,8 +104,8 @@ for(const dims of [{width:390,height:844},{width:320,height:700}]) {
      };
    });
    assert.ok(cab.scrollWidth<=dims.width+2,'CAB horizontal overflow: '+JSON.stringify(cab));
-   assert.ok(cab.hitsTop<cab.navTop-16 && cab.totalTop<cab.navTop-16,
-     'CAB acertos fields must be accessible on a narrow iPhone without initial scrolling: '+JSON.stringify(cab));
+   assert.ok(cab.hitsBottom<cab.navTop-10 && cab.totalBottom<cab.navTop-10,
+     'CAB input boxes must be COMPLETELY visible above bottom navigation: '+JSON.stringify(cab));
    assert.equal(await page.locator('#cabFormatHelp summary').isVisible(),true);
    assert.equal(await page.locator('#cabFormatHelp').evaluate(n=>n.open),false);
    if(dims.width===390){
@@ -112,6 +115,15 @@ for(const dims of [{width:390,height:844},{width:320,height:700}]) {
    }
    await page.screenshot({path:out+'/cab-'+dims.width+'.png'});
    // Progressive disclosure must preserve the full rule text for inspection.
+   if(dims.width===320) {
+     assert.equal(await page.locator('#cabTheoryHelp').isVisible(),false,
+       'In the integrated mode the duplicated CAB explanation wastes narrow space.');
+     await page.locator('#cabWith').click();
+     await page.waitForTimeout(80);
+     assert.equal(await page.locator('#cabTheoryHelp').isVisible(),true,
+       'Separate Macro mode must retain its explanatory instructions.');
+     await page.locator('#cabWithout').click();
+   }
    await page.locator('#cabFormatHelp summary').click();
    assert.equal(await page.locator('#cabFormatHelp').evaluate(n=>n.open),true);
    assert.ok((await page.locator('#cabWeightsExplained').innerText()).trim().length>20);
