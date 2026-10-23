@@ -445,4 +445,9 @@
     margin-top:5px !important;
     padding:7px 9px !important;
   }
+  /* O modo integrado já é explicado no detalhamento nativo acima.
+     Ao ativar Macro separada, a instrução específica reaparece. */
+  #page-cab:has(#cabWithout.active) #cabTheoryHelp {
+    display:none !important;
+  }
 }
