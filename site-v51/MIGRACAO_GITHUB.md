@@ -1,35 +1,33 @@
-# MED JITA · transição para GitHub canônico
+# MED JITA · Continuidade GitHub sem Vercel
 
-Fonte oficial de código: **[jairobfs/med-jita](https://github.com/jairobfs/med-jita)**.
+Atualizado em 23/10/2026 · trilha de migração conservadora.
 
-## O que esta migração preserva
+## Fonte e publicação
 
-- A versão **V51** do aplicativo vivo fica em `site-v51/`, com código-fonte, identidade do Jita, mecanismos de notas, perfis, sincronização e testes.
-- O sistema anterior na raiz do repositório (GitHub Pages/V6) **não é removido nem substituído**. Seu workflow de publicação continua independente.
-- A versão em `med-jita.jairobfs7.chatgpt.site` **não é atualizada por este pull request**; ela tem runtime próprio com D1.
-- `jairobfs/med-jita2` e a versão na Vercel não são modificados.
+- **Fonte única:** `jairobfs/med-jita`, branch `main`. Todo ajuste novo entra por pull request com testes.
+- **GitHub Pages:** `https://jairobfs.github.io/med-jita/` mantém o gateway estável; `/identidade/` apresenta as marcas, 18 módulos e estados de nota do Jita. **Não é o servidor de perfis V51**.
+- **Aplicativo V51:** `site-v51/source` + `site-v51/worker` servidos sob **a mesma origem** quando o Worker Cloudflare for provisionado, com D1 para históricos e Craft para integração editorial.
+- **Vercel:** legado de transição. Não o apagar, redirecionar ou desabilitar antes de confirmar a migração dos quatro perfis e seus dados.
 
-## Reproduzir e verificar
+## Por que não chamar o Worker de outro domínio a partir do GitHub Pages?
 
-```bash
-cd site-v51
-npm run qa
-```
+A interface usa `credentials: 'same-origin'` e rotas `/api/profile/*`. O Worker verifica `Origin` e recusa origens diferentes. Substituir por CORS permissivo, cookies terceiros ou passar PINs ao navegador em URLs enfraqueceria isolamento e falharia no iOS. O destino seguro é publicar o **HTML e a API no mesmo domínio independente**, usando o GitHub para versionar e disparar a implantação.
 
-O comando recompila o Worker ESM e executa todos os testes de cálculos, currículos, quatro perfis, conflitos de histórico, contrastes e movimento do Jita. A compilação cria `worker/index.js` e `dist/`. O arquivo de saída gerado não foi copiado como código-fonte.
+## Etapas antes de trocar o endereço principal
 
-## Cuidados com dados e credenciais
+1. Criar implantação de teste do Worker pelo fluxo `.github/workflows/deploy-v51-worker.yml`; configurá-la **nas configurações do GitHub**, sem colocar tokens, códigos ou chaves no repositório. O fluxo continua desabilitado até que `MED_JITA_CANARY_ENABLED` seja ativado.
+2. Confirmar, no ambiente de teste, `/api/health`, acesso legítimo aos quatro perfis (JBFS, Barba, Tay, Igu), desbloqueio opcional, gravação e releitura por perfil. Conferir que IDs e revisões não cruzam históricos.
+3. Em cada perfil, comparar quantidade de registros, valores, IDs e a última revisão entre a versão atual, o armazenamento do novo ambiente e a cópia Craft. Fazer exportação de recuperação **antes** de qualquer alteração de destino. Não se deve restaurar um snapshot antigo sobre dados mais novos.
+4. Verificar no iPhone: teclado numérico para PIN quando aplicável, tema light/dark/OLED, Jita centralizado, cálculo de REA/CAB/Tutoria/Habilidades/UC transversal, notas próprias, autonomia do botão instalar e retorno de app instalado.
+5. Fazer teste sem rede depois da instalação: o shell, CSS curricular e JavaScript de identidade devem funcionar pelo cache; perfis remotos e sincronização mostram indisponibilidade offline sem insinuar que salvaram no servidor.
+6. Somente com testes e conferência dos dados concluídos, ligar domínio próprio ao Worker e atualizar gradualmente links e atalhos. Manter rollback simples e documentado.
 
-- Nenhuma nota de usuário, histórico pessoal, PIN, senha ou conteúdo do banco de produção é importado ao GitHub.
-- `.openai/hosting.json` foi intencionalmente excluído: descreve o ambiente específico do Site, não o projeto portável.
-- `CRAFT_API_BASE` deve continuar como segredo da plataforma, nunca no repositório.
-- A migração futura de hospedagem exige provisionar o serviço/banco e comparar o comportamento com dados *de teste*; nenhum endereço deve mudar antes de testes end-to-end e estratégia de recuperação.
+## Proteções não negociáveis
 
-## Ordem segura para concluir a transição
+- Nunca incluir tokens, senhas ou códigos de acesso em HTML, git, áudio, logs ou capturas.
+- Nunca substituir a origem da API por domínio paralelo só para fazer a interface carregar.
+- Nunca excluir os ambientes antigos ou seus bancos durante o corte.
+- Conservar a arte original V11 e os efeitos/sons como melhorias optativas, respeitando movimento reduzido e áudio desativado por padrão.
+- O teste `tests/offline-brand-cache.mjs` entra em `npm test`: valida a lista de arquivos do Service Worker e simula requisições versionadas feitas pelo iPhone sem rede.
 
-1. Revisar e integrar o código da V51 no GitHub.
-2. Definir deploy automático a partir de commit/release do GitHub, com os segredos da plataforma de destino.
-3. Validar login, identidade por perfil, cálculos por UC, histórico, exportação, animações e instalação no iPhone.
-4. Só depois, apontar o domínio próprio; preservar o endereço anterior como fallback temporário.
-
-Este diretório é um estágio de migração, não um segundo app concorrente.
+**Estado atual:** GitHub é a fonte principal, a galeria pública funciona; a transferência dos históricos para um domínio independente ainda depende da infraestrutura e da validação dos dados. Nenhuma migração de dados ocorreu nesta alteração.
