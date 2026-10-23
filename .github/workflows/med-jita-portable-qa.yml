@@ -32,5 +32,7 @@ jobs:
         run: node tests/pin-keyboard.mjs
       - name: Conferir recursos do aplicativo e cache offline
         run: node tests/portable-assets.mjs
+      - name: Validar selos curriculares, galeria e PIN
+        run: node tests/portable-identity.mjs
       - name: Validar cálculos, perfis, sincronização e temas
         run: npm test
