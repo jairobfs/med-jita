@@ -29,8 +29,8 @@ assert.equal((await db.prepare('UPDATE snapshots SET revision=revision+1,payload
 'Concurrent update must retain compare-and-swap protection.');
 assert.match(translateD1Sql('INSERT INTO snapshots (id,revision,payload,updated_at) VALUES (?,?,?,?) ' +
   'ON CONFLICT(id) DO UPDATE SET revision=max(revision,excluded.revision),payload=excluded.payload,updated_at=excluded.updated_at').sql,
-  /GREATEST\(revision, excluded.revision\)/);
-assert.match(translateD1Sql('INSERT INTO snapshots (id,revision,payload,updated_at) VALUES (?,1,?,?) ON CONFLICT(id) DO UPDATE SET revision=revision+1,payload=excluded.payload,updated_at=excluded.updated_at').sql, /revision=snapshots.revision\\+1/);
+  /GREATEST\(snapshots.revision, excluded.revision\)/);
+assert.match(translateD1Sql('INSERT INTO snapshots (id,revision,payload,updated_at) VALUES (?,1,?,?) ON CONFLICT(id) DO UPDATE SET revision=revision+1,payload=excluded.payload,updated_at=excluded.updated_at').sql, /revision=snapshots.revision\+1/);
 assert.throws(() => db.prepare('SELECT revision FROM snapshots WHERE id=?').bind(), /parâmetros/i);
 assert.throws(() => translateD1Sql('DELETE FROM snapshots WHERE id=?'), /esquema/i);
 assert.throws(() => translateD1Sql('SELECT * FROM accounts'), /esquema/i);
