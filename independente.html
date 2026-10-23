@@ -172,6 +172,7 @@ window.addEventListener("storage",e=>{
  if(e.key===STATE||e.key===HISTORY)schedule();
 });
 window.addEventListener("pagehide",capture);
+window.addEventListener("online",()=>{if(current&&remoteReady&&signature(backup(current))!==get(k(current,"lastSig")))setTimeout(push,450);else refresh()});
 async function refresh(){
  if(!current||!url()||busy||document.hidden||Date.now()-lastRefresh<10000)return;
  lastRefresh=Date.now();
@@ -200,8 +201,8 @@ async function enter(){
    try{
     const row=await remoteRow(id),central=String(prop(row,"pin")||"").trim();
     if(!/^\d{4,6}$/.test(central))throw Error("PIN não cadastrado no Craft.");
-    if(pin!==central)throw Error("PIN incorreto no Craft.");
-    put(k(id,"pin"),hash);
+    if(pin!==central&&cached!==hash)throw Error("PIN incorreto no Craft.");
+    if(pin===central)put(k(id,"pin"),hash);
    }catch(error){
     if(/PIN/.test(String(error.message)))throw error;
     if(cached!==hash)throw Error("Sem conexão para validar PIN. Tente novamente online.");
@@ -221,7 +222,7 @@ async function enter(){
  finally{$("enter").disabled=false;$("pin").value="";$("pinConfirm").value=""}
 }
 $("enter").onclick=enter;$("back").onclick=()=>{$("pinFields").hidden=true;selected="";renderProfiles()};$("pin").onkeydown=e=>{if(e.key==="Enter")enter()};
-$("switch").onclick=()=>{capture();resetGate()};
+$("switch").onclick=async()=>{capture();if(remoteReady&&signature(backup(current))!==get(k(current,"lastSig")))await push();resetGate()};
 $("settings").onclick=()=>{$("apiBase").value=url();$("cfgStatus").textContent="";$("cfg").showModal()};
 $("closeCfg").onclick=()=>$("cfg").close();
 $("testCraft").onclick=async()=>{try{const v=$("apiBase").value.trim();if(!v.startsWith("https://"))throw Error("Use HTTPS.");const old=url();put(PREFIX+"craft_url",v);try{await remoteRow("jbfs");$("cfgStatus").textContent="Conexão validada por leitura."}catch(e){if(old)put(PREFIX+"craft_url",old);else del(PREFIX+"craft_url");throw e}}catch(e){$("cfgStatus").textContent="Falha: "+fmt(e)}};
