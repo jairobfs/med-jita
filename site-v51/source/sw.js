@@ -1,5 +1,5 @@
 /* MED JITA. Network-first assets avoid mixing a new HTML with old scripts. */
-const CACHE_NAME = 'med-jita-v58-20261023-recovery';
+const CACHE_NAME = 'med-jita-v51-2026102303';
 const BASE = new URL('./', self.registration.scope);
 const OFFLINE_FILES = [
   './', './index.html', './atelier.html', './vercel-exit.css', './brand-evolution.css', './jita-motion.css', './navigation-motion.css', './jita-curricular.css', './manifest.webmanifest', './JITA_vetorial.svg',
