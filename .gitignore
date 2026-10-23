@@ -8,3 +8,6 @@ wrangler.toml
 .env
 .env.*
 !.env.example
+# Arquivos privados de auditoria (nunca subir históricos ao repositório)
+migration-private/
+*.snapshots.json
