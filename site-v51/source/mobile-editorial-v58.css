@@ -436,6 +436,13 @@
     gap:7px !important;
     margin-bottom:9px !important;
   }
-  #page-cab > .grid, #page-cab .stack {gap:9px !important;}
-  #page-cab .stack > .card { padding:12px !important; }
+  #page-cab > .grid, #page-cab .stack {gap:7px !important;}
+  #page-cab .stack > .card { padding:10px !important; }
+  #page-cab .card-heading { margin-bottom:7px !important; }
+  #page-cab .card-heading h2 { font-size:18px !important; }
+  #page-cab .segmented { margin:5px 0 !important; }
+  #page-cab .cab-format-help {
+    margin-top:5px !important;
+    padding:7px 9px !important;
+  }
 }
