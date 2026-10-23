@@ -21,9 +21,9 @@ h1{font-size:27px;line-height:1.12;letter-spacing:-.04em;text-align:center;margi
 .avatar.selected{border:2px solid var(--sea);background:#e5f6f2}
 .face{position:relative;isolation:isolate;display:flex;align-items:flex-end;justify-content:center;width:50px;height:52px;padding:0 0 5px;border-radius:16px;background:linear-gradient(145deg,#e5e1f7,#d6caee);color:#38286e;font:900 24px/1 ui-rounded,"Arial Rounded MT Bold",system-ui,sans-serif;box-shadow:inset 0 1px rgba(255,255,255,.62)}
 .face::before{content:"";position:absolute;z-index:1;top:0;left:17%;width:66%;height:27px;background:url("./assets/jita-cartola-avatar.svg") center/contain no-repeat;transform:rotate(-4deg);filter:drop-shadow(0 1px 1px rgba(0,0,0,.08))}
-.avatar[data-profile=barba] .face{background:linear-gradient(145deg,#d9f5ec,#a9e5d9);color:#085e59}
-.avatar[data-profile=tay] .face{background:linear-gradient(145deg,#fce8f0,#f1c7da);color:#86315d}
-.avatar[data-profile=igu] .face{background:linear-gradient(145deg,#fff2db,#f2d7a5);color:#7d501e}
+.face[data-profile=barba]{background:linear-gradient(145deg,#d9f5ec,#a9e5d9);color:#085e59}
+.face[data-profile=tay]{background:linear-gradient(145deg,#fce8f0,#f1c7da);color:#86315d}
+.face[data-profile=igu]{background:linear-gradient(145deg,#fff2db,#f2d7a5);color:#7d501e}
 .avatar:focus-visible{outline:3px solid var(--sea);outline-offset:3px}
 @media(prefers-reduced-motion:no-preference){.avatar .face{transition:transform .24s ease}.avatar:active .face{transform:translateY(-2px) rotate(-3deg)}}
 label{font-size:12px;display:block;font-weight:750;margin:13px 0 7px}input{width:100%;border:1px solid #bfdad5;border-radius:12px;height:48px;padding:0 14px;background:white;color:var(--ink);outline-offset:2px;font-size:17px}input:focus{outline:2px solid var(--sea)}
@@ -107,7 +107,7 @@ function capture(){if(!current)return;const s=get(STATE),h=get(HISTORY);
 function b64(str){return "b64:"+btoa(unescape(encodeURIComponent(str)))}
 function deb64(x){const s=String(x||"");if(!s.startsWith("b64:"))throw Error("Backup remoto inválido");return decodeURIComponent(escape(atob(s.slice(4))))}
 async function digest(id,pin){const bytes=new TextEncoder().encode("MEDJITA:"+id+":"+pin);const hash=await crypto.subtle.digest("SHA-256",bytes);return [...new Uint8Array(hash)].map(v=>v.toString(16).padStart(2,"0")).join("")}
-function renderProfiles(){const av=$("avatars");av.replaceChildren();for(const [id,name] of P){const b=document.createElement("button");b.className="avatar"+(selected===id?" selected":"");b.dataset.profile=id;b.setAttribute("aria-label","Entrar como "+name);b.innerHTML='<span class="face" aria-hidden="true">'+name.trim().charAt(0).toLocaleUpperCase("pt-BR")+'</span><span>'+name+'</span>';b.onclick=()=>choose(id);av.append(b)}}
+function renderProfiles(){const av=$("avatars");av.replaceChildren();for(const [id,name] of P){const b=document.createElement("button");b.className="avatar"+(selected===id?" selected":"");b.innerHTML='<span class="face" data-profile="'+id+'" aria-hidden="true">'+name.trim().charAt(0).toLocaleUpperCase("pt-BR")+'</span><span>'+name+'</span>';b.onclick=()=>choose(id);av.append(b)}}
 function choose(id){selected=id;renderProfiles();$("pinFields").hidden=false;$("pin").value="";$("pinConfirm").value="";const fresh=!url()&&!get(k(id,"pin"));$("pinConfirmWrap").hidden=!fresh;$("pinLabel").textContent=url()?"PIN do perfil (definido pelo JBFS no Craft)":fresh?"Crie um PIN local":"Digite seu PIN";$("error").textContent="";$("pin").focus()}
 function resetGate(){$("gate").hidden=false;$("shell").hidden=true;selected="";renderProfiles();$("pinFields").hidden=true;$("pin").value="";$("pinConfirm").value="";$("calculator").src="about:blank";current=""}
 async function craft(method,path,data){const base=url().replace(/\/+$/,"");if(!/^https:\/\/connect\.craft\.do\/(?:links|link)\//.test(base))throw Error("Configure uma conexão Craft deste documento.");

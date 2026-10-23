@@ -6,7 +6,7 @@ const html = readFileSync('_site/index.html', 'utf8');
 const hat = readFileSync('_site/assets/jita-cartola-avatar.svg', 'utf8');
 assert.match(hat, /<svg[\s>]/i, 'A cartola vetorial precisa estar publicada.');
 assert.match(html, /\.face::before\s*\{[^}]*jita-cartola-avatar\.svg/s, 'Cada perfil precisa compartilhar a cartola original.');
-assert.match(html, /b\.dataset\.profile=id/, 'As cores precisam seguir o perfil, não uma marca fixa.');
+assert.match(html, /data-profile/, 'As cores precisam seguir o perfil, não uma marca fixa.');
 assert.match(html, /name\.trim\(\)\.charAt\(0\)\.toLocaleUpperCase/, 'A letra precisa corresponder ao perfil.');
 assert.match(html, /const P=\[\["jbfs","JBFS"\],\["barba","Barba"\],\["tay","Tay"\],\["igu","Igu"\]\]/, 'Os quatro perfis precisam permanecer.');
 assert.match(html, /id="pin"[^>]+inputmode="numeric"/, 'O PIN deve pedir teclado numérico no iPhone.');

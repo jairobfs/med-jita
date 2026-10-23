@@ -35,3 +35,9 @@ jobs:
           test -s _site/assets/jita-cartola-avatar.svg
       - name: Conferir sintaxe e identidade por pessoa
         run: node tests/pages-shell.mjs
+      - name: Validar PIN, histórico, conflitos e camada iPhone
+        run: |
+          node tests/v18-pwa-mock.mjs
+          node tests/gateway-overlay.spec.mjs
+          node tests/v52-identity.spec.mjs
+          node tests/v53-gallery.spec.mjs
