@@ -60,7 +60,7 @@ dialog::backdrop{background:#061e25b7}dialog h2{margin:0 0 8px}dialog p{color:va
  <label for="apiBase">URL de conexão Craft</label>
  <input id="apiBase" type="url" placeholder="https://connect.craft.do/links/.../api/v1" style="font-size:12px">
  <p>É configurada uma vez neste aparelho; não vai para o código público do GitHub. A API deve permitir requisições CORS do navegador.</p>
- <div class="actions"><button id="testCraft" class="ghost">Testar</button><button id="saveCraft" class="btn">Salvar e sincronizar</button></div>
+ <div class="actions"><button id="testCraft" class="ghost">Testar leitura</button><button id="testCraftWrite" class="ghost">Testar escrita</button><button id="saveCraft" class="btn">Salvar e sincronizar</button></div>
  <p id="cfgStatus" role="status"></p>
  <div class="actions"><button id="shareInvite" class="ghost">Copiar convite dos amigos</button><button id="export" class="ghost">Exportar backup</button><button id="closeCfg" class="ghost">Fechar</button></div>
 </dialog>
@@ -150,6 +150,21 @@ $("switch").onclick=()=>{capture();resetGate()};
 $("settings").onclick=()=>{$("apiBase").value=url();$("cfgStatus").textContent="";$("cfg").showModal()};
 $("closeCfg").onclick=()=>$("cfg").close();
 $("testCraft").onclick=async()=>{try{const v=$("apiBase").value.trim();if(!v.startsWith("https://"))throw Error("Use HTTPS.");const old=url();put(PREFIX+"craft_url",v);try{await remoteRow("jbfs");$("cfgStatus").textContent="Conexão validada por leitura."}catch(e){if(old)put(PREFIX+"craft_url",old);else del(PREFIX+"craft_url");throw e}}catch(e){$("cfgStatus").textContent="Falha: "+fmt(e)}};
+$("testCraftWrite").onclick=async()=>{
+ const typed=$("apiBase").value.trim(),old=url();
+ if(!typed.startsWith("https://connect.craft.do/"))return $("cfgStatus").textContent="Informe a conexão Craft deste documento.";
+ put(PREFIX+"craft_url",typed);
+ try{
+  $("cfgStatus").textContent="Verificando escrita sem alterar notas…";
+  const row=await remoteRow(current);
+  const previous=String(prop(row,"estado")),data=String(prop(row,"dados"));
+  const currentRevision=Number(prop(row,"revisao")||0);
+  const out=await craft("PUT","/collections/"+C+"/items",{itemsToUpdate:[{id:row.id,properties:{estado:previous}}]});
+  const reread=await remoteRow(current);
+  if(String(prop(reread,"estado"))!==previous||String(prop(reread,"dados"))!==data||Number(prop(reread,"revisao")||0)!==currentRevision)throw Error("Leitura após teste divergiu: confira estado original");
+  $("cfgStatus").textContent="Escrita confirmada + leitura verificada. Notas, histórico e revisão preservados.";
+ }catch(e){$("cfgStatus").textContent="Teste de escrita falhou: "+fmt(e);if(old)put(PREFIX+"craft_url",old);else del(PREFIX+"craft_url")}
+};
 $("saveCraft").onclick=async()=>{
  const v=$("apiBase").value.trim();
  if(!v.startsWith("https://connect.craft.do/"))return $("cfgStatus").textContent="Use conexão Craft autorizada para este documento.";
