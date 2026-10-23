@@ -23,10 +23,14 @@ test('componente de fusão pertence ao app existente', () => {
 });
 
 test('login descarta respostas antigas ao trocar o perfil', () => {
- assert.match(html, /loginAttempt\+\+;selected=id/);
+ assert.match(html, /loginAttempt\+\+;[^}]*selected=id/);
  assert.match(html, /const attempt=\+\+loginAttempt,id=selected/);
  assert.match(html, /if\(attempt!==loginAttempt\|\|selected!==id\)return/);
  assert.match(html, /loginAttempt\+\+;clearTimeout\(timer\)/);
+ assert.match(html, /await pull\(id,attempt\)/);
+ assert.match(html, /expectedLoginAttempt!==loginAttempt/);
+ assert.match(html, /inputmode="numeric"/);
+ assert.doesNotMatch(html, /jita-pin-pad/);
 });
 
 test('recursos de migração fazem parte do cache offline', () => {
