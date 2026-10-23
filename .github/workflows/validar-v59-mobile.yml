@@ -24,7 +24,7 @@ jobs:
         working-directory: site-v51
         run: |
           npm install --no-save --package-lock=false playwright
-          npx playwright install --with-deps chromium
+          google-chrome --version
       - name: Testar portal e CAB responsivos (390 e 320 px)
         working-directory: site-v51
         run: node tests/mobile-v59-preview.mjs
