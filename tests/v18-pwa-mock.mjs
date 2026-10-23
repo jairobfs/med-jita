@@ -63,6 +63,16 @@ nodes.get('pin').value='654321';
 await nodes.get('enter').onclick();
 assert.equal(nodes.get('gate').hidden,true);
 assert.equal(db.properties.revisao,2);
+// O bloqueio passa a valer também para escrita em uma sessão já aberta.
+db.properties.estado='Bloqueado';
+const blockedKey='med_jita_state_v3',blockedLocal=JSON.parse(store.getItem(blockedKey));
+blockedLocal.cab.hits='9';store.setItem(blockedKey,JSON.stringify(blockedLocal));
+listeners.storage({key:blockedKey,storageArea:store});
+await sleep(1450);
+assert.equal(db.properties.revisao,2,'Blocked account cannot save while already logged in');
+assert.equal(unbytes(db.properties.dados).data.cab.hits,'2','Blocked write must preserve remote data');
+db.properties.estado='Migrado';
+blockedLocal.cab.hits='2';store.setItem(blockedKey,JSON.stringify(blockedLocal));
 const key='med_jita_state_v3',edited=JSON.parse(store.getItem(key));edited.cab.hits='4';store.setItem(key,JSON.stringify(edited));listeners.storage({key,storageArea:store});
 await sleep(1550);
 assert.equal(unbytes(db.properties.dados).data.cab.hits,'4','autosave must reach Craft');

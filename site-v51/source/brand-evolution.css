@@ -302,3 +302,13 @@ html[data-palette-orbit=on]{
 .gateway-install:focus-visible{outline:3px solid var(--brand);outline-offset:3px}
 @media(max-width:740px){.gateway-install{min-height:48px;margin-top:12px}}
 @media(prefers-reduced-motion:reduce){.gateway-install{transition:none}.gateway-install:hover,.gateway-install:active{transform:none}}
+
+/* V56 · Campo nativo do iOS para PIN; senha alfanumérica por escolha.
+   Sem sobrepor um teclado HTML à interface do Safari. */
+.gateway-selection .profile-pin-tools{display:flex;justify-content:flex-end;margin-top:7px}
+.gateway-selection .profile-keyboard-mode{
+  min-height:38px;padding:5px 2px;background:transparent;border:0;
+  color:var(--brand2);font-size:12px;font-weight:750;cursor:pointer;
+  text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px
+}
+.gateway-selection .profile-keyboard-mode:focus-visible{outline:3px solid var(--brand);outline-offset:3px}

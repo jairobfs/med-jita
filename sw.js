@@ -1,5 +1,5 @@
 /* MED JITA. Change the cache version when publishing an updated bundle. */
-const CACHE_NAME = 'med-jita-github-fusion-v52-20261023';
+const CACHE_NAME = 'med-jita-github-fusion-main-20261023-v1';
 const BASE = new URL('./', self.registration.scope);
 const OFFLINE_FILES = [
   './', './index.html', './independente.html', './calculadora.html', './manifest.webmanifest', './JITA_vetorial.svg',

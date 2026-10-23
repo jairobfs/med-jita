@@ -37,6 +37,7 @@ jobs:
           PY
           node --check /tmp/med-jita-v18.js
           node tests/v18-pwa-mock.mjs
+          node tests/profile-isolation-pages.mjs
           node tests/gateway-overlay.spec.mjs
           node tests/v52-identity.spec.mjs
           node tests/v53-gallery.spec.mjs

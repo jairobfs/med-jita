@@ -191,6 +191,18 @@
     }
     return data;
   }
+  // PIN is the default on iPhone, but the historical account password may be
+  // alphanumeric. Switching inputmode must never change the stored credential.
+  function setUnlockKeyboardMode(useLetters=false,focusInput=false) {
+    const input = $('profileUnlockPassword');
+    input.setAttribute('inputmode',useLetters ? 'text' : 'numeric');
+    input.placeholder = useLetters ? 'Digite sua senha' : 'Digite seu PIN';
+    $('profileKeyboardMode').dataset.keyboard = useLetters ? 'letters' : 'numeric';
+    const toggle = $('profileKeyboardMode');
+    toggle.textContent = useLetters ? 'Usar teclado numérico' : 'Meu código tem letras';
+    toggle.setAttribute('aria-pressed',String(useLetters));
+    if (focusInput) input.focus();
+  }
   function passwordStage(show,profile=null) {
     $('profilePasswordSection').hidden = !show;
     $('profileChoices').hidden = show;
@@ -207,6 +219,7 @@
     passwordStage(false);
     $('profileUnlockPassword').value = '';
     for (const button of $('profileChoices').children) button.setAttribute('aria-pressed',String(button.dataset.profile === profile.id));
+    setUnlockKeyboardMode(false);
     $('profileUnlockPassword').type = 'password';
     $('profileUnlockReveal').textContent = 'Mostrar';
     $('profileUnlockReveal').setAttribute('aria-pressed','false');
@@ -437,6 +450,9 @@
       event.preventDefault();
       returnToChooser();
     }
+  });
+  $('profileKeyboardMode').addEventListener('click',() => {
+    setUnlockKeyboardMode($('profileKeyboardMode').dataset.keyboard !== 'letters',true);
   });
   $('profileUnlockReveal').addEventListener('click',() => {
     const input = $('profileUnlockPassword');
