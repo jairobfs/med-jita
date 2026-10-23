@@ -16,7 +16,12 @@ new Script(overlay, { filename: "gateway-enhance.js" });
 assert.match(html, /<link rel="manifest" href="\.\/manifest\.webmanifest">/);
 assert.match(html, /<link rel="stylesheet" href="\.\/gateway-enhance\.css">/);
 assert.match(html, /<script src="\.\/gateway-enhance\.js"><\/script>/);
-assert.match(overlay, /\["1", "2", "3", "4", "5", "6", "7", "8", "9", "erase", "0", "ok"\]/);
+// O login atual usa o teclado nativo do iOS (sem pad paralelo que cobre os campos).
+assert.match(html, /<input id="pin" type="password" inputmode="numeric"/);
+assert.match(html, /<input id="pinConfirm" type="password" inputmode="numeric"/);
+assert.match(overlay, /pin\.setAttribute\("inputmode", "numeric"\)/);
+assert.match(overlay, /confirm\.setAttribute\("inputmode", "numeric"\)/);
+assert.doesNotMatch(overlay, /jita-pin-pad/, "Não recriar teclado paralelo por engano");
 assert.match(overlay, /new URL\("\.\/", window\.location\.href\)\.href/);
 assert.match(overlay, /navigator\.serviceWorker\.register\("\.\/sw\.js"\)/);
 assert.match(css, /prefers-color-scheme:dark/);
