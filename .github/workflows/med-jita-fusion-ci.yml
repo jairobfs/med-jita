@@ -1,0 +1,26 @@
+name: Auditoria MED JITA · fusão GitHub
+on:
+  pull_request:
+    paths:
+      - 'independente.html'
+      - 'sw.js'
+      - 'integrations/**'
+      - 'tests/**'
+      - '.github/workflows/med-jita-fusion-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar sintaxe do motor
+        run: node --check integrations/fusion-archive.mjs
+      - name: Testar migração e PWA
+        run: node --test tests/integracao-v52.test.mjs tests/fusion-github-ui.test.mjs
