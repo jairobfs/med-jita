@@ -9,6 +9,10 @@ node "$project_root/scripts/build-assets.mjs"
 rm -rf "$dist_root"
 mkdir -p "$dist_root/server" "$dist_root/.openai"
 cp "$project_root/worker/index.js" "$dist_root/server/index.js"
-cp "$project_root/.openai/hosting.json" "$dist_root/.openai/hosting.json"
+# The ChatGPT Sites hosting metadata is optional outside that platform.
+# Cloudflare Workers uses wrangler-v57.jsonc and bundles the same Worker.
+if [[ -f "$project_root/.openai/hosting.json" ]]; then
+  cp "$project_root/.openai/hosting.json" "$dist_root/.openai/hosting.json"
+fi
 
 echo "Built $dist_root"
