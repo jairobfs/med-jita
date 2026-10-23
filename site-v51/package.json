@@ -1,0 +1,11 @@
+{
+  "name": "med-jita-live",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bash scripts/build.sh",
+    "validate": "node scripts/validate-artifact.mjs",
+    "test": "node tests/smoke.mjs && node tests/uc-engine.mjs && node tests/calculation-audit.mjs && node tests/module-regime-dashboard.mjs && node tests/auto-sync.mjs && node tests/profiles.mjs && node tests/profile-resume.mjs && node tests/profile-choice-race.mjs && node tests/profile-selection-race.mjs && node tests/profile-autosave-race.mjs && node tests/profile-conflict-reconcile.mjs && node tests/jita-motion.mjs && node tests/visual-consistency.mjs && node tests/palette-contrast.mjs && node tests/release-invariants.mjs",
+    "qa": "npm run build && npm test && npm run validate"
+  }
+}

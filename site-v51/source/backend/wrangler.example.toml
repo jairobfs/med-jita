@@ -1,0 +1,13 @@
+name = "med-jita-sync"
+main = "worker.mjs"
+compatibility_date = "2026-10-22"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "med-jita-backups"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+
+[vars]
+SITE_ORIGIN = "https://YOUR_GITHUB_USER.github.io"
+
+# CRAFT_API_BASE must be set as a Cloudflare secret, never in this file.
