@@ -22,7 +22,7 @@ try {
   const dry = test('--input',input);
   assert.equal(dry.status,0,dry.stderr);
   assert.match(dry.stdout,/DRY RUN/);
-  const hash = JSON.parse(dry.stdout.split('\\n')[0]).sha256;
+  const hash = JSON.parse(dry.stdout.split('\n')[0]).sha256;
   assert.match(hash,/^[a-f0-9]{64}$/);
   const wrong = test('--input',input,'--expect','0'.repeat(64),'--apply');
   assert.notEqual(wrong.status,0);
