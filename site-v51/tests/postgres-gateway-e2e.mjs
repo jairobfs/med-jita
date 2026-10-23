@@ -70,6 +70,8 @@ try {
  assert.match(r.value,/MED JITA/i);
  r=await request(service.base,'/api/snapshot','PUT',{revision:0,payload:envelope},true);
  assert.equal(r.status,503,'Default server must refuse writes.');
+ assert.equal((await request(service.base,'/api/profile/backup?id=jbfs')).status,503,
+  'Read-only mode must never permit hidden profile reset or Craft mirror writes.');
  await stop(service.app);
  service=await start(true);
  r=await request(service.base,'/api/snapshot','GET',null,false);
