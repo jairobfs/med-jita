@@ -1,0 +1,37 @@
+name: Validar V59 mobile primeiro
+
+on:
+  pull_request:
+    paths:
+      - 'site-v51/source/mobile-editorial-v58.css'
+      - 'site-v51/tests/mobile-v59-preview.mjs'
+      - '.github/workflows/validar-v59-mobile.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  viewport:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Preparar Chromium iPhone
+        working-directory: site-v51
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install --with-deps chromium
+      - name: Testar portal e CAB responsivos (390 e 320 px)
+        working-directory: site-v51
+        run: node tests/mobile-v59-preview.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: med-jita-mobile-v59-preview
+          path: site-v51/outputs/mobile-v59/
+          retention-days: 7
+          if-no-files-found: ignore
