@@ -29,9 +29,9 @@ const rows = Array.isArray(obj) ? obj : obj?.rows;
 const profiles = ['jbfs', 'barba', 'tay', 'igu'];
 const report = auditRows(rows, profiles);
 process.stdout.write(JSON.stringify({ phase: 'preflight', rowCount: report.rowCount,
-  profiles: report.profiles, counts: report.counts, sha256: report.sha256 }) + '\\n');
+  profiles: report.profiles, counts: report.counts, sha256: report.sha256 }) + '\n');
 if (!args.includes('--apply')) {
-  process.stdout.write('DRY RUN: nenhuma conexão, gravação ou alteração realizada.\\n');
+  process.stdout.write('DRY RUN: nenhuma conexão, gravação ou alteração realizada.\n');
   process.exit(0);
 }
 const expected = arg('--expect');
@@ -67,7 +67,7 @@ try {
   await client.query('COMMIT');
   process.stdout.write(JSON.stringify({
     phase:'verified-and-committed', rowCount:report.rowCount, sha256:compare.target.sha256
-  }) + '\\n');
+  }) + '\n');
 } catch (error) {
   await client.query('ROLLBACK');
   throw error;
