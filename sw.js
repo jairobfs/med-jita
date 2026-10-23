@@ -7,7 +7,7 @@ const OFFLINE_FILES = [
   './icons/icon-192.png', './icons/icon-512.png',
   './assets/estigma-atlas-principal.svg', './assets/estigma-atlas-esquina.svg',
   './assets/estigma-atlas-elaces.svg', './assets/med-jita-logo.svg',
-  './assets/med-jita-app-icon.svg', './assets/integrado-oficial-2026.png',
+  './assets/med-jita-app-icon.svg', './assets/jita-cartola-avatar.svg', './assets/integrado-oficial-2026.png',
   './integrations/fusion-archive.mjs', './integrations/sync-ui.js', './gateway-enhance.js', './gateway-enhance.css',
   './icons/jita-corpo.svg', './icons/jita-rosto.svg', './icons/jita-rc.svg',
   './icons/jita-morfo.svg', './icons/jita-anatomia.svg',
