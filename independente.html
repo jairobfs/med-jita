@@ -142,7 +142,9 @@ async function loadProfiles(){
 }
 async function remoteRow(id){let out=await craft("GET","/collections/"+C+"/items?maxDepth=0");
 const rows=out.items||out.data?.items||[];let row=rows.find(x=>String(prop(x,"identificador")).toLowerCase()===id);
-if(!row)throw Error("Perfil sem registro Craft");rowCache[id]=row;return row;}
+if(!row)throw Error("Perfil sem registro Craft");
+if(String(prop(row,"estado")||"").toLowerCase()==="bloqueado")throw Error("Perfil bloqueado no Craft");
+rowCache[id]=row;return row;}
 async function pull(id){
  remoteReady=false;
  try{
