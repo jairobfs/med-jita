@@ -1,0 +1,164 @@
+/*
+ * MED JITA V60 · Navigation is a native, keyboard-accessible app surface.
+ * Not a floating card that obscures the CAB or iPhone bottom bar.
+ */
+.jita-quick-launch {
+  position:relative;
+  display:inline-grid;
+  place-items:center;
+  flex:0 0 auto;
+}
+.jita-quick-launch > svg {display:block}
+.jita-quick-dot {
+  display:block;
+  position:absolute;
+  right:5px;
+  bottom:5px;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  border:1.5px solid var(--card,#fff);
+  background:var(--secondary,#7b879c);
+}
+.jita-quick-launch[data-sync-state="saved"] .jita-quick-dot {background:#2cae7f}
+.jita-quick-launch[data-sync-state="pending"] .jita-quick-dot {background:#e0ab45}
+.jita-quick-launch[data-sync-state="error"] .jita-quick-dot {background:#d95761}
+.jita-quick-launch:focus-visible {outline:3px solid var(--brand2,#0aa5ad);outline-offset:3px}
+
+.jita-quick-dialog {
+  position:fixed;
+  box-sizing:border-box;
+  inset:0;
+  margin:auto;
+  padding:0;
+  width:min(94vw,540px);
+  max-width:540px;
+  max-height:min(84dvh,680px);
+  border:1px solid color-mix(in srgb,var(--brand,#0aa5ad) 25%,var(--border,#c9d4da));
+  border-radius:23px;
+  background:var(--card,#fff);
+  color:var(--ink,#102d3c);
+  box-shadow:0 32px 110px rgba(5,16,34,.35);
+  overflow:hidden;
+}
+.jita-quick-dialog::backdrop {
+  background:rgba(6,12,28,.68);
+  -webkit-backdrop-filter:blur(7px);
+  backdrop-filter:blur(7px);
+}
+.jita-quick-surface {display:flex;flex-direction:column;max-height:min(84dvh,680px);min-height:0}
+.jita-quick-head {
+  display:flex;align-items:center;justify-content:space-between;
+  padding:17px 20px 8px;
+  gap:10px;
+}
+.jita-quick-eyebrow {
+  color:var(--brand,#0aa5ad);
+  font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+}
+.jita-quick-close {
+  flex:0 0 32px;width:32px;height:32px;
+  display:grid;place-items:center;appearance:none;
+  border-radius:10px;border:1px solid var(--border,#e1e5ed);
+  background:var(--card-soft,#f4f6f9);color:var(--secondary,#627587);
+  font-size:15px;cursor:pointer;
+}
+.jita-quick-close:focus-visible {outline:3px solid var(--brand2,#0aa5ad);outline-offset:2px}
+.jita-quick-field {
+  display:flex;align-items:center;gap:10px;
+  min-height:54px;margin:4px 17px 0;padding:0 13px;
+  border-radius:14px;border:1px solid color-mix(in srgb,var(--brand,#0aa5ad) 34%,var(--border,#dbe3e8));
+  background:var(--card-soft,#f5f6f9);color:var(--secondary,#6a7886);
+}
+.jita-quick-field:focus-within {border-color:var(--brand2,#0aa5ad);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand2,#0aa5ad) 13%,transparent)}
+.jita-quick-field input {
+  border:0!important;outline:0!important;box-shadow:none!important;
+  background:transparent!important;color:var(--ink,#102d3c)!important;
+  min-width:0;min-height:50px;flex:1;padding:0;
+  font:600 15px/1.3 system-ui,-apple-system,sans-serif;
+}
+.jita-quick-field input::placeholder {color:var(--secondary,#6b7c8d);opacity:1;font-weight:450}
+.jita-quick-shortcut {font:700 10px system-ui;padding:4px 6px;border:1px solid var(--border,#dbe3e8);border-radius:6px}
+.jita-quick-status {
+  margin:10px 18px 9px;
+  min-height:28px;padding:6px 9px;border-radius:9px;
+  font:600 11px/1.5 system-ui,-apple-system,sans-serif;
+  color:var(--secondary,#6b7785);
+  background:var(--card-soft,#f5f6f9);
+  border-left:3px solid var(--brand2,#0aa5ad);
+  overflow-wrap:anywhere;
+}
+.jita-quick-status[data-state="error"] {border-left-color:#d95761;color:#d95761}
+.jita-quick-status[data-state="pending"] {border-left-color:#e0ab45}
+.jita-quick-list {
+  display:flex;flex-direction:column;gap:5px;
+  overflow-y:auto;overscroll-behavior:contain;
+  padding:1px 12px 15px;
+  min-height:0;
+  scrollbar-width:thin;
+}
+.jita-quick-item {
+  display:flex;align-items:center;gap:11px;
+  width:100%;min-height:59px;text-align:left;
+  border:1px solid transparent;border-radius:13px;
+  padding:8px 11px;background:transparent;
+  color:var(--ink,#102d3c);cursor:pointer;
+  appearance:none;transition:background .12s,border-color .12s;
+}
+.jita-quick-item[data-selected="true"],.jita-quick-item:focus-visible,.jita-quick-item:hover {
+  border-color:color-mix(in srgb,var(--brand,#0aa5ad) 25%,var(--border,#dbe3e8));
+  background:color-mix(in srgb,var(--brand,#0aa5ad) 9%,var(--card,#fff));
+  outline:0;
+}
+.jita-quick-glyph {
+  display:grid;place-items:center;flex:0 0 38px;
+  height:38px;border-radius:11px;
+  font:700 19px/1 system-ui,-apple-system,sans-serif;
+  color:var(--brand,#0aa5ad);
+  background:var(--brand-faint,#e7faf7);
+}
+.jita-quick-copy {display:grid;flex:1;min-width:0;gap:3px}
+.jita-quick-copy strong {font-size:14px;font-weight:780;line-height:1.2;white-space:normal}
+.jita-quick-copy small {font-size:11px;color:var(--secondary,#6f7d8a);line-height:1.25}
+.jita-quick-arrow {font-size:15px;color:var(--brand,#0aa5ad)}
+.jita-quick-empty {margin:20px 12px;font-size:12px;line-height:1.6;color:var(--secondary,#6f7d8a)}
+.jita-quick-foot {
+  display:flex;justify-content:center;gap:9px;
+  padding:10px 14px 12px;border-top:1px solid var(--border,#e2e8ee);
+  font:600 10px/1.4 system-ui,-apple-system,sans-serif;
+  color:var(--secondary,#6e7d88);
+}
+@media(max-width:740px) {
+  /* Installation remains on the home page, in Settings and at the gateway.
+     The toolbar gains functional search without horizontal overflow. */
+  .toolbar #installApp {display:none!important}
+  .topbar .toolbar {gap:5px}
+  .topbar .location {min-width:0;overflow:hidden}
+  .topbar #topTitle {overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .jita-quick-launch {min-width:39px;min-height:40px;max-width:40px;padding:7px}
+}
+@media(max-width:520px) {
+  .jita-quick-dialog {
+    inset:auto 0 0;
+    width:100%;max-width:100%;
+    max-height:min(88dvh,740px);
+    margin:0;
+    border-radius:24px 24px 0 0;
+    border-left:0;border-right:0;border-bottom:0;
+  }
+  .jita-quick-surface {max-height:min(88dvh,740px);padding-bottom:env(safe-area-inset-bottom)}
+  .jita-quick-head {padding:16px 17px 6px}
+  .jita-quick-list {padding-bottom:6px}
+  .jita-quick-item {min-height:61px}
+  .jita-quick-field input {font-size:16px}
+  .jita-quick-foot {padding:7px 10px 9px}
+}
+@media(max-width:350px) {
+  .topbar .toolbar {gap:1px}
+  .jita-quick-launch {min-width:36px;min-height:38px}
+  .jita-quick-field {margin-inline:11px}
+  .jita-quick-head {padding-inline:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  .jita-quick-item {transition:none}
+}
