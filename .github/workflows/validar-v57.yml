@@ -47,6 +47,7 @@ jobs:
         run: |
           node tests/postgres-real-e2e.mjs
           node tests/postgres-restore-e2e.mjs
+          node tests/postgres-gateway-e2e.mjs
       - name: Garantir que nenhuma chave ou nota real entrou no repositorio
         run: |
           test ! -e site-v51/migration/export.json
