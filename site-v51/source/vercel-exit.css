@@ -1,0 +1,75 @@
+/* MED JITA · V52 transfer panel, native editorial styling for light/dark/OLED */
+.vercel-exit {
+  border:1px solid var(--border,rgba(120,145,157,.3));
+  border-radius:18px;
+  padding:17px 19px;
+  overflow:hidden;
+}
+.vercel-exit > summary {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+  cursor:pointer;
+  list-style:none;
+  font-weight:750;
+  line-height:1.45;
+}
+.vercel-exit > summary::-webkit-details-marker {display:none}
+.vercel-exit > summary::before {
+  content:'+';
+  order:3;
+  font-size:19px;
+  font-weight:500;
+  line-height:1;
+  color:var(--brand,#0AA5AD);
+}
+.vercel-exit[open] > summary::before {content:'−'}
+.vercel-exit-chip {
+  margin-inline:auto 0;
+  padding:4px 9px;
+  border:1px solid color-mix(in srgb,var(--brand,#0AA5AD) 34%,transparent);
+  border-radius:999px;
+  color:var(--brand,#0AA5AD);
+  background:color-mix(in srgb,var(--brand,#0AA5AD) 8%,transparent);
+  font-size:11px;
+  font-weight:650;
+}
+.vercel-exit-body {
+  display:grid;
+  gap:13px;
+  padding-top:16px;
+}
+.vercel-exit-body .lead {margin:0}
+.vercel-exit-file {justify-self:start}
+.vercel-exit-result {
+  white-space:pre-line;
+  font-size:13px;
+  line-height:1.55;
+  padding:12px 13px;
+  border-radius:11px;
+  background:color-mix(in srgb,var(--brand,#0AA5AD) 7%,transparent);
+  color:var(--text,inherit);
+  border:1px solid var(--border,rgba(120,145,157,.25));
+  overflow-wrap:anywhere;
+}
+.vercel-exit-result[data-state="error"] {
+  border-color:#b93845;
+}
+.vercel-exit-confirm {
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  cursor:pointer;
+  font-size:13px;
+  line-height:1.5;
+}
+.vercel-exit-confirm input {width:17px;height:17px;flex:none;margin:1px 0 0}
+.vercel-exit button:disabled {opacity:.48;cursor:not-allowed}
+@media(max-width:430px){
+  .vercel-exit {padding:15px}
+  .vercel-exit-chip {font-size:10px}
+  .vercel-exit > summary {font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){.vercel-exit *{scroll-behavior:auto}}

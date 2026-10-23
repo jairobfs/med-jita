@@ -332,6 +332,7 @@
     lastDigest = remote.backup && !useLocal ? fingerprint(remote.backup) : meta.digest;
     if (!remote.backup) lastDigest = '';
     localStorage.setItem('med_jita_last_profile',active.id);
+    document.documentElement.dataset.activeProfile = opened.id;
     document.documentElement.dataset.profileReady = 'yes';
     document.body.classList.add('account-mode');
     $('profileActiveName').textContent = opened.name;
@@ -422,6 +423,7 @@
     active = null; selected = null; historyPassword = ''; revision = 0; lastDigest = '';
     pendingResync = false;
     clearTimeout(timer);
+    delete document.documentElement.dataset.activeProfile;
     document.documentElement.dataset.profileReady = 'no';
     document.body.classList.remove('account-mode');
     refreshPersonalMarks();
