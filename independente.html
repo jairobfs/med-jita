@@ -71,7 +71,7 @@ const P=[["jbfs","JBFS"],["barba","Barba"],["tay","Tay"],["igu","Igu"]];
 const C="4f2532a5-feb8-9816-2681-54905764f8d3",PREFIX="jita_autonomo_v1_";
 const STATE="med_jita_state_v3",HISTORY="med_jita_history_v1";
 const $=id=>document.getElementById(id);
-let selected="",current="",busy=false,timer=0,rowCache={},remoteReady=false;
+let selected="",current="",busy=false,timer=0,rowCache={},remoteReady=false,pendingPush=false,lastRefresh=0;
 const k=(id,type)=>PREFIX+type+"_"+id;
 const get=(key)=>{try{return localStorage.getItem(key)}catch{return null}};
 const put=(key,val)=>{try{localStorage.setItem(key,val)}catch{}};
@@ -133,18 +133,44 @@ async function pull(id){
   return true;
  }catch(e){status("Modo local · "+fmt(e),true);return false}
 }
-async function push(){if(busy||!current||!url()||!remoteReady)return;busy=true;capture();try{let row=rowCache[current]||await remoteRow(current),id=current;
-const previous=JSON.parse(deb64(prop(row,"dados")));
-const nowData=backup(id);
-const stable=v=>JSON.stringify({data:v?.data??null,history:v?.history??[]});
-if(stable(nowData)===stable(previous)){status("Craft sincronizado · sem mudanças");return}
-const json=JSON.stringify(nowData),rev=Number(prop(row,"revisao")||0)+1,now=new Date().toISOString();
-await craft("PUT","/collections/"+C+"/items",{itemsToUpdate:[{id:row.id,properties:{dados:b64(json),revisao:rev,atualizado:now,estado:"Sincronizado"}}]});
-const check=await remoteRow(id);if(prop(check,"dados")!==b64(json))throw Error("Leitura após gravação divergente");
-status("Salvo no Craft · "+new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}));
-}catch(e){status("Salvo localmente · "+fmt(e),true)}finally{busy=false}}
-function schedule(){capture();status(url()?"Salvando no Craft…":"Salvo neste aparelho");clearTimeout(timer);timer=setTimeout(push,1100)}
-window.addEventListener("storage",e=>{if(!current||e.storageArea!==localStorage)return;if(e.key===STATE||e.key===HISTORY)schedule()});
+async function push(){
+ if(busy){pendingPush=true;return}
+ if(!current||!url()||!remoteReady)return;
+ busy=true;capture();
+ const id=current;
+ try{
+  const mine=backup(id),localSig=signature(mine),base=get(k(id,"lastSig"));
+  if(!base)throw Error("Recupere o Craft antes de enviar");
+  const row=await remoteRow(id),remote=JSON.parse(deb64(prop(row,"dados")));
+  const remoteSig=signature(remote);
+  if(remoteSig!==base&&remoteSig!==localSig){
+   put(k(id,"conflitoRemoto_"+Date.now()),JSON.stringify(remote));
+   remoteReady=false;
+   status("Versão mais recente em outro aparelho · cópias preservadas",true);
+   return;
+  }
+  if(localSig===remoteSig){put(k(id,"lastSig"),localSig);status("Craft sincronizado");return}
+  const rev=Number(prop(row,"revisao")||0)+1,now=new Date().toISOString();
+  await craft("PUT","/collections/"+C+"/items",{itemsToUpdate:[{id:row.id,properties:{dados:b64(JSON.stringify(mine)),revisao:rev,atualizado:now,estado:"Sincronizado"}}]});
+  const check=await remoteRow(id);
+  if(signature(JSON.parse(deb64(prop(check,"dados"))))!==localSig||Number(prop(check,"revisao"))!==rev)
+   throw Error("Confirmação de gravação divergente");
+  put(k(id,"lastSig"),localSig);
+  put(k(id,"revision"),String(rev));
+  if(signature(backup(id))!==localSig)pendingPush=true;
+  else status("Salvo no Craft · "+new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}));
+ }catch(e){status("Guardado neste aparelho · "+fmt(e),true)}
+ finally{busy=false;if(pendingPush&&remoteReady){pendingPush=false;setTimeout(push,700)}}
+}
+function schedule(){
+ capture();
+ status(url()?"Salvando no Craft…":"Salvo neste aparelho");
+ clearTimeout(timer);timer=setTimeout(push,1100);
+}
+window.addEventListener("storage",e=>{
+ if(!current||e.storageArea!==localStorage)return;
+ if(e.key===STATE||e.key===HISTORY)schedule();
+});
 window.addEventListener("pagehide",capture);
 async function enter(){
  if(!selected)return;
