@@ -244,11 +244,12 @@ async function enter(){
   if(url()){
    try{
     const row=await remoteRow(id),central=String(prop(row,"pin")||"").trim();
+    if(String(prop(row,"estado")||"").trim().toLowerCase()==="bloqueado")throw Error("Perfil bloqueado no Craft.");
     if(!/^\d{4,6}$/.test(central))throw Error("PIN não cadastrado no Craft.");
     if(pin!==central)throw Error("PIN incorreto no Craft.");
     if(pin===central)put(k(id,"pin"),hash);
    }catch(error){
-    if(/PIN/.test(String(error.message)))throw error;
+    if(/PIN|bloqueado no Craft|Perfil sem registro Craft/.test(String(error.message)))throw error;
     if(cached!==hash)throw Error("Sem conexão para validar PIN. Tente novamente online.");
    }
   }else{
