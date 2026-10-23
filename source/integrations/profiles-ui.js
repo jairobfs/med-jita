@@ -202,7 +202,10 @@
     selected = profile;
     const sequence = ++choiceSequence;
     historyPassword = '';
-    passwordStage(false);
+    const likelyProtected = !!profile.passwordRequired;
+    // No Safari do iPhone, focus() depois de await/fetch pode não abrir o teclado.
+    // Antecipamos apenas a interface de PIN, nunca o acesso ao histórico.
+    passwordStage(likelyProtected, likelyProtected ? profile : null);
     $('profileUnlockPassword').value = '';
     for (const button of $('profileChoices').children) button.setAttribute('aria-pressed',String(button.dataset.profile === profile.id));
     $('profileUnlockPassword').type = 'password';
@@ -210,7 +213,13 @@
     $('profileUnlockReveal').textContent = 'Mostrar';
     $('profileUnlockReveal').setAttribute('aria-pressed','false');
     $('profileUnlockReveal').setAttribute('aria-label','Mostrar senha');
-    message('Oi, '+profile.name+'! Abrindo suas notas…');
+    if (likelyProtected) {
+      $('profileUnlockName').textContent = profile.name;
+      message('Digite seu PIN para abrir suas notas.');
+      $('profileUnlockPassword').focus({ preventScroll:true });
+    } else {
+      message('Oi, '+profile.name+'! Abrindo suas notas…');
+    }
     void openCandidate(profile,sequence);
   }
   function renderProfiles(profiles) {
