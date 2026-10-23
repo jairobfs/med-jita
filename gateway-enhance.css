@@ -44,3 +44,57 @@
 @media(prefers-reduced-motion:reduce) {
   #gate img.logo { animation:none }
 }
+/* Acesso mobile-first. A marca original fica inteira no logo; o teclado é do iOS. */
+:root {--sea:#4BACA8;--ink:#2B244B;--mut:#665F78;--border:#DEDBEA;--bg:#F5F5FB;--card:#FFFFFF}
+#gate {
+  min-height:100dvh;
+  padding:max(16px,env(safe-area-inset-top)) 16px max(18px,env(safe-area-inset-bottom));
+  background:radial-gradient(ellipse at 8% 10%,#E5DFFA 0,transparent 56%),
+             radial-gradient(ellipse at 90% 90%,#E1F6EF 0,transparent 60%),#F5F5FB;
+}
+#gate .panel {
+  width:min(100%,460px);
+  padding:clamp(20px,5.2vw,29px);
+  border:1px solid #E1DDEE;
+  box-shadow:0 20px 58px rgba(43,36,75,.11);
+}
+#gate .logo {width:262px;max-width:87%;height:95px;max-height:95px;margin:2px auto 10px}
+#gate .eyebrow {color:#7057C8;letter-spacing:.14em;font-size:10px}
+#gate h1 {color:var(--ink);font-size:clamp(25px,6vw,30px);letter-spacing:-.035em;margin:9px 0 7px}
+#gate p.lead {font-size:13px;line-height:1.5;margin:0 0 19px}
+#gate .avatars {grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+#gate .avatar {
+  min-height:106px;gap:9px;border-radius:17px;padding:13px 8px 12px;
+  border:1px solid #DDD7EC;background:#FBFAFE;
+  font-size:14px;letter-spacing:.01em;
+}
+#gate .avatar.selected {border:2px solid #7057C8;background:#F1EEFB;padding:12px 7px 11px}
+#gate .face {width:53px;height:53px;flex:0 0 53px}
+#gate #pinFields {margin-top:18px}
+#gate #pinLabel {margin-top:0;font-size:12px}
+#gate #pin,#gate #pinConfirm {
+  height:54px;border-radius:13px;border:1px solid #C8C2DE;
+  text-align:center;font-size:21px;letter-spacing:.18em;font-variant-numeric:tabular-nums;
+}
+#gate #pin:focus,#gate #pinConfirm:focus {outline:2px solid #7057C8;outline-offset:1px}
+#gate #enter {background:#7057C8;color:#fff;min-height:48px}
+#gate #back {min-height:48px}
+#gate .notice {font-size:11px;line-height:1.5;margin-top:17px;padding-top:11px;color:var(--mut)}
+#gate .notice summary {cursor:pointer;font-weight:650}
+#gate .notice p {margin:8px 0 0}
+#gate .jita-install-gate {margin:0 auto 16px;color:#5D4BB0}
+@media(min-width:650px){#gate .panel{width:min(100%,560px)}#gate .avatars{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-height:640px){#gate{place-items:start center}}
+@media(max-width:350px){#gate .panel{padding:17px}#gate .avatars{gap:8px}#gate .logo{height:78px}}
+@media(prefers-color-scheme:dark) {
+  :root{--sea:#73CEC9;--ink:#F2EEFF;--mut:#C0B7D1;--border:#423C60;--bg:#171629;--card:#25243B}
+  #gate{background:radial-gradient(ellipse at 0 0,#363053 0,transparent 55%),#151629}
+  #gate .panel{background:#26243D;border-color:#494461}
+  #gate .eyebrow{color:#BEAFFC}
+  #gate .avatar{background:#2B2943;border-color:#514A72}
+  #gate .avatar.selected{background:#393052;border-color:#A18BF0}
+  #gate #pin,#gate #pinConfirm{background:#1E1D32;border-color:#655A82;color:#F5EEFF}
+  #gate #pin:focus,#gate #pinConfirm:focus{outline-color:#B0A2E8}
+  #gate #enter{background:#7860C8}
+  #gate .jita-install-gate{color:#C5B4FF}
+}
