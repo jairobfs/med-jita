@@ -18,6 +18,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Preparar ambiente fictício para validação
+        working-directory: site-v51
+        run: |
+          mkdir -p .openai
+          printf '%s\n' '{"d1":"DB","r2":null,"project_id":"ci-test-only"}' > .openai/hosting.json
       - name: Compilar, testar e validar
         working-directory: site-v51
         run: npm run qa
