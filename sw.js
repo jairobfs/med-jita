@@ -1,8 +1,8 @@
 /* MED JITA. Change the cache version when publishing an updated bundle. */
-const CACHE_NAME = 'med-jita-v8-20261022';
+const CACHE_NAME = 'med-jita-github-v16-20261023';
 const BASE = new URL('./', self.registration.scope);
 const OFFLINE_FILES = [
-  './', './index.html', './manifest.webmanifest', './JITA_vetorial.svg',
+  './', './index.html', './independente.html', './manifest.webmanifest', './JITA_vetorial.svg',
   './apple-touch-icon.png', './favicon.png',
   './icons/icon-192.png', './icons/icon-512.png',
   './assets/estigma-atlas-principal.svg', './assets/estigma-atlas-esquina.svg',
