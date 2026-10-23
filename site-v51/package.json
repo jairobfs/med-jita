@@ -6,7 +6,7 @@
     "build": "bash scripts/build.sh",
     "validate": "node scripts/validate-artifact.mjs",
     "test": "node tests/smoke.mjs && node tests/uc-engine.mjs && node tests/calculation-audit.mjs && node tests/module-regime-dashboard.mjs && node tests/auto-sync.mjs && node tests/profiles.mjs && node tests/profile-resume.mjs && node tests/profile-choice-race.mjs && node tests/profile-selection-race.mjs && node tests/profile-autosave-race.mjs && node tests/profile-conflict-reconcile.mjs && node tests/jita-motion.mjs && node tests/visual-consistency.mjs && node tests/palette-contrast.mjs && node tests/release-invariants.mjs && node tests/offline-brand-cache.mjs && node tests/pin-keyboard.mjs && node tests/migration-preflight.mjs && node tests/postgres-adapter.mjs && node tests/migration-import.mjs",
-    "qa": "npm run build && npm test && npm run validate && node --check render-production/server.mjs && node --check migration/import-d1-postgres.mjs"
+    "qa": "npm run build && npm test && npm run validate && node --check render-production/server.mjs && node --check migration/import-d1-postgres.mjs && node --check render-production/verify-key.mjs"
   },
   "dependencies": {
     "pg": "^8.16.3"
