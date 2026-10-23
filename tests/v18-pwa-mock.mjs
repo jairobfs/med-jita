@@ -8,7 +8,7 @@ const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(script,'Gateway inline original não encontrado');
 new vm.Script(script,{filename:'MED-JITA-V18.js'});
 const nodes=new Map(),listeners={};
-const el=()=>({value:'',hidden:false,style:{},children:[],replaceChildren(){this.children=[]},append(x){this.children.push(x)},focus(){},showModal(){},close(){},set textContent(v){this._text=v},get textContent(){return this._text||''}});
+const el=()=>({value:'',hidden:false,style:{},dataset:{},attributes:{},children:[],replaceChildren(){this.children=[]},append(x){this.children.push(x)},setAttribute(k,v){this.attributes[k]=String(v)},focus(){},showModal(){},close(){},set textContent(v){this._text=v},get textContent(){return this._text||''}});
 const $=id=>{if(!nodes.has(id))nodes.set(id,el());return nodes.get(id)};
 const db={id:'barba-item',perfil:'Barba',properties:{identificador:'barba',pin:'123456',revisao:2,estado:'Migrado',atualizado:'2026-10-23T11:00:00Z',dados:''}};
 const make=(hits)=>({version:3,format:'med-jita-backup',data:{version:3,cab:{hits,total:'10'},tut:{},form:{}},history:[]});
