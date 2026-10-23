@@ -37,6 +37,7 @@ jobs:
           PY
           node --check /tmp/med-jita-v18.js
           node tests/v18-pwa-mock.mjs
+          node tests/gateway-overlay.spec.mjs
           test -s sw.js
 
       - name: Extrair aplicativo
@@ -48,6 +49,12 @@ jobs:
           cp independente.html _site/index.html
           cp independente.html _site/independente.html
           cp sw.js _site/sw.js
+          cp manifest.webmanifest _site/manifest.webmanifest
+          cp gateway-enhance.js _site/gateway-enhance.js
+          cp gateway-enhance.css _site/gateway-enhance.css
+          test -s _site/gateway-enhance.js
+          test -s _site/gateway-enhance.css
+          test -s _site/manifest.webmanifest
           test -f _site/calculadora.html
           test -f _site/index.html
           touch _site/.nojekyll
