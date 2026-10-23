@@ -101,8 +101,19 @@ function useProfile(id){let old=JSON.parse(get(k(id,"state"))||"null");
  let h=JSON.parse(get(k(id,"history"))||"[]");
  put(HISTORY,JSON.stringify(Array.isArray(h)?h:[]));
 }
-function capture(){if(!current)return;const s=get(STATE),h=get(HISTORY);
- if(s)put(k(current,"state"),s);if(h)put(k(current,"history"),h);
+function capture(){
+ if(!current)return;
+ const s=get(STATE),h=get(HISTORY);
+ if(s){
+  try{
+   const updated=JSON.parse(s),previous=JSON.parse(get(k(current,"state"))||"null");
+   // A calculadora legada desconhece o módulo "uc". Nunca perdê-lo ao carregar/salvar.
+   if(previous?.uc&&updated&&typeof updated==="object"&&!Object.prototype.hasOwnProperty.call(updated,"uc"))
+    updated.uc=previous.uc;
+   put(k(current,"state"),JSON.stringify(updated));
+  }catch{put(k(current,"state"),s)}
+ }
+ if(h)put(k(current,"history"),h);
 }
 function b64(str){return "b64:"+btoa(unescape(encodeURIComponent(str)))}
 function deb64(x){const s=String(x||"");if(!s.startsWith("b64:"))throw Error("Backup remoto inválido");return decodeURIComponent(escape(atob(s.slice(4))))}
