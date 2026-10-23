@@ -44,7 +44,9 @@ jobs:
         working-directory: site-v51
         env:
           MED_JITA_TEST_DATABASE_URL: postgresql://jita_ci:jita_ci@localhost:5432/jita_ci
-        run: node tests/postgres-real-e2e.mjs
+        run: |
+          node tests/postgres-real-e2e.mjs
+          node tests/postgres-restore-e2e.mjs
       - name: Garantir que nenhuma chave ou nota real entrou no repositorio
         run: |
           test ! -e site-v51/migration/export.json
