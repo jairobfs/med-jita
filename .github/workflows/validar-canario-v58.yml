@@ -1,0 +1,33 @@
+name: Homologar MED JITA V58 na Cloudflare
+
+on:
+  pull_request:
+    paths:
+      - 'site-v51/tests/cloudflare-live-e2e.mjs'
+      - '.github/workflows/validar-canario-v58.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'site-v51/tests/cloudflare-live-e2e.mjs'
+      - '.github/workflows/validar-canario-v58.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: med-jita-cloudflare-live-qa
+  cancel-in-progress: false
+
+jobs:
+  teste-real:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar API real com dados exclusivamente fictícios
+        working-directory: site-v51
+        run: node tests/cloudflare-live-e2e.mjs
