@@ -280,7 +280,7 @@ async function enter(){
  }catch(error){$("error").textContent=fmt(error)}
  finally{$("enter").disabled=false;$("pin").value="";$("pinConfirm").value=""}
 }
-$("calculator").addEventListener("load",()=>{
+$("calculator").onload=()=>{
  if(!current)return;
  try{
   const child=$("calculator").contentWindow,bridge=child?.MED_JITA_BRIDGE;
@@ -290,7 +290,7 @@ $("calculator").addEventListener("load",()=>{
   child.document.documentElement.dataset.profileReady="yes";
   status(remoteReady?"Craft conectado · Jita atualizado":"Jita atualizado · dados locais preservados");
  }catch(error){status("Falha ao iniciar interface moderna: "+fmt(error),true)}
-});
+};
 $("enter").onclick=enter;$("back").onclick=()=>{$("pinFields").hidden=true;selected="";renderProfiles()};$("pin").onkeydown=e=>{if(e.key==="Enter")enter()};
 $("switch").onclick=async()=>{capture();if(remoteReady&&signature(backup(current))!==get(k(current,"lastSig")))await push();resetGate()};
 $("settings").onclick=()=>{$("apiBase").value=url();$("cfgStatus").textContent="";$("cfg").showModal()};
