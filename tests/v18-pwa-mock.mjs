@@ -4,7 +4,6 @@ import assert from 'node:assert/strict';
 import {webcrypto} from 'node:crypto';
 import {setTimeout as sleep} from 'node:timers/promises';
 const html=readFileSync('independente.html','utf8');
-const source=html.rsplit?.('<script>',1) || null;
 const script=html.slice(html.lastIndexOf('<script>')+8,html.lastIndexOf('</script>'));
 new vm.Script(script,{filename:'MED-JITA-V18.js'});
 const nodes=new Map(),listeners={};
@@ -15,11 +14,11 @@ const make=(hits)=>({version:3,format:'med-jita-backup',data:{version:3,cab:{hit
 const bytes=o=>'b64:'+Buffer.from(JSON.stringify(o)).toString('base64');
 const unbytes=s=>JSON.parse(Buffer.from(s.slice(4),'base64').toString('utf8'));
 db.properties.dados=bytes(make('2'));
-let requests=0,writes=0;
+let requests=0,writes=0,offline=false;
 const local=new Map();
 const store={getItem:k=>local.get(k)??null,setItem:(k,v)=>local.set(k,String(v)),removeItem:k=>local.delete(k)};
 const base='https://connect.craft.do/links/test/api/v1';
-const fetch=async (url,options={})=>{requests++;assert.ok(String(url).startsWith(base+'/collections/'));if(options.method==='PUT'){writes++;const body=JSON.parse(options.body);Object.assign(db.properties,body.itemsToUpdate[0].properties);return {ok:true,json:async()=>({ok:true})}}return {ok:true,json:async()=>({items:[db]})}};
+const fetch=async (url,options={})=>{if(offline)throw Error('Network offline');requests++;assert.ok(String(url).startsWith(base+'/collections/'));if(options.method==='PUT'){writes++;const body=JSON.parse(options.body);Object.assign(db.properties,body.itemsToUpdate[0].properties);return {ok:true,json:async()=>({ok:true})}}return {ok:true,json:async()=>({items:[db]})}};
 const context={console,crypto:webcrypto,TextEncoder,encodeURIComponent,decodeURIComponent,escape,unescape,btoa,atob,URL,URLSearchParams,
  localStorage:store,fetch,window:{addEventListener:(k,cb)=>listeners[k]=cb},history:{replaceState(){}},
  document:{hidden:false,getElementById:$,createElement:el,addEventListener:(k,cb)=>listeners[k]=cb},navigator:{clipboard:{}},
@@ -40,6 +39,13 @@ const remote=unbytes(db.properties.dados);remote.data.cab.hits='5';db.properties
 listeners.focus();
 await sleep(600);
 assert.equal(JSON.parse(store.getItem(key)).cab.hits,'5','must refresh newer Craft version');
+offline=true;
+const localOffline=JSON.parse(store.getItem(key));localOffline.cab.hits='6';
+store.setItem(key,JSON.stringify(localOffline));listeners.storage({key,storageArea:store});
+await sleep(1300);
+assert.equal(unbytes(db.properties.dados).data.cab.hits,'5','offline edit cannot reach Craft');
+offline=false;listeners.online();await sleep(1200);
+assert.equal(unbytes(db.properties.dados).data.cab.hits,'6','online event must retry offline edits');
 const conflictLocal=JSON.parse(store.getItem(key));conflictLocal.cab.hits='7';store.setItem(key,JSON.stringify(conflictLocal));listeners.storage({key,storageArea:store});
 const conflictRemote=unbytes(db.properties.dados);conflictRemote.data.cab.hits='8';db.properties.dados=bytes(conflictRemote);db.properties.revisao=5;
 await sleep(1600);
