@@ -33,6 +33,16 @@ ensaio com perfis fictícios.
 persistente, exportação íntegra e restauração testada.** O Postgres gratuito do
 Render expira após 30 dias e não oferece backup gerenciado.
 
+## Verificação obrigatória da chave após importar
+
+Com o banco definitivo configurado e a chave original mantida apenas no cofre do serviço, executar **sem publicar histórico ou chave nos logs**:
+
+```bash
+node render-production/verify-key.mjs
+```
+
+A rotina exige os quatro perfis, valida AES-256-GCM usando o identificador como AAD, verifica formato e revisões e falha se qualquer histórico não puder ser descriptografado. A migração deve continuar bloqueada em caso de falha. O Craft é somente um espelho auxiliar: não presumir que seus números de revisão estão atualizados.
+
 ## Bloqueios para o corte de produção
 
 1. Um banco durável com cópias de segurança independentes e recuperação testada.
