@@ -11,11 +11,19 @@ const jitaMotionCss = read('../source/jita-motion.css');
 const inverseLogo = read('../source/assets/completa-organic-inversa.svg');
 const logoAdapter = read('../source/integrations/brand-v08.js');
 const profileUI = read('../source/integrations/profiles-ui.js');
+const syncUI = read('../source/integrations/sync-ui.js');
+const exitSource = read('../source/integrations/vercel-exit.js');
+
+for (const [name, source] of Object.entries({
+  'canonical app': html, 'personal profiles': profileUI,
+  'cloud sync': syncUI, 'canonical API': runtime,
+})) assert.doesNotMatch(source,/https?:\/\/[^\s'"`<>]*vercel\.(?:app|com)|@vercel\/blob|VERCEL_URL|VERCEL_API/i,
+  `${name} must not require Vercel for normal operation`);
 
 const cache = /const CACHE_NAME = 'med-jita-v(\d+)-\d+';/.exec(sw);
 assert.ok(cache,'Service worker cache must have an explicit release number');
 const expected = cache[1];
-for (const name of ['sync-ui','profiles-ui','editorial-live','brand-v08','uc-engine','jita-motion','gateway-motion','palette-orbit']) {
+for (const name of ['sync-ui','profiles-ui','editorial-live','brand-v08','uc-engine','jita-motion','gateway-motion','palette-orbit','navigation-motion','vercel-exit']) {
   assert.ok(html.includes(`./integrations/${name}.js?v=${expected}`),
     `Script ${name} must carry the same version as the cache`);
 }
@@ -57,6 +65,20 @@ assert.match(jitaMotionCss,/@keyframes jita-gradient-drift/,
   'The color system must gently move its ambient gradient independently');
 assert.ok(sw.includes("'./integrations/palette-orbit.js'") && sw.includes("'./integrations/gateway-motion.js'"),
   'The new motion behaviors must work offline');
+assert.ok(sw.includes("'./integrations/navigation-motion.js'") && sw.includes("'./navigation-motion.css'"),
+  'Keep the latest V51 navigation behavior offline');
+assert.ok(sw.includes("'./integrations/fusion-archive.mjs'") && sw.includes("'./integrations/vercel-exit.js'"),
+  'The non-destructive transition review must work offline');
+assert.match(html,/id="vercelExitPanel"/, 'Review Vercel backups within the real History page');
+assert.match(html,/type="module" src="\.\/integrations\/vercel-exit\.js\?v=/,
+  'The one-time Vercel review must run in the canonical app');
+assert.doesNotMatch(exitSource,/\bfetch\(|\.importBackup\(|\.sync\(/,
+  'Review may not upload, import or overwrite profile data');
+assert.match(exitSource,/prepareFusion\(/, 'Compare complete histories using the tested reconciliation code');
+assert.match(exitSource,/selectedProfile\(\) !== staged\.profileId/,
+  'Changing profile must invalidate pending downloads');
+assert.match(profileUI,/dataset\.activeProfile = active\.id/,
+  'Use the authenticated active profile when comparing files');
 assert.doesNotMatch(html,/navigator\.share\(/,
   'The generic Web Share sheet must not masquerade as Safari Add to Home Screen');
 assert.match(html,/id="installShare"[^>]*role="note"/,

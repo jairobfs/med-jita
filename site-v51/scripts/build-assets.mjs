@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const template = await readFile(join(root, 'worker/runtime.js'), 'utf8');
 const rootFiles = [
-  'index.html', 'atelier.html', 'brand-evolution.css', 'jita-motion.css', 'sw.js', 'manifest.webmanifest', 'JITA_vetorial.svg',
+  'index.html', 'atelier.html', 'brand-evolution.css', 'jita-motion.css', 'navigation-motion.css', 'sw.js', 'manifest.webmanifest', 'JITA_vetorial.svg',
   'favicon.png', 'apple-touch-icon.png',
 ];
 const images = [
@@ -36,10 +36,12 @@ const files = [
   'integrations/sync-ui.js', 'integrations/profiles-ui.js', 'integrations/editorial-live.js',
   'integrations/uc-engine.js', 'integrations/brand-v08.js', 'integrations/jita-motion.js',
   'integrations/gateway-motion.js', 'integrations/palette-orbit.js',
+  'integrations/navigation-motion.js', 'integrations/vercel-exit.js', 'integrations/fusion-archive.mjs',
 ];
 const mimeByExt = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
+  '.mjs': 'text/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
   '.svg': 'image/svg+xml',
   '.png': 'image/png',

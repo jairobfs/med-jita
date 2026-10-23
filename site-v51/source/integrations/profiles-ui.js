@@ -320,6 +320,7 @@
     if (!remote.backup) lastDigest = '';
     localStorage.setItem('med_jita_last_profile',active.id);
     document.documentElement.dataset.profileReady = 'yes';
+    document.documentElement.dataset.activeProfile = active.id;
     document.body.classList.add('account-mode');
     $('profileActiveName').textContent = opened.name;
     refreshPersonalMarks();
@@ -410,6 +411,7 @@
     pendingResync = false;
     clearTimeout(timer);
     document.documentElement.dataset.profileReady = 'no';
+    delete document.documentElement.dataset.activeProfile;
     document.body.classList.remove('account-mode');
     refreshPersonalMarks();
     $('profileControls').hidden = true;
