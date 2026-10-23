@@ -1,0 +1,32 @@
+name: Validar sistema visual e sonoro JITA V52
+on:
+  push:
+    branches: ['feature/**']
+    paths:
+      - 'site-v51/source/**'
+      - 'site-v51/scripts/build-assets.mjs'
+      - 'tests/v52-identity.spec.mjs'
+      - 'tests/v53-gallery.spec.mjs'
+      - '.github/workflows/validar-jita-v52.yml'
+  pull_request:
+    paths:
+      - 'site-v51/source/**'
+      - 'site-v51/scripts/build-assets.mjs'
+      - 'tests/v52-identity.spec.mjs'
+      - 'tests/v53-gallery.spec.mjs'
+      - '.github/workflows/validar-jita-v52.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  identidade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Testar cobertura curricular e sintaxe
+        run: |
+          node tests/v52-identity.spec.mjs
+          node tests/v53-gallery.spec.mjs

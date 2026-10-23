@@ -26,6 +26,22 @@ jobs:
       - name: Obter arquivos
         uses: actions/checkout@v6
 
+      - name: Validar gateway antes de publicar
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          html = Path('independente.html').read_text(encoding='utf-8')
+          assert 'pin' in html and 'lastSig' in html
+          js = html.rsplit('<script>', 1)[1].split('</script>', 1)[0]
+          Path('/tmp/med-jita-v18.js').write_text(js, encoding='utf-8')
+          PY
+          node --check /tmp/med-jita-v18.js
+          node tests/v18-pwa-mock.mjs
+          node tests/gateway-overlay.spec.mjs
+          node tests/v52-identity.spec.mjs
+          node tests/v53-gallery.spec.mjs
+          test -s sw.js
+
       - name: Extrair aplicativo
         run: |
           mkdir -p _site
@@ -34,9 +50,26 @@ jobs:
           mv _site/index.html _site/calculadora.html
           cp independente.html _site/index.html
           cp independente.html _site/independente.html
+          cp site-v51/source/assets/jita-cartola-avatar.svg _site/assets/jita-cartola-avatar.svg
+          test -s _site/assets/jita-cartola-avatar.svg
           cp sw.js _site/sw.js
+          cp manifest.webmanifest _site/manifest.webmanifest
+          cp gateway-enhance.js _site/gateway-enhance.js
+          cp gateway-enhance.css _site/gateway-enhance.css
+          test -s _site/gateway-enhance.js
+          test -s _site/gateway-enhance.css
+          test -s _site/manifest.webmanifest
           test -f _site/calculadora.html
           test -f _site/index.html
+          mkdir -p _site/identidade
+          cp site-v51/source/identidade.html _site/identidade/index.html
+          cp site-v51/source/catalog.json _site/identidade/catalog.json
+          cp site-v51/source/jita-curricular.css _site/identidade/jita-curricular.css
+          cp site-v51/source/integrations/med-brand-system.js _site/identidade/med-brand-system.js
+          cp site-v51/source/assets/med-jita-brand-v11.svg _site/identidade/med-jita-brand-v11.svg
+          cp site-v51/source/icons/jita-corpo.svg _site/identidade/jita-corpo.svg
+          test -s _site/identidade/index.html
+          test -s _site/identidade/catalog.json
           touch _site/.nojekyll
 
       - name: Configurar Pages

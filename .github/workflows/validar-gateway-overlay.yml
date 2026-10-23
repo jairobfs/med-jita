@@ -1,0 +1,37 @@
+name: Validar camada iPhone MED JITA
+
+on:
+  push:
+    branches: ['fix/**']
+    paths:
+      - 'independente.html'
+      - 'sw.js'
+      - 'gateway-enhance.js'
+      - 'gateway-enhance.css'
+      - 'tests/gateway-overlay.spec.mjs'
+      - '.github/workflows/validar-gateway-overlay.yml'
+  pull_request:
+    paths:
+      - 'independente.html'
+      - 'sw.js'
+      - 'gateway-enhance.js'
+      - 'gateway-enhance.css'
+      - 'tests/gateway-overlay.spec.mjs'
+      - '.github/workflows/validar-gateway-overlay.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compatibilidade:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obter projeto
+        uses: actions/checkout@v4
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validar camada iPhone
+        run: node tests/gateway-overlay.spec.mjs

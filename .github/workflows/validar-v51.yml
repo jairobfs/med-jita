@@ -1,6 +1,12 @@
 name: Qualidade MED JITA V51
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'site-v51/**'
+      - '.github/workflows/validar-v51.yml'
+      - '.github/workflows/deploy-v51-worker.yml'
   pull_request:
     paths:
       - 'site-v51/**'
@@ -34,4 +40,5 @@ jobs:
         with:
           name: med-jita-v51-worker
           path: site-v51/dist/server/index.js
+          if-no-files-found: error
           retention-days: 7

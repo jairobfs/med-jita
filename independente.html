@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#102D3C">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="stylesheet" href="./gateway-enhance.css">
 <title>MED JITA · Independente</title>
 <link rel="icon" href="./favicon.png"><link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <style>
@@ -16,7 +18,14 @@ body{margin:0;font:14px/1.48 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-se
 .eyebrow{text-align:center;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--sea);font-weight:850}
 h1{font-size:27px;line-height:1.12;letter-spacing:-.04em;text-align:center;margin:9px 0 8px}p.lead{text-align:center;color:var(--mut);font-size:13px;margin:0 0 19px}
 .avatars{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.avatar{min-width:0;display:flex;flex-direction:column;align-items:center;gap:8px;background:#f8fbfa;border:1px solid var(--border);border-radius:15px;padding:14px 5px;color:var(--ink);font-weight:750}
-.avatar.selected{border:2px solid var(--sea);background:#e5f6f2}.face{display:grid;place-items:center;width:44px;height:44px;border-radius:15px;background:#d1ebe8;font-size:16px;color:#0b646b}
+.avatar.selected{border:2px solid var(--sea);background:#e5f6f2}
+.face{position:relative;isolation:isolate;display:flex;align-items:flex-end;justify-content:center;width:50px;height:52px;padding:0 0 5px;border-radius:16px;background:linear-gradient(145deg,#e5e1f7,#d6caee);color:#38286e;font:900 24px/1 ui-rounded,"Arial Rounded MT Bold",system-ui,sans-serif;box-shadow:inset 0 1px rgba(255,255,255,.62)}
+.face::before{content:"";position:absolute;z-index:1;top:0;left:17%;width:66%;height:27px;background:url("./assets/jita-cartola-avatar.svg") center/contain no-repeat;transform:rotate(-4deg);filter:drop-shadow(0 1px 1px rgba(0,0,0,.08))}
+.face[data-profile=barba]{background:linear-gradient(145deg,#d9f5ec,#a9e5d9);color:#085e59}
+.face[data-profile=tay]{background:linear-gradient(145deg,#fce8f0,#f1c7da);color:#86315d}
+.face[data-profile=igu]{background:linear-gradient(145deg,#fff2db,#f2d7a5);color:#7d501e}
+.avatar:focus-visible{outline:3px solid var(--sea);outline-offset:3px}
+@media(prefers-reduced-motion:no-preference){.avatar .face{transition:transform .24s ease}.avatar:active .face{transform:translateY(-2px) rotate(-3deg)}}
 label{font-size:12px;display:block;font-weight:750;margin:13px 0 7px}input{width:100%;border:1px solid #bfdad5;border-radius:12px;height:48px;padding:0 14px;background:white;color:var(--ink);outline-offset:2px;font-size:17px}input:focus{outline:2px solid var(--sea)}
 .btn{background:var(--sea);color:white;border:0;border-radius:12px;padding:12px 17px;font-weight:800;min-height:46px}.btn:disabled{opacity:.5}.ghost{background:transparent;border:1px solid var(--border);color:var(--ink);border-radius:11px;min-height:41px;padding:9px 12px}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.actions .btn{flex:1}
@@ -47,7 +56,7 @@ dialog::backdrop{background:#061e25b7}dialog h2{margin:0 0 8px}dialog p{color:va
    <div class="actions"><button class="btn" id="enter">Entrar</button><button class="ghost" id="back">Voltar</button></div>
   </div>
   <div id="error" class="err" role="status"></div>
-  <div class="notice">A calculadora funciona mesmo sem internet depois de carregada. O salvamento no Craft só será indicado como confirmado após resposta da API. Primeira entrada nesta rota exige cadastrar um PIN local.</div>
+  <div class="notice">A calculadora funciona mesmo sem internet depois de carregada. O salvamento no Craft só será indicado como confirmado após resposta da API. Com o convite Craft, use o PIN definido pelo JBFS. Sem Craft, funciona o PIN local já cadastrado; no primeiro uso local, você pode criá-lo.</div>
  </div>
 </div>
 <div id="shell" hidden>
@@ -57,6 +66,7 @@ dialog::backdrop{background:#061e25b7}dialog h2{margin:0 0 8px}dialog p{color:va
 <dialog id="cfg">
  <h2>Sincronização Craft</h2>
  <p>Use uma conexão API autorizada <strong>somente</strong> para o documento “MED JITA · Estados autônomos”. Não utilize uma conexão que dê acesso a todos os seus documentos.</p>
+ <p><a href="https://docs.craft.do/editor/d/6606bf28-79b6-7415-c5c5-6d0a79f7f279/ccd7306b-ca3b-a3db-c391-111cc0b8e28a" target="_blank" rel="noopener">Editar PINs e usuários no Craft</a></p>
  <label for="apiBase">URL de conexão Craft</label>
  <input id="apiBase" type="url" placeholder="https://connect.craft.do/links/.../api/v1" style="font-size:12px">
  <p>É configurada uma vez neste aparelho; não vai para o código público do GitHub. A API deve permitir requisições CORS do navegador.</p>
@@ -97,13 +107,28 @@ function capture(){if(!current)return;const s=get(STATE),h=get(HISTORY);
 function b64(str){return "b64:"+btoa(unescape(encodeURIComponent(str)))}
 function deb64(x){const s=String(x||"");if(!s.startsWith("b64:"))throw Error("Backup remoto inválido");return decodeURIComponent(escape(atob(s.slice(4))))}
 async function digest(id,pin){const bytes=new TextEncoder().encode("MEDJITA:"+id+":"+pin);const hash=await crypto.subtle.digest("SHA-256",bytes);return [...new Uint8Array(hash)].map(v=>v.toString(16).padStart(2,"0")).join("")}
-function renderProfiles(){const av=$("avatars");av.replaceChildren();for(const [id,name] of P){const b=document.createElement("button");b.className="avatar"+(selected===id?" selected":"");b.innerHTML='<span class="face">'+name.slice(0,2).toUpperCase()+'</span><span>'+name+'</span>';b.onclick=()=>choose(id);av.append(b)}}
+function renderProfiles(){const av=$("avatars");av.replaceChildren();for(const [id,name] of P){const b=document.createElement("button");b.className="avatar"+(selected===id?" selected":"");b.innerHTML='<span class="face" data-profile="'+id+'" aria-hidden="true">'+name.trim().charAt(0).toLocaleUpperCase("pt-BR")+'</span><span>'+name+'</span>';b.onclick=()=>choose(id);av.append(b)}}
 function choose(id){selected=id;renderProfiles();$("pinFields").hidden=false;$("pin").value="";$("pinConfirm").value="";const fresh=!url()&&!get(k(id,"pin"));$("pinConfirmWrap").hidden=!fresh;$("pinLabel").textContent=url()?"PIN do perfil (definido pelo JBFS no Craft)":fresh?"Crie um PIN local":"Digite seu PIN";$("error").textContent="";$("pin").focus()}
 function resetGate(){$("gate").hidden=false;$("shell").hidden=true;selected="";renderProfiles();$("pinFields").hidden=true;$("pin").value="";$("pinConfirm").value="";$("calculator").src="about:blank";current=""}
 async function craft(method,path,data){const base=url().replace(/\/+$/,"");if(!/^https:\/\/connect\.craft\.do\/(?:links|link)\//.test(base))throw Error("Configure uma conexão Craft deste documento.");
 const res=await fetch(base+path,{method,cache:"no-store",headers:{"Accept":"application/json",...(data?{"Content-Type":"application/json"}:{})},body:data?JSON.stringify(data):undefined});
 if(!res.ok)throw Error("Craft respondeu "+res.status);return await res.json()}
 const prop=(row,p)=>{const v=row?.properties?.[p];return v&&typeof v==="object"?v.value??v.text??v.number??"":v??""};
+async function loadProfiles(){
+ if(!url())return;
+ try{
+  const data=await craft("GET","/collections/"+C+"/items?maxDepth=0");
+  const known=new Set(P.map(x=>x[0]));
+  for(const row of data.items||data.data?.items||[]){
+   const id=String(prop(row,"identificador")||"").toLowerCase().trim();
+   const name=String(row.perfil||id).trim().slice(0,26);
+   if(!/^[a-z0-9_-]{2,32}$/.test(id)||known.has(id)||!name)continue;
+   if(String(prop(row,"estado")).toLowerCase()==="bloqueado")continue;
+   P.push([id,name]);known.add(id);
+  }
+  renderProfiles();
+ }catch(e){}
+}
 async function remoteRow(id){let out=await craft("GET","/collections/"+C+"/items?maxDepth=0");
 const rows=out.items||out.data?.items||[];let row=rows.find(x=>String(prop(x,"identificador")).toLowerCase()===id);
 if(!row)throw Error("Perfil sem registro Craft");rowCache[id]=row;return row;}
@@ -172,18 +197,27 @@ window.addEventListener("storage",e=>{
  if(e.key===STATE||e.key===HISTORY)schedule();
 });
 window.addEventListener("pagehide",capture);
+window.addEventListener("online",()=>{lastRefresh=0;setTimeout(refresh,350)});
 async function refresh(){
  if(!current||!url()||busy||document.hidden||Date.now()-lastRefresh<10000)return;
- lastRefresh=Date.now();
- capture();
- const base=get(k(current,"lastSig"));
- if(!base||signature(backup(current))!==base)return;
+ lastRefresh=Date.now();capture();
+ const id=current,base=get(k(id,"lastSig")),localSig=signature(backup(id));
  try{
-  const row=await remoteRow(current),other=JSON.parse(deb64(prop(row,"dados")));
-  if(signature(other)===base)return;
-  const ok=await pull(current);
-  if(ok){useProfile(current);$("calculator").src="./calculadora.html";status("Atualizado pelo Craft")}
- }catch(e){status("Offline · notas deste aparelho preservadas",true)}
+  if(!remoteReady||!base||localSig!==base){
+   const was=localSig,ok=await pull(id);
+   if(!ok)return;
+   if(signature(backup(id))!==get(k(id,"lastSig"))){await push();return}
+   if(signature(backup(id))!==was){
+    useProfile(id);$("calculator").src="./calculadora.html";
+    status("Atualizado do Craft");
+   }
+   return;
+  }
+  const row=await remoteRow(id),remote=JSON.parse(deb64(prop(row,"dados")));
+  if(signature(remote)===base)return;
+  const ok=await pull(id);
+  if(ok){useProfile(id);$("calculator").src="./calculadora.html";status("Atualizado do Craft")}
+ }catch(e){status("Offline · dados locais preservados",true)}
 }
 window.addEventListener("focus",()=>setTimeout(refresh,250));
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)refresh()});
@@ -200,8 +234,8 @@ async function enter(){
    try{
     const row=await remoteRow(id),central=String(prop(row,"pin")||"").trim();
     if(!/^\d{4,6}$/.test(central))throw Error("PIN não cadastrado no Craft.");
-    if(pin!==central)throw Error("PIN incorreto no Craft.");
-    put(k(id,"pin"),hash);
+    if(pin!==central&&cached!==hash)throw Error("PIN incorreto no Craft.");
+    if(pin===central)put(k(id,"pin"),hash);
    }catch(error){
     if(/PIN/.test(String(error.message)))throw error;
     if(cached!==hash)throw Error("Sem conexão para validar PIN. Tente novamente online.");
@@ -221,7 +255,7 @@ async function enter(){
  finally{$("enter").disabled=false;$("pin").value="";$("pinConfirm").value=""}
 }
 $("enter").onclick=enter;$("back").onclick=()=>{$("pinFields").hidden=true;selected="";renderProfiles()};$("pin").onkeydown=e=>{if(e.key==="Enter")enter()};
-$("switch").onclick=()=>{capture();resetGate()};
+$("switch").onclick=async()=>{capture();if(remoteReady&&signature(backup(current))!==get(k(current,"lastSig")))await push();resetGate()};
 $("settings").onclick=()=>{$("apiBase").value=url();$("cfgStatus").textContent="";$("cfg").showModal()};
 $("closeCfg").onclick=()=>$("cfg").close();
 $("testCraft").onclick=async()=>{try{const v=$("apiBase").value.trim();if(!v.startsWith("https://"))throw Error("Use HTTPS.");const old=url();put(PREFIX+"craft_url",v);try{await remoteRow("jbfs");$("cfgStatus").textContent="Conexão validada por leitura."}catch(e){if(old)put(PREFIX+"craft_url",old);else del(PREFIX+"craft_url");throw e}}catch(e){$("cfgStatus").textContent="Falha: "+fmt(e)}};
@@ -259,6 +293,8 @@ $("shareInvite").onclick=async()=>{
 };
 $("export").onclick=()=>{if(!current)return;capture();const body=JSON.stringify(backup(current),null,2),a=document.createElement("a"),obj=URL.createObjectURL(new Blob([body],{type:"application/json"}));a.href=obj;a.download="MED_JITA_"+current+"_independente.json";a.click();URL.revokeObjectURL(obj)};
 renderProfiles();
+loadProfiles();
 })();
 </script>
+<script src="./gateway-enhance.js"></script>
 </body></html>
