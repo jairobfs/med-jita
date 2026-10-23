@@ -162,6 +162,11 @@
   dialog.addEventListener('close',()=>previousFocus?.focus?.({preventScroll:true}));
   input.addEventListener('input',render);
   input.addEventListener('keydown',event=>{
+    // On iPhone/Chrome, Escape first clears a search field rather than
+    // closing its native dialog. Give the explicit app close priority.
+    if(event.key==='Escape') {
+      event.preventDefault();dialog.close();return;
+    }
     if(event.key==='ArrowDown'||event.key==='ArrowUp') {
       event.preventDefault();highlight(index+(event.key==='ArrowDown'?1:-1));
     }
