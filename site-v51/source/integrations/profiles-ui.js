@@ -197,7 +197,7 @@
     const input = $('profileUnlockPassword');
     input.setAttribute('inputmode',useLetters ? 'text' : 'numeric');
     input.placeholder = useLetters ? 'Digite sua senha' : 'Digite seu PIN';
-    $('profilePinPad').hidden = useLetters;
+    $('profileKeyboardMode').dataset.keyboard = useLetters ? 'letters' : 'numeric';
     const toggle = $('profileKeyboardMode');
     toggle.textContent = useLetters ? 'Usar teclado numérico' : 'Meu código tem letras';
     toggle.setAttribute('aria-pressed',String(useLetters));
@@ -452,26 +452,7 @@
     }
   });
   $('profileKeyboardMode').addEventListener('click',() => {
-    setUnlockKeyboardMode(!$('profilePinPad').hidden,true);
-  });
-  $('profilePinPad').addEventListener('click',event => {
-    const button = event.target.closest('[data-pin-key]');
-    if (!button || !event.currentTarget.contains(button)) return;
-    const key = button.dataset.pinKey;
-    if (key === 'enter') { void unlockCandidate(); return; }
-    const input = $('profileUnlockPassword');
-    if (input.disabled) return;
-    const start = input.selectionStart ?? input.value.length;
-    const end = input.selectionEnd ?? start;
-    if (key === 'erase') {
-      const from = start === end ? Math.max(0,start-1) : start;
-      input.setRangeText('',from,end,'end');
-    } else if (/^[0-9]$/.test(key)) {
-      input.setRangeText(key,start,end,'end');
-    }
-    input.dispatchEvent(new Event('input',{bubbles:true}));
-    // Do not focus here: Safari would cover the accessible touch pad with
-    // the native keyboard after every digit.
+    setUnlockKeyboardMode($('profileKeyboardMode').dataset.keyboard !== 'letters',true);
   });
   $('profileUnlockReveal').addEventListener('click',() => {
     const input = $('profileUnlockPassword');
