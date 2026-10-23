@@ -27,5 +27,7 @@ jobs:
         run: node --check worker/index.js
       - name: Conferir teclado de PIN no iPhone
         run: node tests/pin-keyboard.mjs
+      - name: Conferir recursos do aplicativo e cache offline
+        run: node tests/portable-assets.mjs
       - name: Validar cálculos, perfis, sincronização e temas
         run: npm test
