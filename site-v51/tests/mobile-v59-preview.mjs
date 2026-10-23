@@ -19,7 +19,8 @@ for(const dims of [{width:390,height:844},{width:320,height:700}]) {
    await page.goto(url,{waitUntil:'domcontentloaded',timeout:35000});
    await page.locator('#profileChoices .profile-choice').first().waitFor();
    // Preview the candidate CSS against the live FULL app before merging/deploying.
-   await page.addStyleTag({content:stylesheet});
+   if(process.env.MED_JITA_V59_LIVE!=='1')
+     await page.addStyleTag({content:stylesheet});
    await page.waitForTimeout(400);
    const login=await page.evaluate(()=>{
      const get=s=>document.querySelector(s);
@@ -128,7 +129,7 @@ for(const dims of [{width:390,height:844},{width:320,height:700}]) {
    assert.equal(await page.locator('#cabFormatHelp').evaluate(n=>n.open),true);
    assert.ok((await page.locator('#cabWeightsExplained').innerText()).trim().length>20);
    await page.locator('#cabFormatHelp summary').click();
-   console.log('V59 PREVIEW PASS',JSON.stringify({dims,login,cab}));
+   console.log(process.env.MED_JITA_V59_LIVE==='1'?'V59 CLOUDFLARE LIVE PASS':'V59 PREVIEW PASS',JSON.stringify({dims,login,cab}));
  } finally { await context.close(); }
 }
 assert.deepEqual(errors,[]);
