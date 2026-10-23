@@ -1,0 +1,38 @@
+name: Homologar V59 publicada na Cloudflare
+
+on:
+  pull_request:
+    paths:
+      - 'site-v51/tests/mobile-v59-preview.mjs'
+      - '.github/workflows/homologar-v59-publicado.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  experiencia-real:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Preparar Chrome já instalado
+        working-directory: site-v51
+        run: |
+          npm install --no-save --package-lock=false playwright
+          google-chrome --version
+      - name: Validar V59 PUBLICADA sem injeção de estilos ou HTML
+        working-directory: site-v51
+        env:
+          MED_JITA_V59_LIVE: '1'
+        run: node tests/mobile-v59-preview.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: med-jita-v59-live-mobile
+          path: site-v51/outputs/mobile-v59/
+          if-no-files-found: ignore
+          retention-days: 7
