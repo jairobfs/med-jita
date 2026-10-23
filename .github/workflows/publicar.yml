@@ -41,6 +41,9 @@ jobs:
           node tests/gateway-overlay.spec.mjs
           node tests/v52-identity.spec.mjs
           node tests/v53-gallery.spec.mjs
+          node --check uc-native.js
+          node --check site-v51/source/integrations/uc-engine.js
+          node tests/uc-native.spec.mjs
           test -s sw.js
 
       - name: Extrair aplicativo
@@ -61,6 +64,22 @@ jobs:
           test -s _site/gateway-enhance.css
           test -s _site/manifest.webmanifest
           test -f _site/calculadora.html
+          cp site-v51/source/integrations/uc-engine.js _site/uc-engine.js
+          cp uc-native.js _site/uc-native.js
+          cp uc-native.css _site/uc-native.css
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          f=Path('_site/calculadora.html')
+          text=f.read_text(encoding='utf-8')
+          scripts='<script src="./uc-engine.js"></script><script src="./uc-native.js"></script>'
+          text,n=re.subn(r'</body\s*>',scripts+'</body>',text,count=1,flags=re.I)
+          if n!=1: raise RuntimeError('Legacy calculator has no closing body; refusing deployment')
+          f.write_text(text,encoding='utf-8')
+          assert text.index('uc-engine.js')<text.index('uc-native.js')
+          assert text.count('uc-native.js')==1
+          PY
+          node tests/uc-built.spec.mjs
           test -f _site/index.html
           mkdir -p _site/identidade
           cp site-v51/source/identidade.html _site/identidade/index.html
