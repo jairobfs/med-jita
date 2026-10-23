@@ -151,8 +151,9 @@ async function asset(req,res,url) {
     let data = await readFile(filename);
     if (relative==='/index.html') {
       const html = data.toString('utf8');
-      data = Buffer.from(html.includes('</body>') ?
-        html.replace('</body>',canaryBanner+'</body>') : html+canaryBanner);
+      const themed = html.replace('</head>','<link rel="stylesheet" href="/canary-contrast.css"></head>');
+      data = Buffer.from(themed.includes('</body>') ?
+        themed.replace('</body>',canaryBanner+'</body>') : themed+canaryBanner);
     }
     res.writeHead(200,{
       'Content-Type':contentTypes[extname(filename).toLowerCase()]||'application/octet-stream',
