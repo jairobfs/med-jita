@@ -68,6 +68,15 @@ try {
     'The white/lavender plaque must not cover the brand on dark backgrounds.');
   assert.equal(mobileLayout.headerTag,'BUTTON');
   assert.equal(mobileLayout.headerLabel,'Trocar pessoa');
+  assert.equal((await page.locator('#headerProfileMark').textContent())?.trim(),'B',
+    'Barba initial must be visible below the Jita hat.');
+  const markStyle=await page.locator('#headerProfileMark').evaluate(node=>({
+    fontSize:parseFloat(getComputedStyle(node).fontSize),
+    fontWeight:getComputedStyle(node).fontWeight,
+    color:getComputedStyle(node).color
+  }));
+  assert.ok(markStyle.fontSize>=17,'Mobile profile letter is too small: '+JSON.stringify(markStyle));
+
   await page.screenshot({path:out+'/02-home-barba-dark.png',fullPage:false});
 
   await page.locator('nav.mobilebar button[data-page="cab"]').click();
