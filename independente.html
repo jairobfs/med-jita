@@ -62,7 +62,7 @@ dialog::backdrop{background:#061e25b7}dialog h2{margin:0 0 8px}dialog p{color:va
  <p>É configurada uma vez neste aparelho; não vai para o código público do GitHub. A API deve permitir requisições CORS do navegador.</p>
  <div class="actions"><button id="testCraft" class="ghost">Testar</button><button id="saveCraft" class="btn">Salvar e sincronizar</button></div>
  <p id="cfgStatus" role="status"></p>
- <div class="actions"><button id="export" class="ghost">Exportar backup</button><button id="closeCfg" class="ghost">Fechar</button></div>
+ <div class="actions"><button id="shareInvite" class="ghost">Copiar convite dos amigos</button><button id="export" class="ghost">Exportar backup</button><button id="closeCfg" class="ghost">Fechar</button></div>
 </dialog>
 <script>
 (()=>{
@@ -80,6 +80,11 @@ const backup=(id)=>({version:3,format:"med-jita-backup",exportedAt:new Date().to
 const fmt=e=>String(e?.message||e).slice(0,120);
 const status=(msg,err=false)=>{$("status").textContent=msg;$("status").style.color=err?"#ffd0d5":"#b0e4df"};
 const url=()=>get(PREFIX+"craft_url")||"";
+const invitation=new URLSearchParams(location.hash.replace(/^#/,"")).get("craft");
+if(invitation&&/^https:\/\/connect\.craft\.do\/(?:links|link)\/[^\s]+\/api\/v1\/?$/.test(invitation)){
+  put(PREFIX+"craft_url",invitation);
+  history.replaceState(null,"",location.pathname+location.search);
+}
 function useProfile(id){let old=JSON.parse(get(k(id,"state"))||"null");
  if(old?.version===3)put(STATE,JSON.stringify(old));else del(STATE);
  let h=JSON.parse(get(k(id,"history"))||"[]");
@@ -152,6 +157,12 @@ $("saveCraft").onclick=async()=>{
  $("calculator").src="./index.html";
  $("cfgStatus").textContent="Dados conciliados com Craft. A gravação ficará ativa após a próxima edição.";
 }
+$("shareInvite").onclick=async()=>{
+ if(!url())return $("cfgStatus").textContent="Conecte o Craft antes de gerar um convite.";
+ const target=new URL(location.href);target.hash="craft="+encodeURIComponent(url());
+ try{await navigator.clipboard.writeText(target.href);$("cfgStatus").textContent="Convite copiado. Compartilhe apenas com os participantes do MED JITA.";}
+ catch{$("cfgStatus").textContent="Seu navegador não permitiu copiar. Abra no Safari ou Chrome.";}
+};
 $("export").onclick=()=>{if(!current)return;capture();const body=JSON.stringify(backup(current),null,2),a=document.createElement("a"),obj=URL.createObjectURL(new Blob([body],{type:"application/json"}));a.href=obj;a.download="MED_JITA_"+current+"_independente.json";a.click();URL.revokeObjectURL(obj)};
 renderProfiles();
 })();
