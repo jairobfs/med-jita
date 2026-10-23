@@ -191,6 +191,18 @@
     }
     return data;
   }
+  // PIN is the default on iPhone, but the historical account password may be
+  // alphanumeric. Switching inputmode must never change the stored credential.
+  function setUnlockKeyboardMode(useLetters=false,focusInput=false) {
+    const input = $('profileUnlockPassword');
+    input.setAttribute('inputmode',useLetters ? 'text' : 'numeric');
+    input.placeholder = useLetters ? 'Digite sua senha' : 'Digite seu PIN';
+    $('profilePinPad').hidden = useLetters;
+    const toggle = $('profileKeyboardMode');
+    toggle.textContent = useLetters ? 'Usar teclado numérico' : 'Meu código tem letras';
+    toggle.setAttribute('aria-pressed',String(useLetters));
+    if (focusInput) input.focus();
+  }
   function passwordStage(show,profile=null) {
     $('profilePasswordSection').hidden = !show;
     $('profileChoices').hidden = show;
@@ -207,6 +219,7 @@
     passwordStage(false);
     $('profileUnlockPassword').value = '';
     for (const button of $('profileChoices').children) button.setAttribute('aria-pressed',String(button.dataset.profile === profile.id));
+    setUnlockKeyboardMode(false);
     $('profileUnlockPassword').type = 'password';
     $('profileUnlockReveal').textContent = 'Mostrar';
     $('profileUnlockReveal').setAttribute('aria-pressed','false');
@@ -437,6 +450,28 @@
       event.preventDefault();
       returnToChooser();
     }
+  });
+  $('profileKeyboardMode').addEventListener('click',() => {
+    setUnlockKeyboardMode(!$('profilePinPad').hidden,true);
+  });
+  $('profilePinPad').addEventListener('click',event => {
+    const button = event.target.closest('[data-pin-key]');
+    if (!button || !event.currentTarget.contains(button)) return;
+    const key = button.dataset.pinKey;
+    if (key === 'enter') { void unlockCandidate(); return; }
+    const input = $('profileUnlockPassword');
+    if (input.disabled) return;
+    const start = input.selectionStart ?? input.value.length;
+    const end = input.selectionEnd ?? start;
+    if (key === 'erase') {
+      const from = start === end ? Math.max(0,start-1) : start;
+      input.setRangeText('',from,end,'end');
+    } else if (/^[0-9]$/.test(key)) {
+      input.setRangeText(key,start,end,'end');
+    }
+    input.dispatchEvent(new Event('input',{bubbles:true}));
+    // Do not focus here: Safari would cover the accessible touch pad with
+    // the native keyboard after every digit.
   });
   $('profileUnlockReveal').addEventListener('click',() => {
     const input = $('profileUnlockPassword');
