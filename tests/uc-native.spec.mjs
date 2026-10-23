@@ -52,6 +52,7 @@ assert.match(clientSource,/Minhas UCs/);
 assert.doesNotMatch(clientSource,/\/api\/identity|med_jita_session|profileUnlockPassword|vercel\.app/,'No second login or backend');
 assert.match(clientSource,/Nenhuma nota lançada/,'Incomplete grades must not be treated as zero');
 assert.match(clientSource,/Frequência \(%\)/);
+assert.match(clientSource,/if\(input\)\{input\.blur\(\);e\.stopPropagation\(\);return\}/,'Editing a field must not close the panel when dismissing the keyboard');
 const sw=readFileSync('sw.js','utf8');
 for(const asset of ['uc-engine.js','uc-native.js','uc-native.css'])assert.ok(sw.includes("'./"+asset+"'"),'UC offline precache missing: '+asset);
 console.log('PASS UC V51: 3 matrices × 12 periods, original curricular formulas, pending grades, RRA/REA and state compatibility.');
