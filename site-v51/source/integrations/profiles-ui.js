@@ -342,8 +342,10 @@
     passwordStage(false);
     $('profileUnlockPassword').value = '';
     $('accountPasswordToggle').textContent = active.passwordRequired ? 'Alterar senha' : 'Criar senha';
-    status(mergeOnEntry ? 'As versões deste aparelho e da nuvem foram preservadas no histórico. Sincronizando…' :
-      'Conectado como '+opened.name+'. Salvamento automático habilitado.','success');
+    status(window.MED_JITA_PREVIEW_ISOLATED===true
+      ? 'Prévia de testes · sem Craft · cópia online por até 7 dias.'
+      : mergeOnEntry ? 'As versões deste aparelho e da nuvem foram preservadas no histórico. Sincronizando…' :
+        'Conectado como '+opened.name+'. Salvamento automático habilitado.','success');
     suspended = false;
     saveMeta();
     schedule(500);
@@ -384,7 +386,8 @@
         revision = remote.revision;
         lastDigest = fingerprint(bridge.exportBackup());
         saveMeta();
-        status('Notas recebidas do outro aparelho. Sincronização em dia.','success');
+        status(window.MED_JITA_PREVIEW_ISOLATED===true
+          ? 'Prévia de teste recuperada online.':'Notas recebidas do outro aparelho. Sincronização em dia.','success');
       } else if (remote.revision < revision) {
         if (remote.backup) bridge.importBackup(reconcileBackups(current,remote.backup),{replaceHistory:true});
         revision = remote.revision;
@@ -398,8 +401,10 @@
         lastDigest = digest;
         saveMeta();
         const time = new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-        status(result.craftMirrored ? 'Salvo online e no Craft · '+time :
-          'Salvo online · Craft aguardando atualização · '+time,'success');
+        status(window.MED_JITA_PREVIEW_ISOLATED===true
+          ? 'Teste salvo online · '+time+' · não use notas reais'
+          : result.craftMirrored ? 'Salvo online e no Craft · '+time :
+            'Salvo online · Craft aguardando atualização · '+time,'success');
       } else if (remote.craftMirrored === true) {
         status('Online e Craft sincronizados.','success');
       }
