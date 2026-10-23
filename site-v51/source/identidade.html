@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#102D3C">
+<title>MED JITA · Ateliê de Identidade V52</title>
+<meta name="description" content="Galeria de selos curriculares, animações e sons opcionais do MED JITA.">
+<link rel="stylesheet" href="./jita-curricular.css">
+<style>
+:root{color-scheme:light;--bg:#f1f7f7;--card:#fff;--ink:#102D3C;--secondary:#48626b;--quiet:#617b82;--border:#d4e4e4;--brand:#00636C;--brand2:#0AA5AD;--shadow:0 20px 50px #102D3C0e}
+@media(prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#07191d;--card:#102b32;--ink:#edfaff;--secondary:#bfd2d8;--quiet:#a0bdc2;--border:#28474e;--brand:#56C9C7;--brand2:#56C9C7;--shadow:0 20px 45px #0004}}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:radial-gradient(circle at 10% -20%,#0aa5ad23 0,transparent 47%),radial-gradient(circle at 92% 5%,#a18bdb20 0,transparent 33%),var(--bg);min-height:100dvh}button{font:inherit}img{display:block;max-width:100%}
+.wrap{width:min(1080px,calc(100% - 32px));margin:auto;padding:26px 0 65px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:44px}.brand{width:min(210px,47vw);height:auto;background:#f7fcfc;padding:5px;border-radius:10px}.toolbar{display:flex;align-items:center;gap:8px}.icon-btn{display:grid;place-items:center;width:42px;height:42px;background:var(--card);border:1px solid var(--border);color:var(--ink);border-radius:14px}.topback{font-size:12px;color:var(--secondary);text-decoration:none;border-bottom:1px solid var(--border)}
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(240px,.85fr);gap:22px;margin-top:28px;align-items:center}.eyebrow{font-size:11px;font-weight:850;letter-spacing:.14em;text-transform:uppercase;color:var(--brand)}h1{font-weight:850;line-height:1.02;letter-spacing:-.055em;font-size:clamp(38px,6.4vw,70px);margin:14px 0}h1 span{color:var(--brand)}.hero p{color:var(--secondary);line-height:1.6;max-width:560px;font-size:clamp(14px,1.7vw,17px)}.smallnote{display:block;color:var(--quiet);font-size:12px;line-height:1.5}.stage{display:grid;place-items:center;position:relative;min-height:275px;background:linear-gradient(137deg,#0AA5AD19,#7356bd22 58%,#0AA5AD0e);border:1px solid var(--border);border-radius:30px;box-shadow:var(--shadow);overflow:hidden}.stage::before{content:"";position:absolute;inset:6%;border-radius:50%;border:1px solid #0AA5AD42;box-shadow:0 0 0 28px #0AA5AD0b,0 0 0 57px #7356bd0a;pointer-events:none}.stage::after{content:"";position:absolute;inset:auto 20px 18px;max-height:2px;height:2px;background:linear-gradient(90deg,transparent,#0AA5AD70,transparent);filter:blur(1px)}
+.jita-reactive{z-index:1;position:relative;display:grid;place-items:center;width:230px;height:230px;border:0;background:transparent;cursor:pointer;overflow:visible}.jita-reactive img{width:175px;height:175px;object-fit:contain;filter:drop-shadow(0 14px 17px #062d4240);animation:jita-hover 4.2s ease-in-out infinite;transition:filter .25s}.jita-reactive.is-celebrating img{filter:drop-shadow(0 8px 20px #0AA5AD80)}@keyframes jita-hover{0%,100%{transform:translateY(3px) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
+.jita-reactive:focus-visible{outline:3px solid var(--brand2);border-radius:24px}.jita-audio-tools{margin:12px 0 0;justify-content:flex-start}.galleryhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:42px 0 16px}.galleryhead h2{font-size:clamp(24px,3vw,34px);letter-spacing:-.035em;margin:5px 0}.galleryhead p{color:var(--secondary);margin:0;font-size:13px}.filters{display:flex;gap:6px;padding:5px;border:1px solid var(--border);border-radius:14px;background:var(--card)}.filters button{border:0;border-radius:10px;padding:10px 13px;font-weight:800;font-size:12px;color:var(--secondary);background:transparent;cursor:pointer}.filters button[aria-pressed=true]{background:var(--brand);color:var(--bg)}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.cards[hidden]{display:none}.home-uc-card,.uc-component{display:flex;min-height:110px;padding:17px;flex-direction:column;align-items:stretch;justify-content:space-between;gap:11px;border:1px solid var(--border);border-radius:19px;color:var(--ink);background:var(--card);box-shadow:0 7px 22px #102d3c08}.home-uc-card-top,.uc-component-head{display:flex;gap:10px;align-items:center;justify-content:space-between}.home-uc-card strong,.uc-component h3{font-size:14px;font-weight:800;line-height:1.3;margin:0}.home-uc-tag{border:1px solid var(--border);border-radius:20px;padding:5px 8px;font-size:10px;color:var(--secondary);font-weight:850;white-space:nowrap}.home-uc-card small,.uc-desc{font-size:11px;color:var(--quiet)}.home-uc-card:hover{transform:translateY(-3px);border-color:var(--brand2);box-shadow:0 16px 28px #0AA5AD18}.home-uc-card{transition:transform .2s,border .2s,box-shadow .2s}.uc-component{min-height:100px}.uc-component-head{flex:1}.uc-component h3{display:flex;align-items:center;gap:10px}.uc-component small{font-size:11px;color:var(--quiet)}.foot{margin-top:38px;padding:24px 0 0;border-top:1px solid var(--border);color:var(--quiet);font-size:12px;line-height:1.65}.status{color:var(--quiet);min-height:22px;font-size:12px;padding:8px 0}
+@media(max-width:720px){.hero{grid-template-columns:1fr}.stage{min-height:240px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.galleryhead{align-items:start}.wrap{width:min(100% - 24px,600px)}.hero{margin-top:16px;gap:18px}h1{font-size:clamp(37px,10vw,50px)}}@media(max-width:380px){.cards{grid-template-columns:1fr}.brand{max-width:165px}.topback{font-size:11px}.home-uc-card,.uc-component{min-height:86px}}@media(prefers-reduced-motion:reduce){.jita-reactive img{animation:none!important;transition:none!important}.home-uc-card{transition:none}}
+</style>
+<script src="./med-brand-system.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar"><img class="brand" src="./med-jita-brand-v11.svg" alt="MED JITA — identidade original V11"><div class="toolbar"><a class="topback" href="../">Voltar à calculadora</a></div></header>
+<main>
+<section class="hero">
+ <div class="gateway-intro">
+  <div class="eyebrow">Ateliê · V52 · GitHub</div>
+  <h1>Uma assinatura para <span>cada nota.</span></h1>
+  <p>As disciplinas e avaliações ganham identidades próprias, integradas ao universo do Jita. Explore os selos, toque no personagem e experimente o áudio quando quiser.</p>
+  <span class="smallnote">Áudio desligado por padrão. O desenho original do mascote foi preservado.</span>
+ </div>
+ <div class="stage"><button type="button" class="jita-reactive" id="jitaGallery" aria-label="Animar o Jita"><img src="./jita-corpo.svg" alt="Jita original, com cartola, laço e cauda"></button></div>
+</section>
+<section aria-labelledby="galleryTitle">
+ <div class="galleryhead"><div><div class="eyebrow">Sistema de identidade curricular</div><h2 id="galleryTitle">Biblioteca de símbolos</h2><p id="galleryCount">Carregando famílias visuais...</p></div><div class="filters" role="group" aria-label="Escolha uma família"><button data-filter="modules" aria-pressed="true">Módulos</button><button data-filter="grades" aria-pressed="false">Avaliações</button></div></div>
+ <div id="galleryModules" class="cards" aria-label="Logos dos módulos"></div>
+ <div id="galleryGrades" class="cards" aria-label="Símbolos das avaliações" hidden></div>
+ <p class="status" id="galleryStatus" aria-live="polite"></p>
+</section>
+<footer class="foot">MED JITA · sistema visual experimental V52, derivado da identidade Jita original. Galeria isolada: não abre perfis, não modifica médias e não grava históricos acadêmicos. Fonte canônica: GitHub.</footer>
+</main></div>
+<script>
+window.addEventListener('DOMContentLoaded',async()=>{
+ const status=document.getElementById('galleryStatus');
+ try{
+  const response=await fetch('./catalog.json',{cache:'no-store'});
+  if(!response.ok)throw Error('Falha ao carregar a biblioteca');
+  const catalog=await response.json();
+  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  document.getElementById('galleryModules').innerHTML=catalog.modules.map(item=>'<div class="home-uc-card" data-uc-open="2023:7:'+esc(item.id)+'"><div class="home-uc-card-top"><strong>'+esc(item.name)+'</strong><span class="home-uc-tag">'+esc(item.short)+'</span></div><small>'+esc(item.id.toUpperCase())+' · marca individual</small></div>').join('');
+  document.getElementById('galleryGrades').innerHTML=catalog.grades.map(item=>'<div class="uc-component"><div class="uc-component-head"><div><h3>'+esc(item.name)+'</h3><small>'+esc(item.id)+' · avaliação</small></div></div><input type="hidden" data-uc-score="mostruario:'+esc(item.id)+'"></div>').join('');
+  const count=document.getElementById('galleryCount'),tabs=[...document.querySelectorAll('[data-filter]')];
+  function select(kind){for(const tab of tabs)tab.setAttribute('aria-pressed',String(tab.dataset.filter===kind));document.getElementById('galleryModules').hidden=kind!=='modules';document.getElementById('galleryGrades').hidden=kind!=='grades';count.textContent=kind==='modules'?catalog.modules.length+' marcas de módulos':catalog.grades.length+' símbolos de avaliações';}
+  tabs.forEach(tab=>tab.addEventListener('click',()=>select(tab.dataset.filter)));
+  select('modules');status.textContent='Selos carregados · Vetores com grade 24 × 24 e contraste adaptativo.';
+ }catch(err){status.textContent='Não foi possível carregar a galeria. Atualize esta página.';}
+});
+</script>
+</body>
+</html>

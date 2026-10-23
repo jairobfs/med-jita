@@ -1,0 +1,235 @@
+{
+  "version": 52,
+  "modules": [
+    {
+      "id": "uct",
+      "short": "UCT",
+      "name": "Transversal",
+      "accent": "#0AA5AD"
+    },
+    {
+      "id": "hp",
+      "short": "HP",
+      "name": "Habilidades Profissionais",
+      "accent": "#347CBE"
+    },
+    {
+      "id": "hp-cir",
+      "short": "HP-CIR",
+      "name": "Técnicas Cirúrgicas",
+      "accent": "#347CBE"
+    },
+    {
+      "id": "hp-us",
+      "short": "HP-US",
+      "name": "Ultrassonografia",
+      "accent": "#347CBE"
+    },
+    {
+      "id": "iesc",
+      "short": "IESC",
+      "name": "Saúde Coletiva",
+      "accent": "#1E7B48"
+    },
+    {
+      "id": "ugc",
+      "short": "UGC",
+      "name": "Conhecimento Integrado",
+      "accent": "#7356BD"
+    },
+    {
+      "id": "uce",
+      "short": "UCE",
+      "name": "Extensão",
+      "accent": "#1E7B48"
+    },
+    {
+      "id": "ucf",
+      "short": "UCF",
+      "name": "Fundamentos",
+      "accent": "#0AA5AD"
+    },
+    {
+      "id": "ucm",
+      "short": "UCM",
+      "name": "Sistemas Médicos",
+      "accent": "#7356BD"
+    },
+    {
+      "id": "ude",
+      "short": "UDE",
+      "name": "Desenvolvimento",
+      "accent": "#A86B18"
+    },
+    {
+      "id": "era",
+      "short": "ERA",
+      "name": "Raciocínio e Aprendizagem",
+      "accent": "#7356BD"
+    },
+    {
+      "id": "ap",
+      "short": "AP",
+      "name": "Atividade Prática",
+      "accent": "#347CBE"
+    },
+    {
+      "id": "ap-cir",
+      "short": "AP-CIR",
+      "name": "Prática Cirúrgica",
+      "accent": "#347CBE"
+    },
+    {
+      "id": "ap-us",
+      "short": "AP-US",
+      "name": "Prática em Ultrassom",
+      "accent": "#347CBE"
+    },
+    {
+      "id": "aesc",
+      "short": "AESC",
+      "name": "Comunidade",
+      "accent": "#1E7B48"
+    },
+    {
+      "id": "internato",
+      "short": "INT",
+      "name": "Internato",
+      "accent": "#B93845"
+    },
+    {
+      "id": "eletivo",
+      "short": "ELE",
+      "name": "Eletivo",
+      "accent": "#A86B18"
+    },
+    {
+      "id": "custom",
+      "short": "UC",
+      "name": "Módulo personalizado",
+      "accent": "#0AA5AD"
+    }
+  ],
+  "grades": [
+    {
+      "id": "b1",
+      "name": "1º bimestre"
+    },
+    {
+      "id": "b2",
+      "name": "2º bimestre"
+    },
+    {
+      "id": "c1",
+      "name": "Cognitiva I"
+    },
+    {
+      "id": "c2",
+      "name": "Cognitiva II"
+    },
+    {
+      "id": "tut",
+      "name": "Tutoria"
+    },
+    {
+      "id": "cab",
+      "name": "CAB"
+    },
+    {
+      "id": "form",
+      "name": "Formativa"
+    },
+    {
+      "id": "pic",
+      "name": "Intervenção"
+    },
+    {
+      "id": "tp",
+      "name": "Teste de progresso"
+    },
+    {
+      "id": "ir",
+      "name": "Reflexão"
+    },
+    {
+      "id": "semi",
+      "name": "Semiologia"
+    },
+    {
+      "id": "gr",
+      "name": "Global Rating"
+    },
+    {
+      "id": "pratica",
+      "name": "Prática"
+    },
+    {
+      "id": "info",
+      "name": "Informação"
+    },
+    {
+      "id": "interp",
+      "name": "Interpessoal"
+    },
+    {
+      "id": "teorica",
+      "name": "Teórica"
+    },
+    {
+      "id": "pacientes",
+      "name": "Pacientes simulados"
+    },
+    {
+      "id": "desempenho",
+      "name": "Desempenho"
+    },
+    {
+      "id": "integral",
+      "name": "Avaliação integrada"
+    },
+    {
+      "id": "ave1",
+      "name": "AVE I"
+    },
+    {
+      "id": "ave2",
+      "name": "AVE II"
+    },
+    {
+      "id": "tbl1",
+      "name": "TBL I"
+    },
+    {
+      "id": "tbl2",
+      "name": "TBL II"
+    },
+    {
+      "id": "reaave",
+      "name": "Recuperação AVE"
+    },
+    {
+      "id": "reatbl",
+      "name": "Recuperação TBL"
+    },
+    {
+      "id": "rea",
+      "name": "Recuperação"
+    },
+    {
+      "id": "cognitiva",
+      "name": "Cognição"
+    },
+    {
+      "id": "servico",
+      "name": "Serviço"
+    },
+    {
+      "id": "item1",
+      "name": "Componente I"
+    },
+    {
+      "id": "item2",
+      "name": "Componente II"
+    }
+  ]
+}
