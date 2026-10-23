@@ -46,6 +46,7 @@ jobs:
       - name: Testar todos os cálculos e os quatro perfis
         run: |
           node tests/pin-keyboard.mjs
+          node tests/portable-assets.mjs
           npm test
       - name: Publicar sem Vercel e sem Sites
         id: worker
