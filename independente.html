@@ -189,7 +189,7 @@ async function pull(id,expectedLoginAttempt=null){
   remoteReady=true;
   status(unsent?"Edição local pendente":"Recuperado do Craft");
   return true;
- }catch(e){status("Modo local · "+fmt(e),true);return false}
+ }catch(e){if(expectedLoginAttempt===null||expectedLoginAttempt===loginAttempt)status("Modo local · "+fmt(e),true);return false}
 }
 async function push(){
  if(busy){pendingPush=true;return}
@@ -234,11 +234,11 @@ window.addEventListener("online",()=>{lastRefresh=0;setTimeout(refresh,350)});
 async function refresh(){
  if(!current||!url()||busy||document.hidden||Date.now()-lastRefresh<10000)return;
  lastRefresh=Date.now();capture();
- const id=current,base=get(k(id,"lastSig")),localSig=signature(backup(id));
+ const id=current,epoch=loginAttempt,base=get(k(id,"lastSig")),localSig=signature(backup(id));
  try{
   if(!remoteReady||!base||localSig!==base){
-   const was=localSig,ok=await pull(id);
-   if(!ok)return;
+   const was=localSig,ok=await pull(id,epoch);
+   if(current!==id||epoch!==loginAttempt||!ok)return;
    if(signature(backup(id))!==get(k(id,"lastSig"))){await push();return}
    if(signature(backup(id))!==was){
     useProfile(id);$("calculator").src="./calculadora.html";
@@ -246,11 +246,14 @@ async function refresh(){
    }
    return;
   }
-  const row=await remoteRow(id),remote=JSON.parse(deb64(prop(row,"dados")));
+  const row=await remoteRow(id);
+  if(current!==id||epoch!==loginAttempt)return;
+  const remote=JSON.parse(deb64(prop(row,"dados")));
   if(signature(remote)===base)return;
-  const ok=await pull(id);
+  const ok=await pull(id,epoch);
+  if(current!==id||epoch!==loginAttempt)return;
   if(ok){useProfile(id);$("calculator").src="./calculadora.html";status("Atualizado do Craft")}
- }catch(e){status("Offline · dados locais preservados",true)}
+ }catch(e){if(current===id&&epoch===loginAttempt)status("Offline · dados locais preservados",true)}
 }
 window.addEventListener("focus",()=>setTimeout(refresh,250));
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)refresh()});
