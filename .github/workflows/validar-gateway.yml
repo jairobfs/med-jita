@@ -1,0 +1,27 @@
+name: Validar gateway independente
+
+on:
+  pull_request:
+    paths:
+      - 'independente.html'
+      - 'sw.js'
+      - 'manifest.webmanifest'
+      - 'tests/gateway.spec.mjs'
+      - '.github/workflows/validar-gateway.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gateway:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obter código
+        uses: actions/checkout@v4
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validar entrada independente
+        run: node tests/gateway.spec.mjs
