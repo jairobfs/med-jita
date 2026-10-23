@@ -373,3 +373,46 @@
   #gate .jita-auth .face {width:50px;height:54px;min-width:50px;flex-basis:54px}
   #gate .jita-auth .face::before {width:31px;height:20px}
 }
+
+/* V57 · fidelidade editorial ao login V51/V52 aprovado.
+   Somente a aparência da portaria, sem alterar PIN, perfis ou notas. */
+#gate {
+  --sea:#7961C6;--ink:#292344;--mut:#706B86;
+  --border:#DFDAEA;--bg:#F6F7FC;--card:#FFFFFF;
+  background:
+    radial-gradient(ellipse at 12% 3%,rgba(136,141,213,.22),transparent 53%),
+    radial-gradient(ellipse at 95% 94%,rgba(103,206,200,.15),transparent 48%),
+    #F6F7FC;
+}
+#gate .jita-showcase {
+  background:linear-gradient(151deg,#364C7B 0%,#3A457F 54%,#464184 100%);
+}
+#gate .jita-showcase::before {
+  background:radial-gradient(circle at 29% 26%,rgba(199,196,246,.3),transparent 36%),
+    radial-gradient(circle at 87% 91%,rgba(108,187,204,.2),transparent 41%);
+}
+#gate .jita-showcase-brand {width:200px;height:66px}
+#gate .jita-showcase-mascot {
+  border-color:rgba(197,191,250,.27);
+  background:radial-gradient(circle at 34% 24%,#FFFFFF,#F0EDFF 57%,#D8D1F7);
+}
+#gate .jita-auth .avatar {
+  border-color:#DFDBEB;background:linear-gradient(146deg,#FFFFFF,#F9F8FC);
+}
+#gate .jita-auth .jita-install-gate {
+  background:#F6F4FB;border-color:#DAD3EF;color:#6A54B5;
+}
+@media(prefers-color-scheme:dark){
+  #gate {
+    --sea:#BFAFF8;--ink:#F3EEFF;--mut:#C9C2DD;
+    --border:#524B71;--bg:#171629;--card:#26243D;
+    background:radial-gradient(ellipse at 12% 0%,rgba(102,83,173,.28),transparent 54%),#161629;
+  }
+  #gate .jita-showcase {background:linear-gradient(149deg,#263064,#312B69 60%,#413374)}
+  #gate .jita-auth .avatar {
+    border-color:#544D72;background:linear-gradient(145deg,#302D49,#28263D);
+  }
+  #gate .jita-auth .jita-install-gate {
+    background:#322E4A;border-color:#61567D;color:#DCCFFF;
+  }
+}
