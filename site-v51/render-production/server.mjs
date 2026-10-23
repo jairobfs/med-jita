@@ -45,6 +45,10 @@ const server = http.createServer(async(req, res) => {
     const url = new URL(req.url || '/', scheme + '//' + host);
     if (!['GET','HEAD','POST','PUT','OPTIONS'].includes(req.method))
       return endJson(res, 405, { error: 'Método indisponível.' });
+    // Profile reads may update reset markers or schedule a Craft mirror.
+    // Block the entire personal-account API while a migration is read-only.
+    if (!writeEnabled && url.pathname.startsWith('/api/profile/'))
+      return endJson(res, 503, { error: 'Perfis bloqueados durante a conferência da migração.' });
     if (!writeEnabled && url.pathname.startsWith('/api/') &&
         ['POST','PUT'].includes(req.method))
       return endJson(res, 503, { error: 'Migração em conferência: gravação desativada.' });
