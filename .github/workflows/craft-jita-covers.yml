@@ -1,0 +1,46 @@
+name: Craft JITA cover PNG export
+on:
+  push:
+    paths:
+      - '.github/workflows/craft-jita-covers.yml'
+      - 'assets/craft-tutoria-cover-*.svg'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  rasterize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare converter
+        run: python -m pip install --disable-pip-version-check cairosvg
+      - name: Generate matching permanent PNG assets
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import cairosvg
+          for source in Path("assets").glob("craft-tutoria-cover-*.svg"):
+              dest = source.with_suffix(".png")
+              cairosvg.svg2png(url=str(source), write_to=str(dest), output_width=1600, output_height=900)
+              print(f"Created {dest}: {dest.stat().st_size} bytes")
+          PY
+      - name: Publish raster assets without changing the application
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/craft-tutoria-cover-*.png
+          if git diff --cached --quiet; then
+            echo "Covers are up to date."
+            exit 0
+          fi
+          git commit -m "Add PNG Craft Tutoria covers for image compatibility"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
