@@ -188,6 +188,15 @@
     $('profileGatewayHeading').textContent = show ? 'Confirme seu PIN' : 'Escolha seu perfil';
     if (show && profile) paintAvatar($('profileUnlockAvatar'),bridge.readLocalAvatar(profile.id),profile);
   }
+  function setPinKeyboard(numeric,refocus=false) {
+    const input = $('profileUnlockPassword');
+    input.inputMode = numeric ? 'numeric' : 'text';
+    input.setAttribute('inputmode',input.inputMode);
+    const toggle = $('profileKeyboardMode');
+    toggle.textContent = numeric ? 'PIN com letras? Teclado completo' : 'Voltar ao teclado numérico';
+    toggle.setAttribute('aria-pressed',String(!numeric));
+    if (refocus) { input.blur?.(); input.focus?.(); }
+  }
   function chooseProfile(profile) {
     if (!profile?.available || active) return;
     selected = profile;
@@ -197,6 +206,7 @@
     $('profileUnlockPassword').value = '';
     for (const button of $('profileChoices').children) button.setAttribute('aria-pressed',String(button.dataset.profile === profile.id));
     $('profileUnlockPassword').type = 'password';
+    setPinKeyboard(true);
     $('profileUnlockReveal').textContent = 'Mostrar';
     $('profileUnlockReveal').setAttribute('aria-pressed','false');
     $('profileUnlockReveal').setAttribute('aria-label','Mostrar senha');
@@ -434,6 +444,7 @@
     $('profileUnlockReveal').setAttribute('aria-pressed',String(showing));
     input.focus();
   });
+  $('profileKeyboardMode').addEventListener('click',() => setPinKeyboard($('profileUnlockPassword').inputMode !== 'numeric',true));
   $('profileUnlockPassword').addEventListener('keydown',e => { if (e.key === 'Enter') void unlockCandidate(); });
   $('profileSwitch').addEventListener('click',() => void switchProfile());
   $('profileAvatarEdit').addEventListener('click',() => {
