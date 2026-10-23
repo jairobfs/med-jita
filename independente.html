@@ -57,6 +57,7 @@ dialog::backdrop{background:#061e25b7}dialog h2{margin:0 0 8px}dialog p{color:va
 <dialog id="cfg">
  <h2>Sincronização Craft</h2>
  <p>Use uma conexão API autorizada <strong>somente</strong> para o documento “MED JITA · Estados autônomos”. Não utilize uma conexão que dê acesso a todos os seus documentos.</p>
+ <p><a href="https://docs.craft.do/editor/d/6606bf28-79b6-7415-c5c5-6d0a79f7f279/ccd7306b-ca3b-a3db-c391-111cc0b8e28a" target="_blank" rel="noopener">Editar PINs e usuários no Craft</a></p>
  <label for="apiBase">URL de conexão Craft</label>
  <input id="apiBase" type="url" placeholder="https://connect.craft.do/links/.../api/v1" style="font-size:12px">
  <p>É configurada uma vez neste aparelho; não vai para o código público do GitHub. A API deve permitir requisições CORS do navegador.</p>
@@ -104,6 +105,21 @@ async function craft(method,path,data){const base=url().replace(/\/+$/,"");if(!/
 const res=await fetch(base+path,{method,cache:"no-store",headers:{"Accept":"application/json",...(data?{"Content-Type":"application/json"}:{})},body:data?JSON.stringify(data):undefined});
 if(!res.ok)throw Error("Craft respondeu "+res.status);return await res.json()}
 const prop=(row,p)=>{const v=row?.properties?.[p];return v&&typeof v==="object"?v.value??v.text??v.number??"":v??""};
+async function loadProfiles(){
+ if(!url())return;
+ try{
+  const data=await craft("GET","/collections/"+C+"/items?maxDepth=0");
+  const known=new Set(P.map(x=>x[0]));
+  for(const row of data.items||data.data?.items||[]){
+   const id=String(prop(row,"identificador")||"").toLowerCase().trim();
+   const name=String(row.perfil||id).trim().slice(0,26);
+   if(!/^[a-z0-9_-]{2,32}$/.test(id)||known.has(id)||!name)continue;
+   if(String(prop(row,"estado")).toLowerCase()==="bloqueado")continue;
+   P.push([id,name]);known.add(id);
+  }
+  renderProfiles();
+ }catch(e){}
+}
 async function remoteRow(id){let out=await craft("GET","/collections/"+C+"/items?maxDepth=0");
 const rows=out.items||out.data?.items||[];let row=rows.find(x=>String(prop(x,"identificador")).toLowerCase()===id);
 if(!row)throw Error("Perfil sem registro Craft");rowCache[id]=row;return row;}
@@ -268,6 +284,7 @@ $("shareInvite").onclick=async()=>{
 };
 $("export").onclick=()=>{if(!current)return;capture();const body=JSON.stringify(backup(current),null,2),a=document.createElement("a"),obj=URL.createObjectURL(new Blob([body],{type:"application/json"}));a.href=obj;a.download="MED_JITA_"+current+"_independente.json";a.click();URL.revokeObjectURL(obj)};
 renderProfiles();
+loadProfiles();
 })();
 </script>
 </body></html>
