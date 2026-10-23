@@ -7,6 +7,8 @@ on:
       - '.github/workflows/publicar.yml'
       - '.github/workflows/validar-pages.yml'
       - 'site-v51/source/assets/jita-cartola-avatar.svg'
+      - 'tests/v18-pwa-mock.mjs'
+      - 'tests/profile-isolation-pages.mjs'
   push:
     branches: [main]
     paths:
@@ -38,6 +40,7 @@ jobs:
       - name: Validar PIN, histórico, conflitos e camada iPhone
         run: |
           node tests/v18-pwa-mock.mjs
+          node tests/profile-isolation-pages.mjs
           node tests/gateway-overlay.spec.mjs
           node tests/v52-identity.spec.mjs
           node tests/v53-gallery.spec.mjs
