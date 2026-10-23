@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 810" width="1440" height="810">
+<rect x="0" y="0" width="1440" height="810" rx="0" fill="#151426" stroke="#151426" stroke-width="0" opacity="1"/>
+<rect x="0" y="0" width="1440" height="10" rx="0" fill="#2DB5AA" stroke="#2DB5AA" stroke-width="0" opacity="1"/>
+<rect x="0" y="0" width="14" height="810" rx="0" fill="#7258C7" stroke="#7258C7" stroke-width="0" opacity="1"/>
+<text x="45" y="55.54" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="24" fill="#87DBCD" opacity="1">MED JITA   /   MANUAL VIVO</text>
+<text x="1397" y="55.03500000000001" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="end" font-size="21" fill="#E2BE8C" opacity="1">05 / 06</text>
+<polyline points="45,83 1395,83" fill="none" stroke="#4F426A" stroke-width="1" opacity="1" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="45" y="125.7" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="20" fill="#E2BE8C" opacity="1">COR E CONTORNO</text>
+<text x="45" y="198.09500000000003" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="57" fill="#FFFDF9" opacity="1">Cinco tokens. Um personagem.</text>
+<polyline points="45,754 1393,754" fill="none" stroke="#4F426A" stroke-width="1" opacity="1" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="48" y="279" width="260" height="210" rx="12" fill="#292047" stroke="#4F426A" stroke-width="1" opacity="1"/>
+<text x="63" y="527.715" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="29" fill="#FFFDF9" opacity="1">AMEIXA</text>
+<text x="63" y="566.7099999999999" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="26" fill="#87DBCD" opacity="1">#292047</text>
+<ellipse cx="264.5" cy="318.5" rx="22.5" ry="22.5" fill="#FFFDF9" stroke="#FFFDF9" stroke-width="0" opacity="1"/>
+<rect x="325" y="279" width="260" height="210" rx="12" fill="#7258C7" stroke="#4F426A" stroke-width="1" opacity="1"/>
+<text x="340" y="527.715" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="29" fill="#FFFDF9" opacity="1">VIOLETA</text>
+<text x="340" y="566.7099999999999" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="26" fill="#87DBCD" opacity="1">#7258C7</text>
+<ellipse cx="541.5" cy="318.5" rx="22.5" ry="22.5" fill="#FFFDF9" stroke="#FFFDF9" stroke-width="0" opacity="1"/>
+<rect x="602" y="279" width="260" height="210" rx="12" fill="#2DB5AA" stroke="#4F426A" stroke-width="1" opacity="1"/>
+<text x="617" y="527.715" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="29" fill="#FFFDF9" opacity="1">TURQUESA</text>
+<text x="617" y="566.7099999999999" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="26" fill="#87DBCD" opacity="1">#2DB5AA</text>
+<ellipse cx="818.5" cy="318.5" rx="22.5" ry="22.5" fill="#FFFDF9" stroke="#FFFDF9" stroke-width="0" opacity="1"/>
+<rect x="879" y="279" width="260" height="210" rx="12" fill="#E8E5FA" stroke="#4F426A" stroke-width="1" opacity="1"/>
+<text x="894" y="527.715" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="29" fill="#FFFDF9" opacity="1">LAVANDA</text>
+<text x="894" y="566.7099999999999" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="26" fill="#E8E5FA" opacity="1">#E8E5FA</text>
+<ellipse cx="1095.5" cy="318.5" rx="22.5" ry="22.5" fill="#292047" stroke="#292047" stroke-width="0" opacity="1"/>
+<rect x="1156" y="279" width="260" height="210" rx="12" fill="#151426" stroke="#4F426A" stroke-width="1" opacity="1"/>
+<text x="1171" y="527.715" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="29" fill="#FFFDF9" opacity="1">OLED</text>
+<text x="1171" y="566.7099999999999" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="26" fill="#87DBCD" opacity="1">#151426</text>
+<ellipse cx="1372.5" cy="318.5" rx="22.5" ry="22.5" fill="#FFFDF9" stroke="#FFFDF9" stroke-width="0" opacity="1"/>
+<rect x="49" y="616" width="633" height="93" rx="10" fill="#0D1220" stroke="#4F426A" stroke-width="1" opacity="1"/>
+<text x="65" y="650.37" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="22" fill="#E2BE8C" opacity="1">NÃO USAR TURQUESA CLARO EM TEXTO FINO SOBRE BRANCO</text>
+<text x="67" y="687.2" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="20" fill="#A7B7C0" opacity="1">Avaliar contraste da combinação real</text>
+<rect x="722" y="615" width="645" height="93" rx="10" fill="#E8E5FA" stroke="#FFFDF9" stroke-width="1" opacity="1"/>
+<text x="741" y="650.7099999999999" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="26" fill="#292047" opacity="1">CONTRASTE + FORMA</text>
+<text x="741" y="686.2" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" font-size="20" fill="#292047" opacity="1">O reconhecimento precede a cor</text>
+</svg>
