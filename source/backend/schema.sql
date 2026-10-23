@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS snapshots (
+  id TEXT PRIMARY KEY NOT NULL,
+  revision INTEGER NOT NULL DEFAULT 1,
+  payload TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MED JITA - envelope de sincronização futura",
+  "description": "Contrato local para uma ponte de backend autenticada. Não é a especificação da API do Craft.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "revision", "updatedAt", "data", "history"],
+  "properties": {
+    "schema": {"const": "med-jita/sync/v1"},
+    "revision": {"type": "string", "minLength": 1, "maxLength": 128},
+    "updatedAt": {"type": "string", "format": "date-time"},
+    "data": {"type": "object", "required": ["version", "cfg", "cab", "tut", "form", "rea", "ava"], "properties": {"version": {"const": 3}}},
+    "history": {
+      "type": "array", "maxItems": 60,
+      "items": {"type": "object", "required": ["id", "name", "savedAt", "data"],
+        "properties": {"id": {"type": "string", "maxLength": 80}, "name": {"type": "string", "maxLength": 70}, "savedAt": {"type": "string", "format": "date-time"}, "data": {"type": "object"}}}
+    }
+  }
+}

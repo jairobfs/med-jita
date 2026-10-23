@@ -1,51 +1,59 @@
-# MED JITA · Calculadora de Notas
+# MED JITA · aplicativo vivo
 
-Calculadora acadêmica estática, sem dependências externas, pronta para GitHub Pages e para ser adicionada à Tela de Início do iPhone.
+Calculadora de notas mobile-first, com motor curricular para todas as UCs de Medicina (matrizes 2023, 2024 e 2025), preservando o legado V6 e a identidade Jita V11.1.
 
-## Publicar no GitHub Pages
+## Arquitetura
 
-1. Crie um repositório no GitHub ou escolha um de sua propriedade.
-2. Envie **todos os arquivos e as pastas `icons/` e `assets/`** deste pacote para a raiz do repositório. O arquivo de entrada deve se chamar `index.html`.
-3. Nas configurações do repositório, acesse **Settings → Pages → Build and deployment**.
-4. Em **Source**, escolha **Deploy from a branch**; selecione `main` e a pasta `/ (root)`; salve.
-5. Aguarde a publicação e abra a URL indicada pelo GitHub Pages, normalmente `https://SEU_USUARIO.github.io/NOME_DO_REPOSITORIO/`.
+- `source/index.html` — aplicativo e cálculos existentes, sem notas preenchidas previamente.
+- `source/integrations/uc-engine.js` — modelos fundamentados nos arts. 9, 20, 31 e 45 da Resolução CONSU nº 032/2026: UCT/UCM, HP/AP, IESC/AESC, UCF, UGC/UCE, UDE/ERA, internato e modelo personalizável.
+- `source/icons/`, `source/assets/` — figuras e marcas de origem.
+- `source/integrations/sync-ui.js` — backup cifrado no navegador e recuperação sem login.
+- `source/integrations/editorial-live.js` — textos públicos revisados do Craft ao abrir/retomar o aplicativo.
+- `worker/runtime.js` — API do histórico cifrado em D1 e leitura seletiva do Craft pelo servidor.
+- `scripts/build-assets.mjs` — preserva os arquivos e incorpora-os ao Worker ESM.
+- `.openai/hosting.json` — infraestrutura D1 do Site.
 
-Para a **calculadora offline**, não é necessário Node, npm nem servidor próprio. Os caminhos são relativos, permitindo instalação em URLs com subpasta de repositório. A sincronização entre dispositivos é opcional e requer o Worker separado em `backend/`.
+Não inserir a URL privada do Craft no código. `CRAFT_API_BASE` deve ser uma variável secreta do Site; o serviço também exige `CRAFT_SPACE_ID=6606bf28-79b6-7415-c5c5-6d0a79f7f279`. Sem as duas configurações, a API editorial permanece desativada. Mesmo depois de configurado, o servidor valida o ID real com `GET /connection` antes de ler a Collection e bloqueia conexões de outros espaços. O link deve ser criado no próprio espaço ⌯ MED, jamais reaproveitado de outro espaço.
 
-## Adicionar ao iPhone
+## Construção e testes
 
-1. Abra a **URL publicada** no Safari do iPhone.
-2. Use o botão de instalação dentro do MED para visualizar as etapas.
-3. Toque em **Compartilhar → Adicionar à Tela de Início**.
-4. Habilite **Abrir como App da Web** e confirme em **Adicionar**.
+```bash
+npm run build
+npm run validate
+npm test
+```
 
-O iOS não oferece a sites um comando para instalar diretamente sem essa confirmação manual. Nos navegadores com suporte a `beforeinstallprompt`, o mesmo botão pode chamar o diálogo do navegador.
+## Motor de todas as UCs
 
-## Uso offline e atualizações
+Em **Minhas UCs**, a interface começa na trajetória da turma: matriz 2023, 7º período em 2026.2. O semestre acompanha a data do dispositivo; considera janeiro ainda parte do semestre anterior e fevereiro/agosto como marcos convencionais de transição. O calendário oficial pode exigir ajuste, por isso existe uma opção manual, em **Ajustes curriculares excepcionais**, recolhida por padrão. Não modificar nem apagar entradas históricas ao avançar de período.
 
-- Depois do primeiro acesso online à versão publicada, o service worker mantém os recursos principais em cache para uso offline.
-- Notas, pesos e preferências são guardados localmente pelo navegador. A seção **Histórico** oferece registros nomeados, restauração e backup completo em JSON, sem cadastro.
-- Um backup completo inclui o preenchimento atual e até 60 registros nomeados. Salve-o antes de limpar os dados do Safari, mudar o endereço do repositório ou trocar de aparelho. O Safari e o app instalado podem ter armazenamentos distintos.
-- Ao atualizar arquivos do aplicativo, modifique o identificador `CACHE_NAME` em `sw.js`. Isso força a atualização dos recursos offline na próxima conexão.
-- O arquivo `JITA_vetorial.svg` é uma vetorização real do mascote fornecido pelo autor. Os PNGs servem como ícones compatíveis com iOS e manifest.
+A lista de avaliações muda conforme o regime e o plano curricular. É possível lançar nota normalizada de 0 a 10, acertos/questões válidas ou pontos diretos de conceito (TP, Formativa, Global Rating), com pesos claros e sem arredondamento intermediário. A opção **Outro módulo** cria registros distintos para a mesma UC no mesmo período, como UCT20 e UCT21. O modelo livre aceita pesos personalizados desde que totalizem 10.
 
-## Identidade visual
+Cada combinação de matriz, período, UC e registro de módulo mantém os seus lançamentos separados no perfil do usuário e no backup existente; chaves antigas continuam legíveis. A situação de frequência é independente da nota: 75% para o 1º–8º período e integralização da carga horária no internato. A aproximação de 5,75–5,99 a 6,00 é explicitada, não altera o número bruto mostrado. No REA, as notas regulares são substituídas; em UCF e UCM 4 da matriz 2024, AVE/TBL mantêm a ponderação específica 5/5.
 
-- A marca oficial do produto é **MED JITA**, com lettering cursivo vetorizado e símbolos matemáticos. O arquivo original, sem dependência de fonte, está em `assets/med-jita-logo.svg`.
-- A capa e os seis ícones temáticos usam exatamente o **contorno vetorial original do JITA**, incluindo olhos, cílios, boca, língua, laço e cartola. Nenhuma expressão facial foi redesenhada. Os símbolos de RC, Morfo, Anatomia, Tutoria e simulações aparecem em badges externos ao personagem, nos arquivos `icons/jita-*.svg`.
-- Em **Critérios e dados → Universo de cores**, escolha Aurora, Mineral, Figo ou ATLAS · Integrado. As quatro paletas funcionam nos modos claro, escuro e automático. A preferência é preservada no dispositivo e no backup JSON.
-- Os elementos geométricos discretos e a paleta ATLAS · Integrado foram reaproveitados do **Kit_Estigmas_Integrado_v3.zip**, criado para o projeto ATLAS × AvaliA em outubro de 2026, com base em referências cromáticas fornecidas pelo autor. Os arquivos `assets/estigma-atlas-*.svg` preservam os vetores do kit original.
-- **Identidade institucional:** o arquivo `assets/integrado-oficial-2026.png` foi obtido diretamente do cabeçalho público do site atual do Centro Universitário Integrado, em 22/10/2026. Ele é usado sem redesenhar suas formas. A calculadora MED JITA é independente; a marca aparece exclusivamente como contexto acadêmico, sem sugerir endosso institucional. Os estigmas do ATLAS são ornamentos editoriais distintos do logo.
-- **Ícones JITA V4:** cada função possui composição e cor próprias (gráfico, ficha clínica/caneta, DNA, osso, livro, laboratório ou relógio). Em todos, a silhueta e o rosto são reutilizados do mesmo caminho vetorial original, sem reinterpretar a expressão.
+O TP pode depender da posição do estudante na distribuição da turma, por isso o modelo solicita a **pontuação institucional convertida**, sem inferi-la apenas pelo número de acertos. Trabalhos, seminários ou fórmulas específicas devem ser conferidos no plano de ensino antes de ajustar o modelo manualmente.
 
-## Pesos e cautelas
+## Editar pelo Craft
 
-No modo **CAB integrado**, o protótipo assume 4,0 pontos para a prova que reúne Raciocínio Clínico e Morfofuncional (Macro e Micro). Quando há **Macro prática separada**, assume 2,6 pontos de teoria e 1,4 ponto de Anatomia. Tutoria e Formativa têm pesos-padrão de 5,0 e 1,0 respectivamente. Confira os regulamentos institucionais, especialmente a redistribuição no CAB integrado e os critérios de arredondamento.
+1. Abra a página **MED JITA · Painel editorial**, no espaço **⌯ MED**.
+2. Abra a Collection **MED JITA · Textos editáveis**.
+3. Altere `Conteúdo`, preservando a `Chave`.
+4. Marque `Estado` como **Revisado**.
+5. Depois de configurar e verificar uma conexão Full Space API do espaço MED, reabra ou atualize o MED JITA. Ao retornar ao aplicativo depois de 30 segundos, os textos são consultados novamente.
 
-Os campos de notas e acertos começam vazios; exemplos aparecem somente como texto-guia nos placeholders. Os pesos-base e a nota de corte são editáveis. As simulações de anulação e AVA são matemáticas e não vinculantes.
+A API publica apenas textos públicos revisados. Fórmulas, pesos, mascote e dados pessoais não são editáveis nessa Collection. O histórico pessoal vai exclusivamente para o banco cifrado D1.
 
-## Craft e histórico online experimental
+## Backup privado
 
-O Histórico agora contém um **cliente funcional** de backup cifrado, sem login, com geração de código e ações explícitas para testar, enviar e recuperar. Ele funciona após você publicar e configurar `backend/` como Worker com banco D1. Para testar uma conexão real com o Craft, configure o segredo `CRAFT_API_BASE` apenas no Worker: o endpoint `/api/craft/test` faz leitura `GET /connection`, sem publicar credenciais e sem modificar documentos.
+O código criado no aparelho tem 256 bits. O navegador cifra o backup com AES-GCM; o servidor só armazena bytes cifrados e um identificador derivado do código, sem receber o conteúdo em claro. O mesmo código permite recuperar as notas em outro aparelho. Escritas concorrentes retornam HTTP 409.
 
-Consulte [`backend/README.md`](backend/README.md) e [`integrations/CRAFT_COMPATIBILIDADE.md`](integrations/CRAFT_COMPATIBILIDADE.md). A sincronia do Craft como repositório documental de notas **ainda não está implementada**. O armazenamento remoto do protótipo é o D1, não o Craft. Nenhum login ou envio automático está ativo.
+Sem envio explícito, notas e histórico permanecem no armazenamento local. Não existe sincronização automática silenciosa de notas.
+
+## Homologação
+
+- O site deve servir o app, os SVGs, o manifest e o service worker.
+- `/api/health` deve indicar `store: true`; `editorial: true` somente depois da conexão própria de MED.
+- `/api/editorial` deve trazer somente itens `Revisado`.
+- Um backup com código **de teste** deve ser recuperado em outro navegador.
+- Uma alteração do Craft deve aparecer no aplicativo sem upload de código.
+- Manter o GitHub Pages atual intacto até a regressão passar.
