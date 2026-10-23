@@ -50,6 +50,8 @@ jobs:
           mv _site/index.html _site/calculadora.html
           cp independente.html _site/index.html
           cp independente.html _site/independente.html
+          cp site-v51/source/assets/jita-cartola-avatar.svg _site/assets/jita-cartola-avatar.svg
+          test -s _site/assets/jita-cartola-avatar.svg
           cp sw.js _site/sw.js
           cp manifest.webmanifest _site/manifest.webmanifest
           cp gateway-enhance.js _site/gateway-enhance.js

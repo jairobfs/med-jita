@@ -1,0 +1,37 @@
+name: Qualidade MED JITA - GitHub Pages
+
+on:
+  pull_request:
+    paths:
+      - 'independente.html'
+      - '.github/workflows/publicar.yml'
+      - '.github/workflows/validar-pages.yml'
+      - 'site-v51/source/assets/jita-cartola-avatar.svg'
+  push:
+    branches: [main]
+    paths:
+      - 'independente.html'
+      - '.github/workflows/publicar.yml'
+      - '.github/workflows/validar-pages.yml'
+      - 'site-v51/source/assets/jita-cartola-avatar.svg'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  interface-independente:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preparar exatamente os ativos publicados
+        run: |
+          mkdir -p _site
+          unzip -q MED_JITA_GitHub_Pages_v6.zip -d _site
+          test -f _site/index.html
+          mv _site/index.html _site/calculadora.html
+          cp independente.html _site/index.html
+          cp site-v51/source/assets/jita-cartola-avatar.svg _site/assets/jita-cartola-avatar.svg
+          test -s _site/assets/jita-cartola-avatar.svg
+      - name: Conferir sintaxe e identidade por pessoa
+        run: node tests/pages-shell.mjs
