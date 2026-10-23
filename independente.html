@@ -9,7 +9,7 @@
 <style>
 :root{color-scheme:light;--sea:#087f89;--ink:#143b42;--mut:#607f80;--border:#d1e7e4;--bg:#f2f8f7;--card:#fff}*{box-sizing:border-box}
 body{margin:0;font:14px/1.48 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
-[hidden]{display:none!important}button,input{font:inherit}button{cursor:pointer}
+[hidden]{display:none!important}button,input,select{font:inherit}button{cursor:pointer}
 #gate{position:fixed;z-index:90;inset:0;overflow:auto;display:grid;place-items:center;background:linear-gradient(160deg,#e0f4ef,#f6faf9 44%,#e7edef);padding:18px}
 .panel{width:min(100%,450px);background:var(--card);border:1px solid var(--border);border-radius:27px;padding:25px 22px 21px;box-shadow:0 26px 80px #15454418}
 .logo{display:block;width:200px;max-width:75%;height:75px;object-fit:contain;margin:4px auto 2px}
@@ -28,7 +28,7 @@ label{font-size:12px;display:block;font-weight:750;margin:13px 0 7px}input{width
 #status{color:#b0e4df;font-size:11px;text-align:center;flex:1}
 iframe{width:100%;border:0;flex:1;min-height:0;background:#f2f8f7}
 dialog{max-width:440px;width:calc(100% - 24px);border:1px solid var(--border);border-radius:18px;padding:23px;box-shadow:0 20px 75px #12343b44}
-dialog::backdrop{background:#061e25b7}dialog h2{margin:0 0 8px}dialog p{color:var(--mut);font-size:12px}
+dialog::backdrop{background:#061e25b7}dialog h2{margin:0 0 8px}dialog p{color:var(--mut);font-size:12px}dialog select{display:block;width:100%;min-height:45px;border-radius:12px;background:#fff;color:var(--ink);border:1px solid var(--border);padding:8px}dialog input[type=checkbox]{width:auto;height:auto;margin:0 8px 0 0;accent-color:var(--sea)}.merge-report{white-space:pre-line;font-size:12px;border:1px solid var(--border);background:#f2f8f7;border-radius:12px;padding:12px;margin-top:12px;color:var(--ink)}.merge-report[data-error="true"]{color:#a52c3e;border-color:#db8795}.merge-confirm{display:flex;align-items:flex-start;gap:6px;font-weight:600;color:var(--ink)}
 .code{font-size:11px;word-break:break-all}.layout{display:grid;gap:11px}
 </style>
 </head>
@@ -62,7 +62,19 @@ dialog::backdrop{background:#061e25b7}dialog h2{margin:0 0 8px}dialog p{color:va
  <p>É configurada uma vez neste aparelho; não vai para o código público do GitHub. A API deve permitir requisições CORS do navegador.</p>
  <div class="actions"><button id="testCraft" class="ghost">Testar leitura</button><button id="testCraftWrite" class="ghost">Testar escrita</button><button id="saveCraft" class="btn">Salvar e sincronizar</button></div>
  <p id="cfgStatus" role="status"></p>
- <div class="actions"><button id="shareInvite" class="ghost">Copiar convite dos amigos</button><button id="export" class="ghost">Exportar backup</button><button id="closeCfg" class="ghost">Fechar</button></div>
+ <div class="actions"><button id="shareInvite" class="ghost">Copiar convite dos amigos</button><button id="export" class="ghost">Exportar backup</button><button id="openMerge" class="ghost">Conciliar versões</button><button id="closeCfg" class="ghost">Fechar</button></div>
+</dialog>
+<dialog id="mergeDialog">
+ <h2>Conciliar notas de outras versões</h2>
+ <p>Compare um backup do MED JITA vindo do Sites ou da Vercel com as notas do perfil aberto no GitHub. Nenhuma nota será importada ou substituída.</p>
+ <label for="mergeOrigin">De qual versão veio o arquivo?</label>
+ <select id="mergeOrigin"><option value="Sites">Sites</option><option value="Vercel">Vercel</option></select>
+ <label for="mergeFile">Backup JSON exportado pelo aplicativo anterior</label>
+ <input type="file" id="mergeFile" accept=".json,application/json" style="font-size:12px;height:auto;padding:11px">
+ <p id="mergeReport" class="merge-report" role="status" aria-live="polite">Selecione um backup. A comparação será feita neste aparelho.</p>
+ <label class="merge-confirm" for="mergeConfirm"><input id="mergeConfirm" type="checkbox" disabled><span id="mergeConfirmLabel">Confirmo que este arquivo pertence ao perfil atual.</span></label>
+ <div class="actions"><button id="mergeDownload" class="btn" disabled>Guardar pacote completo</button><button id="mergeClose" class="ghost">Fechar</button></div>
+ <p>O pacote preserva as duas origens. Para escolher qual nota ficará ativa, será necessária uma etapa posterior de revisão. Não há escrita automática no Craft.</p>
 </dialog>
 <script>
 (()=>{
@@ -183,6 +195,76 @@ $("shareInvite").onclick=async()=>{
  catch{$("cfgStatus").textContent="Seu navegador não permitiu copiar. Abra no Safari ou Chrome.";}
 };
 $("export").onclick=()=>{if(!current)return;capture();const body=JSON.stringify(backup(current),null,2),a=document.createElement("a"),obj=URL.createObjectURL(new Blob([body],{type:"application/json"}));a.href=obj;a.download="MED_JITA_"+current+"_independente.json";a.click();URL.revokeObjectURL(obj)};
+
+const mergeDlg=$("mergeDialog");
+let mergeStaged=null;
+function mergeSignature(doc){return JSON.stringify({data:doc?.data,history:doc?.history});}
+function mergeReset(message="Selecione um backup. A comparação será feita neste aparelho.",error=false){
+ mergeStaged=null;$("mergeConfirm").checked=false;$("mergeConfirm").disabled=true;
+ $("mergeDownload").disabled=true;$("mergeFile").value="";
+ $("mergeReport").textContent=message;$("mergeReport").dataset.error=String(error);
+ $("mergeConfirmLabel").textContent="Confirmo que este arquivo pertence ao perfil atual.";
+}
+$("openMerge").onclick=()=>{if(!current)return;capture();mergeReset();mergeDlg.showModal()};
+$("mergeClose").onclick=()=>{mergeDlg.close();mergeReset()};
+$("mergeOrigin").onchange=()=>mergeReset("Origem alterada. Selecione o backup novamente.");
+$("mergeFile").onchange=async()=>{
+ const file=$("mergeFile").files?.[0],profile=current,origin=$("mergeOrigin").value;
+ if(!file||!profile)return;
+ try{
+  if(file.size>12*1024*1024)throw Error("O arquivo ultrapassa 12 MB.");
+  if(!/\\.json$/i.test(file.name))throw Error("Escolha um backup JSON do MED JITA.");
+  const container=JSON.parse(await file.text());
+  if(current!==profile)throw Error("Perfil alterado durante a leitura.");
+  const foreign=container?.backup?.format==="med-jita-backup"?container.backup:container;
+  const declared=container?.profileId||container?.profile||foreign?.profile||null;
+  if(declared&&declared!==profile)throw Error("O arquivo declara outro perfil. Fusão bloqueada.");
+  capture();const own=backup(profile);
+  const {prepareMigration}=await import("./integrations/fusion-archive.mjs");
+  const plan=prepareMigration({profileId:profile,current:own,incoming:foreign,
+    currentOrigin:"GitHub",incomingOrigin:origin});
+  if(current!==profile)throw Error("Perfil alterado durante a comparação.");
+  mergeStaged={profile,origin,plan,ownSignature:mergeSignature(own),
+    hasEvidence:Boolean(declared)};
+  $("mergeConfirm").disabled=false;
+  $("mergeConfirmLabel").textContent="Confirmo que o backup da origem "+origin+" pertence ao perfil "+profile.toUpperCase()+".";
+  $("mergeReport").dataset.error="false";
+  $("mergeReport").textContent=[
+   "Perfil: "+profile.toUpperCase()+" · Fonte: "+origin,
+   "GitHub: "+own.history.length+" registro(s) · "+origin+": "+foreign.history.length+" registro(s).",
+   "Pacote: "+plan.totalVersions+" versões incluindo os estados atuais.",
+   plan.sameLiveState?"Notas atuais equivalentes.":"Notas atuais diferentes; ambas serão preservadas.",
+   plan.needsSeparateArchive?"Histórico acima do limite: arquive antes de importar.":"Nenhum dado foi alterado.",
+   declared?"Perfil identificado no arquivo.":"Arquivo sem identificação de perfil: confira antes de confirmar."
+  ].join("\\n");
+ }catch(error){mergeReset(error instanceof SyntaxError?"JSON ilegível.":String(error?.message||error),true)}
+ finally{$("mergeFile").value=""}
+};
+$("mergeConfirm").onchange=()=>{
+ $("mergeDownload").disabled=!mergeStaged||!$("mergeConfirm").checked||current!==mergeStaged.profile;
+};
+$("mergeDownload").onclick=()=>{
+ if(!mergeStaged||!$("mergeConfirm").checked||current!==mergeStaged.profile){
+  mergeReset("Confirmação ou perfil alterado. Recomece.",true);return;
+ }
+ capture();
+ if(mergeSignature(backup(current))!==mergeStaged.ownSignature){
+  mergeReset("As notas mudaram depois da comparação. Recomece com dados recentes.",true);return;
+ }
+ const payload={format:"med-jita-transition-archive",version:1,
+  preparedAt:new Date().toISOString(),profileId:current,
+  attribution:mergeStaged.hasEvidence?"declared-in-source-and-confirmed":"confirmed-by-user-only",
+  review:{sameLiveState:mergeStaged.plan.sameLiveState,
+    requiresActiveStateDecision:mergeStaged.plan.requiresActiveStateDecision,
+    needsSeparateArchive:mergeStaged.plan.needsSeparateArchive,
+    totalVersions:mergeStaged.plan.totalVersions},
+  archive:mergeStaged.plan.completeArchive};
+ const address=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}));
+ const link=document.createElement("a");link.href=address;
+ link.download="MED_JITA_CONCILIACAO_"+current.toUpperCase()+".json";
+ document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(address),10000);
+ $("mergeReport").textContent+="\\nArquivo completo preparado. Nenhuma nota foi substituída.";
+};
 renderProfiles();
 })();
 </script>
