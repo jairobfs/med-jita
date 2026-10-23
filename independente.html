@@ -103,6 +103,18 @@ function useProfile(id){let old=JSON.parse(get(k(id,"state"))||"null");
 }
 function capture(){
  if(!current)return;
+ try{
+  const frame=$("calculator").contentWindow,bridge=frame?.MED_JITA_BRIDGE;
+  if(bridge&&frame.document.documentElement.dataset.profileReady==="yes"){
+   const latest=bridge.exportBackup();
+   if(latest?.data?.version===3){
+    const s=JSON.stringify(latest.data),h=JSON.stringify(latest.history||[]);
+    put(k(current,"state"),s);put(k(current,"history"),h);
+    put(STATE,s);put(HISTORY,h);
+    return;
+   }
+  }
+ }catch(error){status("Falha ao capturar estado moderno · cópia local preservada",true)}
  const s=get(STATE),h=get(HISTORY);
  if(s){
   try{
@@ -207,7 +219,7 @@ function schedule(){
 }
 window.addEventListener("storage",e=>{
  if(!current||e.storageArea!==localStorage)return;
- if(e.key===STATE||e.key===HISTORY)schedule();
+ if(e.key===STATE||e.key===HISTORY||e.key==="med_jita_profile_state_"+current||e.key==="med_jita_profile_history_"+current)schedule();
 });
 window.addEventListener("pagehide",capture);
 window.addEventListener("online",()=>{lastRefresh=0;setTimeout(refresh,350)});
@@ -268,6 +280,17 @@ async function enter(){
  }catch(error){$("error").textContent=fmt(error)}
  finally{$("enter").disabled=false;$("pin").value="";$("pinConfirm").value=""}
 }
+$("calculator").addEventListener("load",()=>{
+ if(!current)return;
+ try{
+  const child=$("calculator").contentWindow,bridge=child?.MED_JITA_BRIDGE;
+  if(!bridge)throw Error("Motor moderno indisponível");
+  const existing=backup(current);
+  bridge.bindProfile(current,existing?.data?.version===3?existing:null);
+  child.document.documentElement.dataset.profileReady="yes";
+  status(remoteReady?"Craft conectado · Jita atualizado":"Jita atualizado · dados locais preservados");
+ }catch(error){status("Falha ao iniciar interface moderna: "+fmt(error),true)}
+});
 $("enter").onclick=enter;$("back").onclick=()=>{$("pinFields").hidden=true;selected="";renderProfiles()};$("pin").onkeydown=e=>{if(e.key==="Enter")enter()};
 $("switch").onclick=async()=>{capture();if(remoteReady&&signature(backup(current))!==get(k(current,"lastSig")))await push();resetGate()};
 $("settings").onclick=()=>{$("apiBase").value=url();$("cfgStatus").textContent="";$("cfg").showModal()};

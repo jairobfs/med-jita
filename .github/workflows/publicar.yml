@@ -51,6 +51,9 @@ jobs:
           mkdir -p _site
           unzip -q MED_JITA_GitHub_Pages_v6.zip -d _site
           test -f _site/index.html
+          mv _site/index.html _site/calculadora-legado.html
+          # Publicar a interface V51/V52 real e todos os seus assets.
+          cp -a site-v51/source/. _site/
           mv _site/index.html _site/calculadora.html
           cp independente.html _site/index.html
           cp independente.html _site/independente.html
@@ -69,15 +72,16 @@ jobs:
           cp uc-native.css _site/uc-native.css
           python3 - <<'PY'
           from pathlib import Path
-          import re
           f=Path('_site/calculadora.html')
-          text=f.read_text(encoding='utf-8')
-          scripts='<script src="./uc-engine.js"></script><script src="./uc-native.js"></script>'
-          text,n=re.subn(r'</body\s*>',scripts+'</body>',text,count=1,flags=re.I)
-          if n!=1: raise RuntimeError('Legacy calculator has no closing body; refusing deployment')
-          f.write_text(text,encoding='utf-8')
-          assert text.index('uc-engine.js')<text.index('uc-native.js')
-          assert text.count('uc-native.js')==1
+          html=f.read_text(encoding='utf-8')
+          tag='<script src="./integrations/profiles-ui.js?v=51" defer></script>'
+          assert html.count(tag)==1, 'Missing modern profiles integration'
+          html=html.replace(tag,'')
+          assert html.count('</head>')==1
+          html=html.replace('</head>','<style>.profile-controls,#accountSyncPane{display:none!important}</style></head>',1)
+          f.write_text(html,encoding='utf-8')
+          assert 'med-jita-brand-v11.svg' in html
+          assert 'integrations/uc-engine.js' in html
           PY
           node tests/uc-built.spec.mjs
           test -f _site/index.html

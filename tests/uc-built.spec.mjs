@@ -1,14 +1,16 @@
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 const html=readFileSync('_site/calculadora.html','utf8');
-for(const f of ['_site/uc-engine.js','_site/uc-native.js','_site/uc-native.css'])
- assert.ok(existsSync(f),f+' not published');
-assert.equal((html.match(/<script src="\.\/uc-native\.js"><\/script>/g)||[]).length,1,'exactly one curricular bridge');
-assert.ok(html.indexOf('<script src="./uc-engine.js"></script>')<html.indexOf('<script src="./uc-native.js"></script>'),'Engine must load before UI');
-assert.ok(html.includes('</body>'),'Calculator HTML preserved');
-const source=readFileSync('_site/uc-native.js','utf8');
-assert.match(source,/med_jita_state_v3/);
-assert.match(source,/ucState\(\)/);
-assert.match(source,/persist\(u\)/);
-assert.doesNotMatch(source,/profileGateway|\/api\/login/);
-console.log('PASS packaged legacy calculator with original V51 UC engine and UI scripts.');
+const gateway=readFileSync('_site/index.html','utf8');
+const legacy=readFileSync('_site/calculadora-legado.html','utf8');
+assert.ok(legacy.includes('<html'),'Legacy recovery must be retained');
+for(const file of ['_site/integrations/uc-engine.js','_site/integrations/palette-orbit.js','_site/integrations/jita-motion.js','_site/integrations/navigation-motion.js','_site/assets/med-jita-brand-v11.svg','_site/assets/jita-v11/cor/media.svg'])assert.ok(existsSync(file),file);
+assert.ok(html.includes('Minhas UCs'));
+assert.ok(html.includes('med-jita-brand-v11.svg'));
+assert.ok(html.includes('integrations/uc-engine.js'));
+assert.ok(html.includes('MED_JITA_BRIDGE'));
+assert.ok(!html.includes('profiles-ui.js?v=51'));
+assert.ok(gateway.includes('bridge.bindProfile(current'));
+assert.ok(gateway.includes('bridge.exportBackup()'));
+assert.ok(gateway.includes('med_jita_profile_state_'));
+console.log('PASS: modern MED JITA published with V6 recovery');
