@@ -14,7 +14,7 @@ export function translateD1Sql(input) {
     .replace(/^INSERT\s+OR\s+IGNORE\s+INTO\s+snapshots\b/i, 'INSERT INTO snapshots')
     .replace(/\bmax\s*\(\s*revision\s*,\s*excluded\.revision\s*\)/gi,
       'GREATEST(snapshots.revision, excluded.revision)')
-    .replace(/\\brevision\\s*=\\s*revision\\s*\\+\\s*1\\b/gi,
+    .replace(/\brevision\s*=\s*revision\s*\+\s*1\b/gi,
       'revision=snapshots.revision+1');
   if (/^INSERT\s+INTO\s+snapshots\b/i.test(sql) &&
       /^INSERT\s+OR\s+IGNORE\s+INTO\s+snapshots\b/i.test(input.trim()))
