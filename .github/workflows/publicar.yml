@@ -26,6 +26,18 @@ jobs:
       - name: Obter arquivos
         uses: actions/checkout@v6
 
+      - name: Validar gateway antes de publicar
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          html = Path('independente.html').read_text(encoding='utf-8')
+          assert 'pin' in html and 'lastSig' in html
+          js = html.rsplit('<script>', 1)[1].split('</script>', 1)[0]
+          Path('/tmp/med-jita-v18.js').write_text(js, encoding='utf-8')
+          PY
+          node --check /tmp/med-jita-v18.js
+          test -s sw.js
+
       - name: Extrair aplicativo
         run: |
           mkdir -p _site
