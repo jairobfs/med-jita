@@ -125,7 +125,11 @@ if((!localValid&&incomingValid)||(!localValid&&!local)||incomingValid&&remoteTim
 remoteReady=true;return true;
 }catch(e){remoteReady=false;status("Modo local · "+fmt(e),true);return false}}
 async function push(){if(busy||!current||!url()||!remoteReady)return;busy=true;capture();try{let row=rowCache[current]||await remoteRow(current),id=current;
-const json=JSON.stringify(backup(id)),rev=Number(prop(row,"revisao")||0)+1,now=new Date().toISOString();
+const previous=JSON.parse(deb64(prop(row,"dados")));
+const nowData=backup(id);
+const stable=v=>JSON.stringify({data:v?.data??null,history:v?.history??[]});
+if(stable(nowData)===stable(previous)){status("Craft sincronizado · sem mudanças");return}
+const json=JSON.stringify(nowData),rev=Number(prop(row,"revisao")||0)+1,now=new Date().toISOString();
 await craft("PUT","/collections/"+C+"/items",{itemsToUpdate:[{id:row.id,properties:{dados:b64(json),revisao:rev,atualizado:now,estado:"Sincronizado"}}]});
 const check=await remoteRow(id);if(prop(check,"dados")!==b64(json))throw Error("Leitura após gravação divergente");
 status("Salvo no Craft · "+new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}));
