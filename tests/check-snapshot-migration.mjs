@@ -1,0 +1,38 @@
+import assert from 'node:assert/strict';
+import{mkdtemp,writeFile,rm}from'node:fs/promises';
+import{tmpdir}from'node:os';
+import{join}from'node:path';
+import{fileURLToPath}from'node:url';
+import{spawnSync}from'node:child_process';
+import{audit,compare}from'../scripts/check-snapshot-migration.mjs';
+const blob=JSON.stringify({alg:'AES-256-GCM',iv:'abcdefghijklmnop',ciphertext:'A'.repeat(48)});
+const row={id:'med-data-v1:jbfs',revision:3,payload:blob,updated_at:'2026-10-23T14:00:00.000Z'};
+const mirror={id:'med-craft-mirror-v1:jbfs',revision:3,payload:'{}',updated_at:row.updated_at};
+const account={id:'med-account-v1:jbfs',revision:1,payload:'{"v":1,"hash":"test"}',updated_at:row.updated_at};
+const source=[{results:[row,mirror,account],success:true}],snapshot=audit(source);
+assert.equal(snapshot.byId.size,3);
+assert.equal(snapshot.profiles.jbfs,true);
+assert.equal(snapshot.profiles.barba,false);
+assert.equal(compare(snapshot,audit(source)).passed,true);
+assert.equal(compare(snapshot,audit([{results:[row,mirror]}])).missing,1);
+assert.equal(compare(snapshot,audit([{results:[{...row,revision:4},mirror,account]}])).changed,1);
+assert.throws(()=>audit([{results:[{...row,payload:'{}'}]}]),/formato inesperado/);
+assert.throws(()=>audit([{results:[row,row]}]),/duplicados/);
+assert.throws(()=>audit([{results:[{...row,updated_at:'no'}]}]),/inválido/);
+assert.throws(()=>audit([{results:[row],success:false}]),/falhou/);
+const dir=await mkdtemp(join(tmpdir(),'med-jita-migration-'));
+try{
+  const a=join(dir,'a.json'),b=join(dir,'b.json');
+  const exe=fileURLToPath(new URL('../scripts/check-snapshot-migration.mjs',import.meta.url));
+  await writeFile(a,JSON.stringify(source));
+  await writeFile(b,JSON.stringify(source));
+  let result=spawnSync(process.execPath,[exe,a,b],{encoding:'utf8'});
+  assert.equal(result.status,0,result.stderr);
+  assert.match(result.stdout,/CÓPIA FIEL/);
+  assert.doesNotMatch(result.stdout,/abcdefghijklmnop|"hash"/);
+  await writeFile(b,JSON.stringify([{results:[row],success:true}]));
+  result=spawnSync(process.execPath,[exe,a,b],{encoding:'utf8'});
+  assert.equal(result.status,1);
+  assert.match(result.stdout,/FALHA/);
+}finally{await rm(dir,{recursive:true,force:true})}
+console.log('MED JITA: auditoria read-only de históricos cifrados aprovada.');
