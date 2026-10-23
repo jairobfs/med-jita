@@ -27,7 +27,7 @@ assert.doesNotMatch(canary,/#jita-canary-notice\{position:fixed/,
   'Fixed test banner obscures iPhone bottom navigation.');
 assert.match(canary,/jita-gateway-canary/,
   'Login needs non-obstructive demonstration disclaimer.');
-assert.ok(html.includes('mobile-editorial-v58.css?v=58.1'));
+assert.ok(html.includes('mobile-editorial-v58.css?v=59'));
 assert.ok(sw.includes("'./mobile-editorial-v58.css'"));
 assert.ok(built.includes('"/mobile-editorial-v58.css"'));
 console.log('Mobile editorial V58: accessible profile switching, zero obstructing overlays, brand transparency, canary labels and offline assets OK.');

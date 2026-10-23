@@ -19,7 +19,7 @@ border-radius:11px;padding:8px 10px;margin:12px 0 6px;
 background:rgba(10,165,173,.10);border:1px solid rgba(10,165,173,.24);
 color:var(--ink,#f1faf9);text-align:center}
 @media(max-width:760px){#jita-canary-notice{margin:10px 14px 0;padding:7px 9px;font-size:10px}}
-</style><div id="jita-canary-notice" role="status">Prévia de teste · JBFS PIN 0000 · Não use notas reais</div>`;
+</style><div id="jita-canary-notice" role="status">Prévia · não use notas reais · PIN 0000</div>`;
 const GATEWAY_NOTICE = `<div id="jita-gateway-canary" role="note">Ambiente de teste · JBFS: 0000 · Não use notas reais</div>`;
 export default {
   async fetch(request, bindings, context) {
