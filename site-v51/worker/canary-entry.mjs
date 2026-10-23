@@ -20,7 +20,7 @@ background:rgba(10,165,173,.10);border:1px solid rgba(10,165,173,.24);
 color:var(--ink,#f1faf9);text-align:center}
 @media(max-width:760px){#jita-canary-notice{margin:10px 14px 0;padding:7px 9px;font-size:10px}}
 </style><div id="jita-canary-notice" role="status">Prévia de teste · JBFS PIN 0000 · Não use notas reais</div>`;
-const GATEWAY_NOTICE = `<div id="jita-gateway-canary" role="note">Ambiente de teste · JBFS: 0000 · Não use notas reais</div>`
+const GATEWAY_NOTICE = `<div id="jita-gateway-canary" role="note">Ambiente de teste · JBFS: 0000 · Não use notas reais</div>`;
 export default {
   async fetch(request, bindings, context) {
     const url=new URL(request.url);
@@ -39,7 +39,7 @@ export default {
       headers.set('Cache-Control','no-store');
       // Both notices are in normal layout: never cover the mobile tab bar or inputs.
       const positioned=html
-        .replace(/(<header class="topbar">[\\s\\S]*?<\\/header>)/i,'$1'+NOTICE)
+        .replace(/(<header class="topbar">[\s\S]*?<\/header>)/i,'$1'+NOTICE)
         .replace(/(<button id="gatewayInstallApp")/i,GATEWAY_NOTICE+'$1');
       if(!positioned.includes('id="jita-canary-notice"'))
         return Response.json({error:'Cabeçalho da prévia indisponível.'},{status:503});
