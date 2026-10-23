@@ -179,3 +179,13 @@
 @media(max-width:740px) {
   .jita-preview-safety-note {font-size:10px;padding:8px 10px;margin:0 0 9px}
 }
+
+
+/* Compact tablets have neither the phone navigation nor desktop toolbar width. */
+@media(min-width:741px) and (max-width:960px) {
+  .topbar .toolbar #installApp {display:none!important}
+  .topbar .toolbar #topExport .desktop-label {display:none!important}
+  .topbar .location {min-width:0;overflow:hidden}
+  .topbar #topTitle {min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .topbar .toolbar {gap:4px}
+}
