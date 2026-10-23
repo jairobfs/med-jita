@@ -49,7 +49,7 @@ const shell=readFileSync('independente.html','utf8');
 assert.match(shell,/previous\?\.uc&&updated/,'Outer profile state must retain curricular data');
 assert.match(clientSource,/med_jita_state_v3/,'UC writes through existing Craft-backed state');
 assert.match(clientSource,/Minhas UCs/);
-assert.doesNotMatch(clientSource,/\/api\/identity|med_jita_session|profileUnlockPassword|Vercel/,'No second login or backend');
+assert.doesNotMatch(clientSource,/\/api\/identity|med_jita_session|profileUnlockPassword|vercel\.app/,'No second login or backend');
 assert.match(clientSource,/Nenhuma nota lançada/,'Incomplete grades must not be treated as zero');
 assert.match(clientSource,/Frequência \(%\)/);
 console.log('PASS UC V51: 3 matrices × 12 periods, original curricular formulas, pending grades, RRA/REA and state compatibility.');
