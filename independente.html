@@ -245,7 +245,7 @@ async function enter(){
    try{
     const row=await remoteRow(id),central=String(prop(row,"pin")||"").trim();
     if(!/^\d{4,6}$/.test(central))throw Error("PIN não cadastrado no Craft.");
-    if(pin!==central&&cached!==hash)throw Error("PIN incorreto no Craft.");
+    if(pin!==central)throw Error("PIN incorreto no Craft.");
     if(pin===central)put(k(id,"pin"),hash);
    }catch(error){
     if(/PIN/.test(String(error.message)))throw error;
