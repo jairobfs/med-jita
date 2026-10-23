@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - med-jita-portatil-v50
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
