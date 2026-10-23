@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#102D3C">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="stylesheet" href="./gateway-enhance.css">
-<title>MED JITA · Independente</title>
+<title>MED JITA · Calculadora</title>
 <link rel="icon" href="./favicon.png"><link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <style>
 :root{color-scheme:light;--sea:#087f89;--ink:#143b42;--mut:#607f80;--border:#d1e7e4;--bg:#f2f8f7;--card:#fff}*{box-sizing:border-box}
@@ -45,18 +45,18 @@ dialog::backdrop{background:#061e25b7}dialog h2{margin:0 0 8px}dialog p{color:va
 <div id="gate">
  <div class="panel">
   <img class="logo" src="./assets/med-jita-logo.svg" alt="MED JITA">
-  <div class="eyebrow">Independente · Github Pages + Craft</div>
+  <div class="eyebrow">Seu espaço de notas</div>
   <h1>Quem é você?</h1>
-  <p class="lead">Escolha seu avatar. Um PIN, suas notas e seu histórico.</p>
+  <p class="lead">Escolha seu perfil e continue de onde parou.</p>
   <div class="avatars" id="avatars"></div>
   <div id="pinFields" hidden>
    <label id="pinLabel" for="pin">PIN numérico</label>
-   <input id="pin" type="password" inputmode="numeric" pattern="[0-9]{4,6}" minlength="4" maxlength="6" autocomplete="one-time-code" placeholder="4 a 6 números">
+   <input id="pin" type="password" inputmode="numeric" pattern="[0-9]{4,6}" minlength="4" maxlength="6" autocomplete="one-time-code" placeholder="4 a 6 dígitos">
    <div id="pinConfirmWrap" hidden><label for="pinConfirm">Confirme seu novo PIN</label><input id="pinConfirm" type="password" inputmode="numeric" pattern="[0-9]{4,6}" maxlength="6"></div>
    <div class="actions"><button class="btn" id="enter">Entrar</button><button class="ghost" id="back">Voltar</button></div>
   </div>
   <div id="error" class="err" role="status"></div>
-  <div class="notice">A calculadora funciona mesmo sem internet depois de carregada. O salvamento no Craft só será indicado como confirmado após resposta da API. Com o convite Craft, use o PIN definido pelo JBFS. Sem Craft, funciona o PIN local já cadastrado; no primeiro uso local, você pode criá-lo.</div>
+  <details class="notice"><summary>Como funcionam as notas?</summary><p>Com o Craft conectado, as notas são salvas automaticamente. Offline, você pode continuar usando a cópia deste aparelho. Um único PIN dá acesso ao seu perfil, sem senha adicional do histórico.</p></details>
  </div>
 </div>
 <div id="shell" hidden>
