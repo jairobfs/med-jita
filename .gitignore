@@ -1,3 +1,10 @@
 dist/
 site.tar.gz
 outputs/
+# Configuração e segredos locais não pertencem ao repositório público.
+wrangler.toml
+.dev.vars
+.dev.vars.*
+.env
+.env.*
+!.env.example
