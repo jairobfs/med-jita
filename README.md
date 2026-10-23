@@ -1,6 +1,6 @@
-# MED JITA · V50 portátil e independente
+# MED JITA · base V50 portátil + identidade V52/V53
 
-> **Preparação da migração:** esta ramificação contém uma cópia editável do app V50 e testes de publicação fora da Vercel e do Sites. O endereço antigo e seus históricos continuam intocados. Um link independente só será anunciado depois da instalação e migração de dados validadas.
+> **Preparação da migração:** esta ramificação contém uma cópia editável do app V50, a biblioteca visual V52/V53 do GitHub e testes de publicação fora da Vercel e do Sites. O endereço antigo e seus históricos continuam intocados. Um link independente só será anunciado depois da instalação e migração de dados validadas.
 
 [Plano de migração com segurança para os quatro perfis](docs/DESMAME_VERCEL_SITES_V50.md)
 
@@ -10,7 +10,7 @@ Calculadora de notas mobile-first, com motor curricular para todas as UCs de Med
 
 - `source/index.html` — aplicativo e cálculos existentes, sem notas preenchidas previamente.
 - `source/integrations/uc-engine.js` — modelos fundamentados nos arts. 9, 20, 31 e 45 da Resolução CONSU nº 032/2026: UCT/UCM, HP/AP, IESC/AESC, UCF, UGC/UCE, UDE/ERA, internato e modelo personalizável.
-- `source/icons/`, `source/assets/` — figuras e marcas de origem.
+- `source/icons/`, `source/assets/` — figuras e marcas de origem.\n- `source/identidade.html`, `source/catalog.json`, `source/jita-curricular.css` e `source/integrations/med-brand-system.js` — galeria, selos curriculares e identidade individual trazidos da biblioteca V52/V53.
 - `source/integrations/sync-ui.js` — backup cifrado no navegador e recuperação sem login.
 - `source/integrations/editorial-live.js` — textos públicos revisados do Craft ao abrir/retomar o aplicativo.
 - `worker/runtime.js` — API do histórico cifrado em D1 e leitura seletiva do Craft pelo servidor.
@@ -51,7 +51,7 @@ A API publica apenas textos públicos revisados. Fórmulas, pesos, mascote e dad
 
 ## Perfis, PIN e histórico online
 
-O app organiza quatro perfis iniciais — JBFS/Jairo, Barba, Tay e Igu — selecionados na tela de entrada. A escolha do nome é cosmética/organizativa; um PIN opcional pode proteger a abertura do histórico. A entrada solicita o teclado numérico no iPhone e permite teclado completo para senhas antigas.
+No iPhone, o campo do PIN aparece e recebe foco no próprio toque do avatar para abrir o teclado numérico, antes da consulta à API. A senha só desbloqueia o histórico após validação no servidor.\n\nO app organiza quatro perfis iniciais — JBFS/Jairo, Barba, Tay e Igu — selecionados na tela de entrada. A escolha do nome é cosmética/organizativa; um PIN opcional pode proteger a abertura do histórico. A entrada solicita o teclado numérico no iPhone e permite teclado completo para senhas antigas.
 
 As notas são salvas automaticamente em uma base D1 quando o perfil está ativo. A API mantém revisões e recusa sobrescritas concorrentes; o histórico local é preservado e pode ser conciliado. O espelho do Craft é atualizado quando a conexão editorial está disponível. O conteúdo do novo banco é cifrado; a chave fica na infraestrutura do usuário, nunca no repositório público.
 
