@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 810" width="1440" height="810">
+<rect x="0" y="0" width="1440" height="810" rx="0" fill="#151426" stroke="#151426" stroke-width="0" opacity="1"/>
+<rect x="0" y="0" width="1440" height="10" rx="0" fill="#2DB5AA" stroke="#2DB5AA" stroke-width="0" opacity="1"/>
+<rect x="0" y="0" width="14" height="810" rx="0" fill="#7258C7" stroke="#7258C7" stroke-width="0" opacity="1"/>
+<text x="45" y="55.78" text-anchor="start" font-size="24" font-family="Arial,DejaVu Sans,sans-serif" fill="#87DBCD">MED JITA   /   MANUAL VIVO</text>
+<text x="1397" y="55.245000000000005" text-anchor="end" font-size="21" font-family="Arial,DejaVu Sans,sans-serif" fill="#E2BE8C">03 / 06</text>
+<polyline points="45,83 1395,83" fill="none" stroke="#4F426A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<text x="45" y="125.9" text-anchor="start" font-size="20" font-family="Arial,DejaVu Sans,sans-serif" fill="#E2BE8C">MORFOLOGIA APLICADA</text>
+<text x="45" y="198.66500000000002" text-anchor="start" font-size="57" font-family="Arial,DejaVu Sans,sans-serif" fill="#FFFDF9">Cinco gestos com silhuetas próprias.</text>
+<polyline points="45,757 1393,757" fill="none" stroke="#4F426A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<ellipse cx="189" cy="416" rx="109" ry="109" fill="#211D39" stroke="#87DBCD" stroke-width="3" opacity="1"/>
+<text x="187.5" y="587.815" text-anchor="middle" font-size="27" font-family="Arial,DejaVu Sans,sans-serif" fill="#FFFDF9">CÁLCULO</text>
+<text x="189.5" y="632.59" text-anchor="middle" font-size="22" font-family="Arial,DejaVu Sans,sans-serif" fill="#87DBCD">REGISTRO</text>
+<polyline points="100,660 278,660" fill="none" stroke="#4F426A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<ellipse cx="449" cy="416" rx="109" ry="109" fill="#211D39" stroke="#A79CE2" stroke-width="3" opacity="1"/>
+<text x="447.5" y="587.815" text-anchor="middle" font-size="27" font-family="Arial,DejaVu Sans,sans-serif" fill="#FFFDF9">TUTORIA</text>
+<text x="449.5" y="632.59" text-anchor="middle" font-size="22" font-family="Arial,DejaVu Sans,sans-serif" fill="#A79CE2">LEITURA</text>
+<polyline points="360,660 538,660" fill="none" stroke="#4F426A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<ellipse cx="710" cy="416" rx="109" ry="109" fill="#211D39" stroke="#E2BE8C" stroke-width="3" opacity="1"/>
+<text x="708.5" y="587.815" text-anchor="middle" font-size="27" font-family="Arial,DejaVu Sans,sans-serif" fill="#FFFDF9">ANATOMIA</text>
+<text x="710.5" y="632.59" text-anchor="middle" font-size="22" font-family="Arial,DejaVu Sans,sans-serif" fill="#E2BE8C">FORMA</text>
+<polyline points="621,660 799,660" fill="none" stroke="#4F426A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<ellipse cx="969" cy="416" rx="109" ry="109" fill="#211D39" stroke="#A7D9B5" stroke-width="3" opacity="1"/>
+<text x="967.5" y="587.815" text-anchor="middle" font-size="27" font-family="Arial,DejaVu Sans,sans-serif" fill="#FFFDF9">SIMULAÇÃO</text>
+<text x="969.5" y="632.59" text-anchor="middle" font-size="22" font-family="Arial,DejaVu Sans,sans-serif" fill="#A7D9B5">ENSAIO</text>
+<polyline points="880,660 1058,660" fill="none" stroke="#4F426A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<ellipse cx="1227" cy="416" rx="109" ry="109" fill="#211D39" stroke="#87DBCD" stroke-width="3" opacity="1"/>
+<text x="1225.5" y="587.815" text-anchor="middle" font-size="27" font-family="Arial,DejaVu Sans,sans-serif" fill="#FFFDF9">HISTÓRICO</text>
+<text x="1227.5" y="632.59" text-anchor="middle" font-size="22" font-family="Arial,DejaVu Sans,sans-serif" fill="#87DBCD">RETORNO</text>
+<polyline points="1138,660 1316,660" fill="none" stroke="#4F426A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<rect x="149.75" y="345" width="71.25" height="27.549999999999997" rx="12" fill="#87DBCD" stroke="#87DBCD" stroke-width="0" opacity="1"/>
+<rect x="141.2" y="365.9" width="90.25" height="26.599999999999998" rx="0" fill="#87DBCD" stroke="#87DBCD" stroke-width="0" opacity="1"/>
+<rect x="126" y="391.55" width="118.75" height="15.2" rx="7" fill="#87DBCD" stroke="#87DBCD" stroke-width="0" opacity="1"/>
+<rect x="142.15" y="378.25" width="86.45" height="8.549999999999999" rx="0" fill="#151426" stroke="#151426" stroke-width="0" opacity="1"/>
+<text x="189.5" y="492.46" text-anchor="middle" font-size="68" font-family="Arial,DejaVu Sans,sans-serif" fill="#FFFDF9">=</text>
+<polygon points="385,396 402,381 458,381 477,396 477,461 430,449 385,461 385,396" fill="none" stroke="#FFFDF9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<polyline points="430,384 430,451" fill="none" stroke="#A79CE2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<polyline points="494.4497828188661,477.8853914443136 492.8870523641601,481.5526893005701 490.3438101116152,485.06204374620006 486.87324087255223,488.34006643061974 482.5479219132427,491.31820666118386 477.4583052040105,493.934184949538 471.71082586880254,496.1332954132416 465.42567639172364,497.86954979656747 458.7342931267932,499.1066391864776 451.77660767355326,499.81869331216956 444.69812059833424,499.99082154956403 437.6468586961285,499.6194243171349 430.77027942344375,498.7122683511071 424.2121872372819,497.2883242858526 418.10972632640323,495.3773699360352 412.5905126235069,493.01936757675344 407.76996507428515,490.2636282441256 403.7488919724081,487.1677805326391 400.6113828355051,483.7965654539884 398.4230499076701,480.22048255956355" fill="none" stroke="#87DBCD" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<polygon points="651,407 683,372 716,407 683,442 651,407" fill="none" stroke="#E2BE8C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<polygon points="697,443 728,408 759,443 728,477 697,443" fill="none" stroke="#87DBCD" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<polyline points="757.4307793323261,438.874617549732 750.430090312565,450.674648897459 741.6706227714836,460.8695624687269 731.4354180062945,469.1299339522237 720.0552022421233,475.18884914920636 707.8977000030169,478.85052866908836 695.3557519711834,479.99665407340046 682.8346212774984,478.5901910538719 670.7388983902163,474.67658610775385 659.4594277391705,468.38229804267723 649.3606785104123,459.9107117619609 640.7689676939328,449.53556636665127 633.9619159285854,437.59210992949727 629.1594768534262,424.4662667532398 626.5168298305844,410.5821671474198 626.1193656943673,396.3884426692212 627.9799275501557,382.34372966494516 632.0383957800918,368.9018495305911 638.163630665111,356.4971445560708 646.1577098521183,345.5304431902664 655.7623237426711,336.3561082259116" fill="none" stroke="#A79CE2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<polyline points="1036.604660448887,434.30419181724443 1032.3728672902039,448.2835440446193 1025.4791331428878,461.09331771560085 1016.208527078179,472.20380422739885 1004.9444063599672,481.1555637462076 992.1525638898727,487.5784239216783 978.3619667812876,491.20678722048586 964.1428825591239,491.89061389151584 950.0832975086772,489.6016263960883 936.7646023199138,484.43447873818104 924.7375504722187,476.602842340614 914.4994835263067,466.43057032368984 906.4737651009651,454.33830556024026 900.9922739789631,440.82608628957684 898.2816802856303,426.4526685814241 898.4540722463252,411.81242070543806 901.5023211242741,397.5107448682525 907.3003760074494,384.1390426761609 915.6084762544881,372.25025954935796 926.0830660550586,362.3360193729122 938.2910011186704,354.8062949103149 951.7274600182164,349.9724546468278 965.83681951999,348.03438710802914 980.035630665413,349.07223508757454 993.7367454996267,353.0430815896393 1006.3735967606393,359.7827245286497 1017.4236265175249,369.01246679908104 1026.4298949387412,380.3506409329701" fill="none" stroke="#A7D9B5" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<polyline points="1012,357 1047,375 1016,388" fill="none" stroke="#FFFDF9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<polyline points="1300,419 1298.3579897695838,433.7633026204375 1293.5058275056444,447.86245472203973 1285.6617954020733,460.6631836475183 1275.1787696496037,471.5896283598205 1262.5283457422433,480.15024546169496 1248.279623008074,485.95992205286905 1233.0736027758592,488.75730064298324 1217.5943519164266,488.4165367316728 1202.5382290125262,484.9529601224591 1188.5825575665858,478.5223852872916 1176.3551555316615,469.41410180608284 1166.4060919278288,458.03786021739916 1159.182941117295,444.90543874239967 1155.0106479638062,430.6076201321004 1154.0769096740014,415.78761437090543 1156.4237319416993,401.11212285812184 1161.945539255324,387.2413457910202 1170.393924379277,374.7992820147513 1181.388823346324,364.34565744734607 1194.4356132362932,356.3507449239992 1208.9473635704605,351.1742082297686 1224.271240307458,349.04892205534094 1239.7178746151812,350.0704957607426 1254.5923752180477,354.19297223705877 1268.2255891801053,361.2308953596658 1280.0042048082269,370.8676530253253 1289.398342448672,382.6697204484193 1295.9853919613986,396.10616295911814" fill="none" stroke="#87DBCD" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<polyline points="1227,419 1227,376" fill="none" stroke="#FFFDF9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<polyline points="1227,419 1274,438" fill="none" stroke="#FFFDF9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<rect x="1199.25" y="332" width="33.75" height="13.05" rx="12" fill="#E2BE8C" stroke="#E2BE8C" stroke-width="0" opacity="1"/>
+<rect x="1195.2" y="341.9" width="42.75" height="12.6" rx="0" fill="#E2BE8C" stroke="#E2BE8C" stroke-width="0" opacity="1"/>
+<rect x="1188" y="354.05" width="56.25" height="7.2" rx="7" fill="#E2BE8C" stroke="#E2BE8C" stroke-width="0" opacity="1"/>
+<rect x="1195.65" y="347.75" width="40.95" height="4.05" rx="0" fill="#151426" stroke="#151426" stroke-width="0" opacity="1"/>
+<text x="55" y="739.9000000000001" text-anchor="start" font-size="20" font-family="Arial,DejaVu Sans,sans-serif" fill="#A7B7C0">ESTUDOS DE CONTORNO · NÃO HOMOLOGADOS</text>
+</svg>
