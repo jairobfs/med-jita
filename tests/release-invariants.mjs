@@ -29,6 +29,14 @@ assert.match(runtime,/asset\.mime\.includes\('javascript'\)/,
   'Runtime must avoid stale JavaScript on a new deployment');
 assert.ok(html.includes(`./brand-evolution.css?v=${expected}`),
   'The evolved visual identity must be versioned with the release');
+assert.ok(html.includes(`./jita-curricular.css?v=${expected}`),
+  'The curricular visual system must share the app version');
+assert.ok(html.includes(`./integrations/med-brand-system.js?v=${expected}`),
+  'Dynamic curricular marks must share the app version');
+assert.match(html,/href="\.\/identidade\.html"/,
+  'The curricular identity gallery must be accessible from the calculator');
+assert.ok(sw.includes("'./identidade.html'") && sw.includes("'./catalog.json'"),
+  'Gallery and catalog must stay available offline');
 assert.ok(sw.includes("'./brand-evolution.css'"),
   'The design layer must remain available in the offline asset set');
 assert.match(html,/class="gateway-intro"/,
