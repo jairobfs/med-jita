@@ -58,6 +58,8 @@ try {
       // Before merge, the live environment still runs V60. The PR-preview
       // injects V60.1 CSS, while the post-deploy live test checks it natively.
       const deployedV601=await page.locator('link[href*="quick-nav-v60.css?v=60.1"]').count()>0;
+      if(process.env.MED_JITA_V60_LIVE==='1')
+        assert.equal(deployedV601,true,'Cloudflare must publish V60.1 CSS, not the previous V60 cache.');
       if(process.env.MED_JITA_V60_LIVE!=='1'||deployedV601) {
         assert.ok(heights.statusBottom<=heights.listTop+2 &&
           heights.statusHeight+2>=heights.statusContentHeight,
@@ -80,7 +82,11 @@ try {
       await page.locator('#jitaQuickSearch').fill('cab');
       await page.locator('#jitaQuickSearch').press('Enter');
       await page.locator('#page-cab.active').waitFor();
-      await page.locator('#cabHits').focus();
+      // Form rendering after tab switching may replace the input once. Focus
+      // the settled, visible DOM field rather than a stale detached node.
+      await page.waitForTimeout(380);
+      await page.locator('#cabHits').click();
+      await page.waitForFunction(()=>document.activeElement?.id==='cabHits');
       await page.keyboard.press('/');
       assert.equal(await page.locator('#jitaQuickDialog').isVisible(),false,
         'Slash cannot hijack active grade field.');
