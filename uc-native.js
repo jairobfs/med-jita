@@ -7,9 +7,25 @@
   const ENGINE=window.MED_UC_ENGINE;
   if(!ENGINE || document.getElementById('mjuc-open'))return;
   const KEY='med_jita_state_v3';
-  const safeState=()=>{try{const x=JSON.parse(localStorage.getItem(KEY)||'null');return x?.version===3?x:null}catch{return null}};
+  const STANDALONE='med_jita_uc_standalone_v1';
+  const direct=window.parent===window;
   const fallback=()=>({matrix:'2023',period:'7',type:'uct',regime:'rra',instance:'principal',followCohort:false,entries:{}});
-  const ucState=()=>{const o=safeState()?.uc;return o&&typeof o==='object'?{...fallback(),...o,entries:o.entries&&typeof o.entries==='object'?o.entries:{}}:fallback()};
+  const safeState=()=>{
+    try{
+      const raw=localStorage.getItem(KEY);
+      if(raw){const x=JSON.parse(raw);return x?.version===3?x:null}
+      // Uma sessão nova ainda pode não ter lançado a primeira nota do motor V6.
+      // Não converter silenciosamente um backup legado V2 em um estado vazio.
+      if(localStorage.getItem('med_grade_suite_v2'))return null;
+      return {version:3};
+    }catch{return null}
+  };
+  const ucState=()=>{
+    let stored=null;
+    if(direct){try{stored=JSON.parse(localStorage.getItem(STANDALONE)||'null')}catch{}}
+    const o=stored&&typeof stored==='object'?stored:safeState()?.uc;
+    return o&&typeof o==='object'?{...fallback(),...o,entries:o.entries&&typeof o.entries==='object'?o.entries:{}}:fallback()
+  };
   const ucKey=u=>[u.matrix,u.period,u.type].join(':')+(u.instance==='principal'?'':':'+u.instance);
   const el=(tag,props={},children=[])=>{const node=document.createElement(tag);for(const [key,val] of Object.entries(props)){if(key==='text')node.textContent=val;else if(key==='class')node.className=val;else if(key==='htmlFor')node.htmlFor=val;else if(key.startsWith('data-'))node.setAttribute(key,val);else node[key]=val}for(const x of children)node.append(x);return node};
   const options=(select,arr,value)=>{select.replaceChildren();arr.forEach(([id,name])=>select.add(el('option',{value:String(id),text:name})));select.value=String(value)};
@@ -30,7 +46,14 @@
     const saved=safeState();
     if(!saved)return false;
     saved.uc=u;
-    try{localStorage.setItem(KEY,JSON.stringify(saved));return true}catch{return false}
+    try{
+      localStorage.setItem(KEY,JSON.stringify(saved));
+      // A abertura direta não passa pelo espelho por perfil do Craft.
+      // Isolar o backup local da UC impede que o legado V6 apague os campos
+      // ao reinicializar a página; em modo autenticado não criar cópia global.
+      if(direct)localStorage.setItem(STANDALONE,JSON.stringify(u));
+      return true;
+    }catch{return false}
   };
   const selection=()=>memo||ucState();
   const entryOf=u=>u.entries[ucKey(u)]||{name:'',attendance:'',tracks:1,grades:{},regime:u.regime};
