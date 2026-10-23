@@ -66,7 +66,7 @@ const server = http.createServer(async(req, res) => {
       ...(body ? {body} : {}) });
     const context = { waitUntil(job) {
       pending.push(Promise.resolve(job).catch(() => {
-        process.stderr.write('Falha assíncrona em operação auxiliar do MED JITA.\\n');
+        process.stderr.write('Falha assíncrona em operação auxiliar do MED JITA.\n');
       }));
     }};
     const response = await worker.fetch(request, env, context);
@@ -91,7 +91,7 @@ function endJson(res, status, payload) {
 }
 server.listen(port, '0.0.0.0', () =>
   process.stdout.write('MED JITA PostgreSQL gateway listening; writes ' +
-    (writeEnabled ? 'explicitly enabled' : 'disabled') + '\\n'));
+    (writeEnabled ? 'explicitly enabled' : 'disabled') + '\n'));
 for (const signal of ['SIGTERM','SIGINT']) process.on(signal, () => {
   server.close(async () => { await pool.end(); process.exit(0); });
 });
