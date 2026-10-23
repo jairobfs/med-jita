@@ -5,6 +5,7 @@ on:
     paths:
       - 'site-v51/**'
       - '.github/workflows/validar-v51.yml'
+      - '.github/workflows/deploy-v51-worker.yml'
   workflow_dispatch:
 
 permissions:
@@ -25,4 +26,12 @@ jobs:
           printf '%s\n' '{"d1":"DB","r2":null,"project_id":"ci-test-only"}' > .openai/hosting.json
       - name: Compilar, testar e validar
         working-directory: site-v51
-        run: npm run qa
+        run: |
+          npm run qa
+          node tests/deploy-config.mjs
+      - name: Guardar pacote de Worker verificado
+        uses: actions/upload-artifact@v4
+        with:
+          name: med-jita-v51-worker
+          path: site-v51/dist/server/index.js
+          retention-days: 7

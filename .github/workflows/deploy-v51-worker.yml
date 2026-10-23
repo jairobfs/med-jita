@@ -1,0 +1,76 @@
+name: MED JITA V51 - Publicar canário Cloudflare
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'site-v51/**'
+      - '.github/workflows/deploy-v51-worker.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: med-jita-v51-canary
+  cancel-in-progress: false
+
+jobs:
+  deploy-canary:
+    # Sem essa variável a publicação externa permanece desligada.
+    if: ${{ vars.MED_JITA_CANARY_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    environment: med-jita-canary
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Conferir configuração sem expor segredos
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          MED_JITA_D1_DATABASE_ID: ${{ secrets.MED_JITA_D1_DATABASE_ID }}
+          CRAFT_API_BASE: ${{ secrets.CRAFT_API_BASE }}
+          MED_JITA_MASTER_KEY: ${{ secrets.MED_JITA_MASTER_KEY }}
+        shell: bash
+        run: |
+          for key in CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID MED_JITA_D1_DATABASE_ID CRAFT_API_BASE MED_JITA_MASTER_KEY; do
+            if [[ -z "${!key}" ]]; then
+              echo "::error::Configuração obrigatória não definida: $key"
+              exit 1
+            fi
+          done
+          if [[ ! "$MED_JITA_MASTER_KEY" =~ ^[0-9a-fA-F]{64}$ ]]; then
+            echo '::error::MED_JITA_MASTER_KEY deve ter 64 dígitos hexadecimais.'
+            exit 1
+          fi
+      - name: Compilar e executar testes
+        working-directory: site-v51
+        run: |
+          npm run qa
+          node tests/deploy-config.mjs
+      - name: Gerar configuração do Worker isolado
+        working-directory: site-v51
+        env:
+          MED_JITA_D1_DATABASE_ID: ${{ secrets.MED_JITA_D1_DATABASE_ID }}
+        run: node scripts/generate-cloudflare-config.mjs
+      - name: Publicar e configurar segredos no canário
+        id: cloudflare
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: site-v51
+          command: deploy
+          secrets: |
+            CRAFT_API_BASE
+            MED_JITA_MASTER_KEY
+        env:
+          CRAFT_API_BASE: ${{ secrets.CRAFT_API_BASE }}
+          MED_JITA_MASTER_KEY: ${{ secrets.MED_JITA_MASTER_KEY }}
+      - name: Validar endpoints sem escrever dados
+        working-directory: site-v51
+        env:
+          MED_JITA_CANARY_URL: ${{ steps.cloudflare.outputs.deployment-url }}
+        run: node scripts/smoke-cloudflare-readonly.mjs
