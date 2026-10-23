@@ -87,3 +87,54 @@
   refresh();
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(() => {});
 })();
+
+/* MED JITA · recuperação visual V52: estrutura sem alterações em PIN, notas ou Craft. */
+(() => {
+  "use strict";
+  const gate = document.getElementById("gate");
+  const panel = gate?.querySelector(".panel");
+  if (!panel || panel.classList.contains("jita-restored")) return;
+
+  const auth = document.createElement("section");
+  auth.className = "jita-auth";
+  auth.setAttribute("aria-label", "Escolha de perfil");
+  while (panel.firstChild) auth.appendChild(panel.firstChild);
+
+  const scene = document.createElement("section");
+  scene.className = "jita-showcase";
+  scene.setAttribute("aria-label", "Universo MED JITA");
+  scene.innerHTML = `
+    <div class="jita-showcase-brand">
+      <img src="./assets/med-jita-logo.svg" alt="MED JITA">
+    </div>
+    <button type="button" class="jita-showcase-mascot"
+      aria-label="Toque no Jita para iluminar o cenário" aria-pressed="false">
+      <img src="./icons/jita-corpo.svg" alt="" aria-hidden="true">
+    </button>
+    <p class="jita-showcase-kicker">ACOMPANHAMENTO ACADÊMICO</p>
+    <h2 class="jita-showcase-title">Quem é você?</h2>
+    <p class="jita-showcase-copy">Notas, metas e histórico de Medicina organizados em um só lugar, semestre após semestre.</p>
+    <div class="jita-showcase-chip">Sua jornada acadêmica, sempre à mão.</div>
+  `;
+  const eyebrow = auth.querySelector(".eyebrow");
+  const heading = auth.querySelector("h1");
+  const lead = auth.querySelector(".lead");
+  if (eyebrow) eyebrow.textContent = "BEM-VINDO DE VOLTA";
+  if (heading) heading.textContent = "Escolha seu perfil";
+  if (lead) lead.textContent = "Continue de onde parou, com seus módulos e resultados.";
+
+  panel.append(scene, auth);
+  panel.classList.add("jita-restored");
+
+  const mascot = scene.querySelector(".jita-showcase-mascot");
+  let effectTimer;
+  mascot?.addEventListener("click", () => {
+    mascot.classList.toggle("is-lit");
+    mascot.setAttribute("aria-pressed", String(mascot.classList.contains("is-lit")));
+    clearTimeout(effectTimer);
+    effectTimer = setTimeout(() => {
+      mascot.classList.remove("is-lit");
+      mascot.setAttribute("aria-pressed", "false");
+    }, 1100);
+  });
+})();
