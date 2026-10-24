@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="810" viewBox="0 0 1440 810">
+<rect x="0" y="0" width="1440" height="810" rx="0" stroke="#13172A" stroke-width="0" fill="#13172A" opacity="1"/>
+<rect x="0" y="0" width="1440" height="9" rx="0" stroke="#7E65D5" stroke-width="0" fill="#7E65D5" opacity="1"/>
+<rect x="0" y="0" width="12" height="810" rx="0" stroke="#62D3C8" stroke-width="0" fill="#62D3C8" opacity="1"/>
+<text x="47" y="55.660000000000004" font-size="24" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" fill="#9EDFD5" opacity="1">MED JITA  /  ATELI&#202; NATIVO</text>
+<text x="1394" y="54.480000000000004" font-size="22" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="end" fill="#E8BC82" opacity="1">LOUSA 09A</text>
+<polyline points="45,81 1395,81" stroke="#4A3E68" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="1"/>
+<text x="44" y="160.06" font-size="59" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" fill="#F8F4FF" opacity="1">A anatomia dos s&#237;mbolos</text>
+<text x="48" y="207.32" font-size="23" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" fill="#99A6C2" opacity="1">Uma fam&#237;lia derivada do Jita: cartola  &#183;  cauda  &#183;  la&#231;o  &#183;  brilho</text>
+<polyline points="45,743 1395,743" stroke="#4A3E68" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="1"/>
+<text x="48" y="775.46" font-size="19" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" fill="#99A6C2" opacity="1">VETORES EDIT&#193;VEIS  &#183;  ESTUDOS, N&#195;O HOMOLOGADOS</text>
+<ellipse cx="214" cy="422" rx="117" ry="117" stroke="#4A3E68" stroke-width="2" fill="#0D1220" opacity="1"/>
+<ellipse cx="214" cy="422" rx="107" ry="107" stroke="#62D3C8" stroke-width="1" fill="#231D3A" opacity="0.64"/>
+<text x="87" y="299.82" font-size="23" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" fill="#62D3C8" opacity="1">01</text>
+<text x="214" y="604.7" font-size="30" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="middle" fill="#F8F4FF" opacity="1">CHAP&#201;U</text>
+<polyline points="132,563 296,563" stroke="#62D3C8" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.7"/>
+<ellipse cx="549" cy="422" rx="117" ry="117" stroke="#4A3E68" stroke-width="2" fill="#0D1220" opacity="1"/>
+<ellipse cx="549" cy="422" rx="107" ry="107" stroke="#B49AE9" stroke-width="1" fill="#231D3A" opacity="0.64"/>
+<text x="422" y="299.82" font-size="23" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" fill="#B49AE9" opacity="1">02</text>
+<text x="549" y="604.7" font-size="30" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="middle" fill="#F8F4FF" opacity="1">CAUDA</text>
+<polyline points="467,563 631,563" stroke="#B49AE9" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.7"/>
+<ellipse cx="895" cy="422" rx="117" ry="117" stroke="#4A3E68" stroke-width="2" fill="#0D1220" opacity="1"/>
+<ellipse cx="895" cy="422" rx="107" ry="107" stroke="#E8BC82" stroke-width="1" fill="#231D3A" opacity="0.64"/>
+<text x="768" y="299.82" font-size="23" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" fill="#E8BC82" opacity="1">03</text>
+<text x="895" y="604.7" font-size="30" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="middle" fill="#F8F4FF" opacity="1">LA&#199;O</text>
+<polyline points="813,563 977,563" stroke="#E8BC82" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.7"/>
+<ellipse cx="1230" cy="422" rx="117" ry="117" stroke="#4A3E68" stroke-width="2" fill="#0D1220" opacity="1"/>
+<ellipse cx="1230" cy="422" rx="107" ry="107" stroke="#E9A1CA" stroke-width="1" fill="#231D3A" opacity="0.64"/>
+<text x="1103" y="299.82" font-size="23" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="start" fill="#E9A1CA" opacity="1">04</text>
+<text x="1230" y="604.7" font-size="30" font-family="Arial,DejaVu Sans,sans-serif" text-anchor="middle" fill="#F8F4FF" opacity="1">BRILHO</text>
+<polyline points="1148,563 1312,563" stroke="#E9A1CA" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.7"/>
+<polygon points="148,397 160,295 274,288 281,398 148,397" stroke="#62D3C8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="#0D1220" opacity="1"/>
+<rect x="153" y="362" width="120" height="20" rx="0" stroke="#7E65D5" stroke-width="0" fill="#7E65D5" opacity="1"/>
+<polyline points="102,407 109.55,411.17 117.53999999999999,415.05 125.92,418.63 134.66,421.9 143.7,424.85 153,427.47 162.52,429.77 172.22,431.72 182.05,433.33 191.97,434.58 201.93,435.48 211.9,436 221.82999999999998,436.15 231.68,435.92 241.39,435.3 250.94,434.28 260.27,432.85 269.34000000000003,431.01 278.12,428.76 286.53999999999996,426.07 294.58000000000004,422.95 302.19,419.4 309.33000000000004,415.39 315.94,410.93 322,406" stroke="#9EDFD5" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="1"/>
+<polygon points="214,326 215.91,342.09 232,344 215.91,345.91 214,362 212.09,345.91 196,344 212.09,342.09 214,326" stroke="#E8BC82" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="#E8BC82" opacity="1"/>
+<polyline points="320,327 342,327" stroke="#B49AE9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="1"/>
+<polyline points="331,316 331,338" stroke="#B49AE9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="1"/>
+<polyline points="105,319 117,319" stroke="#62D3C8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="1"/>
+<polyline points="111,313 111,325" stroke="#62D3C8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="1"/>
+<polyline points="577.0138529307151,498.1710178987184 567.8938529307152,500.63101789871837 558.5338529307152,501.8510178987184 549.1038529307151,501.8310178987184 539.7538529307151,500.56101789871843 530.6438529307152,498.06101789871843 521.9138529307152,494.3710178987184 513.7338529307151,489.56101789871843 506.2138529307151,483.7010178987184 499.50385293071514,476.9010178987184 493.69385293071514,469.2610178987184 488.8938529307151,460.9210178987184 485.1738529307151,452.0110178987184 482.6138529307151,442.68101789871844 481.24385293071515,433.0910178987184 481.0838529307151,423.4110178987184 482.1438529307151,413.7810178987184 484.4038529307151,404.3710178987184 487.82385293071513,395.3410178987184 492.3538529307151,386.8310178987184 497.9038529307151,379.0010178987184 504.3938529307151,371.9710178987184 511.7138529307151,365.8610178987184 519.7438529307151,360.7710178987184 528.3438529307151,356.7810178987184 537.3638529307151,353.9710178987184 546.6738529307152,352.3810178987184 556.1038529307151,352.0310178987184 565.4938529307151,352.9310178987184 574.6938529307151,355.0710178987184 583.5438529307152,358.4210178987184 591.9038529307152,362.9010178987184 599.6338529307151,368.4610178987184 606.6038529307151,374.9910178987184 612.6838529307151,382.3910178987184 617.7938529307152,390.5410178987184 621.8338529307151,399.3010178987184 624.7438529307151,408.5210178987184 626.4738529307151,418.0410178987184 626.9938529307151,427.7210178987184 626.2938529307152,437.38101789871837 624.3938529307152,446.8710178987184 621.3038529307152,456.0310178987184 617.1038529307151,464.7110178987184 611.8438529307151,472.7510178987184 605.6138529307151,480.0310178987184" stroke="#B49AE9" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="1"/>
+<polyline points="620.997568,441 616.9575679999999,450.11 612.527568,458.24 607.767568,465.43 602.7375679999999,471.71 597.4875679999999,477.1 592.0675679999999,481.62 586.517568,485.32 580.907568,488.21 575.287568,490.32 569.7075679999999,491.69 564.2075679999999,492.33 558.8575679999999,492.28 553.6975679999999,491.56 548.787568,490.2 544.177568,488.23 539.917568,485.68 536.057568,482.57 532.657568,478.93 529.767568,474.8 527.427568,470.18 525.7075679999999,465.13 524.657568,459.65 524.3175679999999,453.79 524.7475679999999,447.56 525.9975679999999,441" stroke="#9EDFD5" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="1"/>
+<polyline points="526,441.002544 528.68,435.072544 531.63,429.742544 534.83,425.01254400000005 538.23,420.852544 541.78,417.252544 545.43,414.20254400000005 549.16,411.662544 552.9,409.64254400000004 556.63,408.102544 560.29,407.052544 563.84,406.45254400000005 567.24,406.292544 570.45,406.562544 573.42,407.242544 576.11,408.312544 578.48,409.76254400000005 580.47,411.562544 582.06,413.722544 583.19,416.192544 583.82,418.982544 583.92,422.062544 583.42,425.422544 582.3,429.042544 580.51,432.912544 578,437.002544" stroke="#F8F4FF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="1"/>
+<polygon points="461,328 462.27,338.73 473,340 462.27,341.27 461,352 459.73,341.27 449,340 459.73,338.73 461,328" stroke="#E8BC82" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="#E8BC82" opacity="1"/>
+<polyline points="640,331 662,331" stroke="#62D3C8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="1"/>
+<polyline points="651,320 651,342" stroke="#62D3C8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="1"/>
+<polygon points="895,419 816,354 803,421 849,466 895,419 895,419" stroke="#E8BC82" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="#7E65D5" opacity="1"/>
+<polygon points="895,419 974,354 987,421 941,466 895,419 895,419" stroke="#E8BC82" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="#7E65D5" opacity="1"/>
+<polygon points="868,412 885,388 912,393 922,420 907,449 880,452 868,412" stroke="#9EDFD5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="#E8BC82" opacity="1"/>
+<polygon points="877,452 851,522 891,505 907,461 877,452" stroke="#E8BC82" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#7E65D5" opacity="1"/>
+<polygon points="913,452 939,522 899,505 883,461 913,452" stroke="#E8BC82" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#7E65D5" opacity="1"/>
+<polyline points="782,321 800,321" stroke="#62D3C8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="1"/>
+<polyline points="791,312 791,330" stroke="#62D3C8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="1"/>
+<polygon points="1230,333 1238.59,405.40999999999997 1311,414 1238.59,422.59000000000003 1230,495 1221.41,422.59000000000003 1149,414 1221.41,405.40999999999997 1230,333" stroke="#62D3C8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="#62D3C8" opacity="1"/>
+<polygon points="1320,317 1322.86,341.14 1347,344 1322.86,346.86 1320,371 1317.14,346.86 1293,344 1317.14,341.14 1320,317" stroke="#F8F4FF" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="#F8F4FF" opacity="1"/>
+<polygon points="1143,474 1145.76,497.24 1169,500 1145.76,502.76 1143,526 1140.24,502.76 1117,500 1140.24,497.24 1143,474" stroke="#E8BC82" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="#E8BC82" opacity="1"/>
+<polygon points="1319,498 1320.8,513.2 1336,515 1320.8,516.8 1319,532 1317.2,516.8 1302,515 1317.2,513.2 1319,498" stroke="#B49AE9" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="#B49AE9" opacity="1"/>
+<polyline points="1133,337 1151,337" stroke="#E9A1CA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="1"/>
+<polyline points="1142,328 1142,346" stroke="#E9A1CA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="1"/>
+</svg>
