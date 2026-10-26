@@ -9,7 +9,7 @@ function section(start,end){
  return source.slice(a,b);
 }
 const keys=section('const stateStore=','const avatarStore=');
-const persist=section('const persist=','const hasLegacyGrades=').replace(/const persistHistory=[^;]+;/,'');
+const persist=section('const persist=','const persistHistory=');
 const cache=section('function cachedProfile(id){','function bindProfile(id,remote)');
 const values=new Map();
 const storage={getItem:k=>values.get(k)??null,setItem:(k,v)=>values.set(k,String(v))};
