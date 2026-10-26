@@ -44,6 +44,7 @@ jobs:
           node --check uc-native.js
           node --check site-v51/source/integrations/uc-engine.js
           node tests/uc-native.spec.mjs
+          node tests/modern-uc-persistence.spec.mjs
           test -s sw.js
 
       - name: Extrair aplicativo
