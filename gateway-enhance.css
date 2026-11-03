@@ -416,3 +416,47 @@
     background:#322E4A;border-color:#61567D;color:#DCCFFF;
   }
 }
+
+/* MED JITA · acabamento translúcido da entrada independente.
+   Preserva o conteúdo, a seleção de perfil e os contrastes originais. */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  #bar {
+    background: rgba(17, 37, 57, .83);
+    border-bottom: 1px solid rgba(219, 241, 245, .26);
+    -webkit-backdrop-filter: blur(23px) saturate(150%);
+    backdrop-filter: blur(23px) saturate(150%);
+  }
+  #bar button {
+    background: rgba(255, 255, 255, .13);
+    border: 1px solid rgba(235, 252, 255, .3);
+    -webkit-backdrop-filter: blur(11px) saturate(135%);
+    backdrop-filter: blur(11px) saturate(135%);
+  }
+  #gate .panel.jita-restored,
+  #cfg,
+  #jita-install-guide {
+    background: color-mix(in srgb, var(--card) 86%, transparent);
+    -webkit-backdrop-filter: blur(24px) saturate(145%);
+    backdrop-filter: blur(24px) saturate(145%);
+  }
+  #gate .jita-auth .avatar:not(.selected),
+  #gate .jita-auth .jita-install-gate,
+  #gate #back,
+  .jita-install-actions button:not(.jita-install-copy) {
+    background: color-mix(in srgb, var(--card) 74%, transparent);
+    border-color: color-mix(in srgb, var(--border) 78%, var(--sea) 22%);
+    -webkit-backdrop-filter: blur(13px) saturate(135%);
+    backdrop-filter: blur(13px) saturate(135%);
+  }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  #bar { background: #142b3b; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  #bar button { background: #314657; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  #gate .panel.jita-restored, #cfg, #jita-install-guide,
+  #gate .jita-auth .avatar:not(.selected), #gate .jita-auth .jita-install-gate,
+  #gate #back, .jita-install-actions button:not(.jita-install-copy) {
+    background: var(--card);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
