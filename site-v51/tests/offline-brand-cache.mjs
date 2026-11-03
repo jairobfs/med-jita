@@ -6,7 +6,7 @@ const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
 const sw = read('../source/sw.js');
 const html = read('../source/index.html');
 assert.doesNotThrow(() => new Script(sw), 'Service worker must have valid JavaScript syntax');
-assert.match(sw, /med-jita-v51-2026102308/, 'A new offline cache must replace the previous cache');
+assert.match(sw, /med-jita-v51-2026110301/, 'A new offline cache must replace the previous cache');
 
 const precached = new Set([...sw.matchAll(/'(\.\/[^']+)'/g)].map(match => match[1]));
 for (const entry of precached) {
@@ -21,6 +21,10 @@ for (const path of new Set(criticalAssets)) {
   assert.ok(precached.has(path), `Page references asset absent from offline package: ${path}`);
 }
 assert.ok(precached.has('./jita-curricular.css'));
+assert.ok(precached.has('./glass-ui.css'), 'Glass layer must be available offline');
+const glassCss = read('../source/glass-ui.css');
+assert.match(glassCss, /prefers-reduced-transparency/, 'Respect reduced transparency');
+assert.match(glassCss, /backdrop-filter/, 'Glass layer needs native CSS blur');
 assert.ok(precached.has('./integrations/med-brand-system.js'));
 assert.match(sw, /request\.method !== 'GET'/, 'Never cache POST/PATCH/DELETE');
 assert.match(sw, /pathname\.startsWith\('\/api\/'\)/, 'Never intercept profile, history or Craft APIs');
